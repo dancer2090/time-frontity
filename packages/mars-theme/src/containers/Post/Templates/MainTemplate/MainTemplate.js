@@ -1,10 +1,11 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable camelcase */
 import React from 'react';
-import { connect } from 'frontity';
+import Translator from '../../../../components/Translator';
 
 const MainTemplate = () => (
-  <div>home page</div>
+  <div>
+    home page
+    <Translator id="loadMore" />
+  </div>
 );
 
 export default MainTemplate;
