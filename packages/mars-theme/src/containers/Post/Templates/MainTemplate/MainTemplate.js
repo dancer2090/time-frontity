@@ -1,11 +1,8 @@
 import React from 'react';
-import Translator from '../../../../components/Translator';
+import { connect } from 'frontity';
 
 const MainTemplate = () => (
-  <div>
-    home page
-    <Translator id="loadMore" />
-  </div>
+  <div>home page  </div>
 );
 
-export default MainTemplate;
+export default connect(MainTemplate);
