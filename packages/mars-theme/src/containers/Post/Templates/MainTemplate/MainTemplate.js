@@ -3,8 +3,10 @@
 import React from 'react';
 import { connect } from 'frontity';
 
-const MainTemplate = () => (
-  <div>home page</div>
-);
+const MainTemplate = ({state}) => {
+  
+  return (
+  <div>home page  </div>
+)};
 
-export default MainTemplate;
+export default connect(MainTemplate);
