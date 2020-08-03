@@ -9,11 +9,7 @@ const Translator = ({ id, html = false, libraries }) => {
   const [lang] = useState('uk');
   const json = translate[lang];
 
-  return (
-    <>
-      { html ? <Html2React html={json[id]} /> : json[id] }
-    </>
-  );
+  return html ? <Html2React html={json[id]} /> : json[id];
 };
 
 export default connect(Translator);

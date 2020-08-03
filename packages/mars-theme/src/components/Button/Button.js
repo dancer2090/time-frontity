@@ -1,7 +1,7 @@
 import React from 'react';
-import { styled } from 'frontity';
-
-const StyledButton = styled.button``;
+import {
+  StyledButton,
+} from './styled';
 
 const Button = (props) => <StyledButton {...props} />;
 
