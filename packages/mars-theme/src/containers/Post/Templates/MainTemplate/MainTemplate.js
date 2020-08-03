@@ -1,11 +1,9 @@
 import React from 'react';
 import Translator from '../../../../components/Translator';
 
-const MainTemplate = () => (
-  <div>
-    home page
-    <Translator id="loadMore" />
-  </div>
-);
+const MainTemplate = ({state}) => {
+  return (
+  <div>home page  </div>
+)};
 
-export default MainTemplate;
+export default connect(MainTemplate);

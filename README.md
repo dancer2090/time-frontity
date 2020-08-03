@@ -1,6 +1,6 @@
-# Sirinsoftware
+# Time
 
-Sirinsoftware uses Frontity for connecting with Wordpress admin.
+Time uses Frontity for connecting with Wordpress admin.
 
 ## Installation
 
@@ -25,7 +25,7 @@ In `frontity.settings.js` set the Wordpress API URL:
    "name": "@frontity/wp-source",
    "state": {
       "source": {
-        "api": "https://admin.sirinsoftware.com/wp-json"
+        "api": "https://time-admin.webbuilder.in.ua/wp-json"
       }
    }
 },
