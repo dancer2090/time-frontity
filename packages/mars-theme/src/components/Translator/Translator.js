@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import translate from '../../lang';
 
 const Translator = ({ id, html = false }) => {
-  const [lang] = useState('ua');
-  const json = require(`../../lang/${lang}`).default;
+  const [lang] = useState('uk');
+  const json = translate[lang];
 
   return (
     <>
