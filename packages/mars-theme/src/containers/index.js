@@ -66,7 +66,7 @@ const Theme = ({ state, actions }) => {
           isOpen={state.customSettings.isSubscribeSend}
           handleClose={subscribeHandleClose}
         />
-
+"
         {/* Header components */}
 
 
@@ -77,6 +77,7 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>
