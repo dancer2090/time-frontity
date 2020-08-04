@@ -4,6 +4,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   box-shadow: none;
   text-decoration: none;
   transition: all .3s ease-in-out;

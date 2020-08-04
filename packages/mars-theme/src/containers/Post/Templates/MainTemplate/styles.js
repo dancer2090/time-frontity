@@ -195,9 +195,15 @@ export const FlexBlock = styled.div`
 export const LastNews = styled.div`
   flex-grow: 2;
   margin-right: 62px;
+  max-width: 648px;
+  
+  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+    max-width: 567px;
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     width: 100%;
+    max-width: 100%;
     margin-right: 0;
   }
 `;

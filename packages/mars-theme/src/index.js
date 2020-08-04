@@ -67,10 +67,10 @@ const marsTheme = {
       },
       alternativeUrlForImage: ({ state }) => () => {
         const urls = {
-          urlFrom : state.frontity.adminUrl,
-          urlTo : state.frontity.url,
-          isLocal : state.frontity.isLocal,
-        }
+          urlFrom: state.frontity.adminUrl,
+          urlTo: state.frontity.url,
+          isLocal: state.frontity.isLocal,
+        };
         state.customSettings.urlsWithLocal = urls;
       },
       setRecaptchaToken: ({ state }) => (token) => {
@@ -136,7 +136,7 @@ const marsTheme = {
         await axios.post(
           `${state.source.api}/frontity-api/send-comment`,
           dataForm,
-          {headers: {'content-type': 'application/json'}},
+          { headers: { 'content-type': 'application/json' } },
         ).then((response) => {
           if (response.status === 200) {
             state.customSettings.isCommentSend = false;
@@ -150,7 +150,7 @@ const marsTheme = {
         await axios.post(
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
-          {headers: {'content-type': 'application/json'}},
+          { headers: { 'content-type': 'application/json' } },
         ).then((response) => {
           if (response.status === 200) {
             state.customSettings.isSubscribeSend = true;
