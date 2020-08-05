@@ -3,10 +3,6 @@ import { connect } from 'frontity';
 import {
   Wrapper,
   TopNavigation,
-  BigPhotoBlock,
-  BigPhoto,
-  BigPhotoImage,
-  BigPhotoDescription,
   ContentContainer,
   CenterContent,
   Content,
@@ -16,12 +12,21 @@ import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
-import post from '../../../../img/post.jpg';
+import HeaderNews from './NewsHeader';
+import InterviewHeader from './InterviewHeader';
 
-const PostTemplate = ({ state, libraries }) => {
-  const { imageUrlCheck } = libraries.func;
-  const { urlsWithLocal = {} } = state.customSettings;
-  const postUrl = imageUrlCheck(post, urlsWithLocal);
+const PostTemplate = ({ state }) => {
+  console.log(state);
+  const type = 'interview';
+
+  const renderHeaderPost = (typePost) => {
+    switch (typePost) {
+      case 'interview':
+        return <InterviewHeader />;
+      default:
+        return <HeaderNews />;
+    }
+  };
 
   return (
     <Wrapper>
@@ -34,14 +39,8 @@ const PostTemplate = ({ state, libraries }) => {
           />
           <SocialList />
         </TopNavigation>
-        <BigPhotoBlock>
-          <BigPhoto>
-            <BigPhotoImage src={postUrl} />
-          </BigPhoto>
-          <BigPhotoDescription>
-            Фото: Пресс-служба
-          </BigPhotoDescription>
-        </BigPhotoBlock>
+
+        { renderHeaderPost(type) }
 
         <ContentContainer>
           <CenterContent>

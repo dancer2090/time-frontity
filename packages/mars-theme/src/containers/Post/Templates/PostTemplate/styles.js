@@ -8,31 +8,10 @@ export const Wrapper = styled.div`
 export const TopNavigation = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 37px;
 `;
 
-export const BigPhotoBlock = styled.div`
-  width: 100%;
-  margin-bottom: 33px;
-`;
-
-export const BigPhoto = styled.div`
-  width: 100%;
-  height: 617px;
-  margin-bottom: 1px;
-`;
-
-export const BigPhotoImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-export const BigPhotoDescription = styled.span`
-  font-size: 13px;
-  line-height: 27px;
-  letter-spacing: 0.02em;
-  color: #969696;
-`;
+export const PostName = styled.div``;
 
 export const ContentContainer = styled.div`
   display: flex;

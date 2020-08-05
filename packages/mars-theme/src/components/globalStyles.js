@@ -59,6 +59,7 @@ export const globalStyles = css`
 
   body {
     font-family: 'Montserrat', sans-serif;
+    background: #F2F2F2;
   }
   
   #rc-anchor-container {
@@ -67,7 +68,6 @@ export const globalStyles = css`
 `;
 
 export const Main = styled.div`
-  background-color: #ffffff;
   position: relative;
   min-height: 400px;
 `;
