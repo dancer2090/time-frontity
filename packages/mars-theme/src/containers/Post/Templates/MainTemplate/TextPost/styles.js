@@ -2,8 +2,9 @@ import { styled } from 'frontity';
 
 export const Post = styled.div`
   width: 100%;
-  margin-bottom: 40px;
-   
+  margin-bottom: 43px;
+  padding: 0 6px 0 5px;
+
   &:last-child {
     margin-bottom: 0;
   } 

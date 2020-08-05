@@ -180,7 +180,7 @@ export const FullBanner = styled.div`
   height: 140px;
   width: 100%;
   background: #C4C4C4;
-  margin-bottom: 68px;
+  margin-bottom: 72px;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     display: none;
