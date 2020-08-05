@@ -5,20 +5,9 @@ export const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const Container = styled.div`
-  max-width: 1041px;
-  width: 100%;
-  margin: 0 auto;
-  
-  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
-    max-width: 960px;
-  }
-  @media screen and (max-width: ${SIZE_LAPTOP}px) {
-    max-width: 728px;
-  }
-  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    max-width: 100%;
-  }
+export const TopNavigation = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const BigPhotoBlock = styled.div`

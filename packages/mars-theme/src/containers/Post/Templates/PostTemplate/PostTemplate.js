@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'frontity';
 import {
   Wrapper,
-  Container,
+  TopNavigation,
   BigPhotoBlock,
   BigPhoto,
   BigPhotoImage,
@@ -12,6 +12,9 @@ import {
   Content,
   RightNavigation,
 } from './styles';
+import { Container } from '../../../../components/globalStyles';
+import SocialList from '../../../../components/SocialList';
+import Breadcrumbs from '../../../../components/Breadcrumbs';
 import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import post from '../../../../img/post.jpg';
 
@@ -23,6 +26,14 @@ const PostTemplate = ({ state, libraries }) => {
   return (
     <Wrapper>
       <Container>
+        <TopNavigation>
+          <Breadcrumbs links={[
+            { name: 'Харків', link: '/' },
+            { name: 'В хабаровске десятки тысяч человек...', link: '#' },
+          ]}
+          />
+          <SocialList />
+        </TopNavigation>
         <BigPhotoBlock>
           <BigPhoto>
             <BigPhotoImage src={postUrl} />
