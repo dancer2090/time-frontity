@@ -1,5 +1,4 @@
 import { css, styled } from 'frontity';
-import { SIZE_LAPTOP, SIZE_DESCTOP_SMALL, SIZE_LAPTOP_SMALL } from '../const/responsive';
 
 export const globalStyles = css`
   html, body, div, span, applet, object, iframe,
@@ -53,39 +52,10 @@ export const globalStyles = css`
   *, *:before, *:after {
     box-sizing: border-box;
   } 
-  
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
-
-  body {
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  #rc-anchor-container {
-    display: none !important;
-  }
 `;
 
 export const Main = styled.div`
   background-color: #ffffff;
   position: relative;
   min-height: 400px;
-`;
-
-export const Container = styled.div`
-  max-width: 1041px;
-  width: 100%;
-  margin: 0 auto;
-
-  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
-    max-width: 960px;
-  }
-
-  @media screen and (max-width: ${SIZE_LAPTOP}px) {
-    max-width: 728px;
-  }
-
-  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    max-width: 100%;
-  }
 `;

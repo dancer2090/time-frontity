@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  TitleBlock,
-  Text,
-} from './styled';
 
-const Title = ({ children, size = 'default', className }) => (
-  <TitleBlock className={className} size={size}>
-    <Text>{ children }</Text>
-  </TitleBlock>
+const Title = () => (
+  <h1>global title</h1>
 );
 
 export default Title;
