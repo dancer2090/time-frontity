@@ -6,7 +6,7 @@ import {
   Name,
   Quote,
   LeftBottomContent,
-  Details,
+  GPostDetails,
   TextDescription,
   RightContent,
   FrameBlock,
@@ -31,7 +31,7 @@ const InterviewHeader = ({ state, libraries }) => {
           політикою, адже ми впливаємо на мільйони сердець і голів ”
         </Quote>
         <LeftBottomContent>
-          <Details showResources={false} showShared={false} />
+          <GPostDetails showResources={false} showShared={false} />
           <TextDescription>
             Сооснователь «Белой скалы», зоолог Марина Шквыря рассказала УНИАН,
             почему приют переезжает и как это связано с коронавирусом,

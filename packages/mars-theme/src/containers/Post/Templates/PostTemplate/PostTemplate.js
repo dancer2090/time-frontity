@@ -6,23 +6,37 @@ import {
   ContentContainer,
   CenterContent,
   Content,
+  TabsWrapper,
   RightNavigation,
+  AuthorInformation,
+  AuthorImage,
+  AuthorName,
+  SubscribeBlock,
+  CommentsBlock,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
+import TabsPost from '../../../../components/TagsPost';
+import Shared from '../../../../components/Shared';
+import SubscribeNews from '../../../../components/SubscribeNews';
+import Comments from '../../../../components/Comments';
 import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import HeaderNews from './NewsHeader';
 import InterviewHeader from './InterviewHeader';
+import PublicationHeader from './PublicationHeader';
+import authorLogo from '../../../../img/author-logo.jpg';
 
 const PostTemplate = ({ state }) => {
   console.log(state);
-  const type = 'interview';
+  const type = '';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
       case 'interview':
         return <InterviewHeader />;
+      case 'publication':
+        return <PublicationHeader />;
       default:
         return <HeaderNews />;
     }
@@ -31,7 +45,7 @@ const PostTemplate = ({ state }) => {
   return (
     <Wrapper>
       <Container>
-        <TopNavigation>
+        <TopNavigation type={type}>
           <Breadcrumbs links={[
             { name: 'Харків', link: '/' },
             { name: 'В хабаровске десятки тысяч человек...', link: '#' },
@@ -80,7 +94,26 @@ const PostTemplate = ({ state }) => {
                 цілеспрямований виток у водойму якоїсь речовини з підприємства.
               </p>
             </Content>
+
+            <TabsWrapper>
+              <TabsPost />
+              <Shared />
+            </TabsWrapper>
+            <AuthorInformation>
+              <AuthorImage src={authorLogo} />
+              <AuthorName>
+                Александр Герасименко
+              </AuthorName>
+            </AuthorInformation>
+            <SubscribeBlock>
+              <SubscribeNews />
+            </SubscribeBlock>
+
+            <CommentsBlock>
+              <Comments />
+            </CommentsBlock>
           </CenterContent>
+
           <RightNavigation>
             <RelatedNewsCard />
           </RightNavigation>

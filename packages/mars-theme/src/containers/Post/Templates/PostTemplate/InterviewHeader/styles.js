@@ -39,7 +39,7 @@ export const Quote = styled.p`
 
 export const LeftBottomContent = styled.div``;
 
-export const Details = styled(PostDetails)`
+export const GPostDetails = styled(PostDetails)`
    border-top: 1px solid #969696;
    padding: 15px 23px 0 23px;
    margin-bottom: 38px;
