@@ -17,7 +17,7 @@ import urk from '../../../../../img/urk-net.png';
 
 const PostDetails = ({ className, showShared = true, showResources = true }) => (
   <Wrapper className={className}>
-    <FlexContainer>
+    <FlexContainer showShared={showShared}>
       <Category>
         КУЛЬТУРА
       </Category>

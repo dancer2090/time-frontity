@@ -30,6 +30,7 @@ export const TopNavigation = styled.div`
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding: 0 17px;
     margin-bottom: 25px;
+    border-bottom:  none !important;
     
     & > div + div {
       display: none;

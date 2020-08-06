@@ -1,4 +1,4 @@
-import { styled } from 'frontity';
+import { styled, css } from 'frontity';
 import SvgSprite from '../../../../../components/SvgSprite';
 import { SIZE_MOBILE } from '../../../../../const/responsive';
 
@@ -13,6 +13,21 @@ export const FlexContainer = styled.div`
     padding-bottom: 5px;
     border-bottom: 1px solid #969696;
   }
+  
+  ${({ showShared }) => (
+    !showShared
+      ? css`
+          strong {
+            width: 100%;
+          }
+          
+          strong + span {
+            flex-grow: 2;
+            text-align: left;
+          }
+      `
+      : null
+  )}
 `;
 
 export const Category = styled.strong`

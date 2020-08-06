@@ -1,9 +1,18 @@
 import { styled } from 'frontity';
 import PostDetails from '../PostDetails';
+import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
 
 export const Wrapper = styled.div`
   display: flex;
   margin-bottom: 33px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    flex-direction: column-reverse;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    margin-bottom: 15px;
+  }
 `;
 
 export const LeftContent = styled.div`
@@ -12,6 +21,11 @@ export const LeftContent = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-right: 37px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
 
 export const Name = styled.h1`
@@ -24,6 +38,23 @@ export const Name = styled.h1`
   text-transform: uppercase;
   color: #000000;
   margin-bottom: 15px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    font-size: 22px;
+    line-height: 27px;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 9px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    font-size: 16px;
+    line-height: 23px;
+    padding: 0 20px;
+  }
 `;
 
 export const Quote = styled.p`
@@ -35,6 +66,23 @@ export const Quote = styled.p`
   text-transform: uppercase;
   color: #000000;
   margin-bottom: 25px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    font-size: 22px;
+    line-height: 32px;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    font-size: 16px;
+    line-height: 23px;
+    padding: 0 20px;
+  }
 `;
 
 export const LeftBottomContent = styled.div``;
@@ -43,6 +91,12 @@ export const GPostDetails = styled(PostDetails)`
    border-top: 1px solid #969696;
    padding: 15px 23px 0 23px;
    margin-bottom: 38px;
+   
+   @media screen and (max-width: ${SIZE_MOBILE}px) {
+    border-top: 0;
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const TextDescription = styled.p`
@@ -52,14 +106,53 @@ export const TextDescription = styled.p`
   text-align: center;
   padding: 0 17px;
   color: #000000;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    font-size: 16px;
+    line-height: 25px;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 14px;
+    line-height: 23px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+   padding: 0 20px;
+   font-size: 14px;
+    line-height: 23px;
+   text-align: left;
+  }
 `;
 
 export const RightContent = styled.div`
   width: 531px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    margin-bottom: 9px;
+  }
 `;
 
 export const FrameBlock = styled.div`
   max-height: 617px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    height: 600px;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    height: 300px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    height: 189px;
+  }
 `;
 
 export const Image = styled.img`
@@ -74,4 +167,10 @@ export const ImageDescription = styled.span`
   line-height: 27px;
   letter-spacing: 0.02em;
   color: #969696;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    padding: 0 23px;
+    font-size: 10px;
+    line-height: 27px;
+  }
 `;
