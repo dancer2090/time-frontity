@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'frontity';
 import {
   Wrapper,
-  Header,
+  GPostDetails,
   Title,
   BigPhoto,
   BigPhotoBlock,
@@ -10,7 +10,6 @@ import {
   BigPhotoImage,
 } from './styles';
 import post from '../../../../../img/post.jpg';
-import PostDetails from '../PostDetails';
 
 const HeaderNews = ({ state, libraries }) => {
   const { imageUrlCheck } = libraries.func;
@@ -19,14 +18,12 @@ const HeaderNews = ({ state, libraries }) => {
 
   return (
     <Wrapper>
-      <Header>
-        <Title>
-          В Хабаровске десятки тысяч человек вышли на
-          <br />
-          акцию в поддержку Сергея Фургала. Главное
-        </Title>
-        <PostDetails />
-      </Header>
+      <Title>
+        В Хабаровске десятки тысяч человек вышли на
+        <br />
+        акцию в поддержку Сергея Фургала. Главное
+      </Title>
+      <GPostDetails />
       <BigPhotoBlock>
         <BigPhoto>
           <BigPhotoImage src={postUrl} />

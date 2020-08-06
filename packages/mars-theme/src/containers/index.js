@@ -63,7 +63,6 @@ const Theme = ({ state, actions }) => {
           isOpen={state.customSettings.isSubscribeSend}
           handleClose={subscribeHandleClose}
         />
-"
         {/* Header components */}
 
 

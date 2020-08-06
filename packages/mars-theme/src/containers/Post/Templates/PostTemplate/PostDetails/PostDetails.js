@@ -1,10 +1,9 @@
 import React from 'react';
 import {
   Wrapper,
-  TextContainer,
+  FlexContainer,
   Category,
   DateValue,
-  RightContainer,
   SharedBlock,
   FlexCenter,
   IconEye,
@@ -18,15 +17,13 @@ import urk from '../../../../../img/urk-net.png';
 
 const PostDetails = ({ className, showShared = true, showResources = true }) => (
   <Wrapper className={className}>
-    <TextContainer>
+    <FlexContainer>
       <Category>
         КУЛЬТУРА
       </Category>
       <DateValue>
         10 сентября 2020 | 12:33
       </DateValue>
-    </TextContainer>
-    <RightContainer>
       <FlexCenter>
         <IconEye name="eye" />
         <Counter>999</Counter>
@@ -42,14 +39,14 @@ const PostDetails = ({ className, showShared = true, showResources = true }) => 
           </Resources>
         )
       }
-    </RightContainer>
-    {
-      showShared && (
-      <SharedBlock>
-        <Shared />
-      </SharedBlock>
-      )
-    }
+      {
+        showShared && (
+          <SharedBlock>
+            <Shared />
+          </SharedBlock>
+        )
+      }
+    </FlexContainer>
   </Wrapper>
 );
 
