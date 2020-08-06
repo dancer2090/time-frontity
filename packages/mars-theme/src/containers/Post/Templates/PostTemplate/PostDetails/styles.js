@@ -12,9 +12,8 @@ export const FlexContainer = styled.div`
     flex-wrap: wrap;
     padding-bottom: 5px;
     border-bottom: 1px solid #969696;
-  }
-  
-  ${({ showShared }) => (
+    
+    ${({ showShared }) => (
     !showShared
       ? css`
           strong {
@@ -28,6 +27,7 @@ export const FlexContainer = styled.div`
       `
       : null
   )}
+  }
 `;
 
 export const Category = styled.strong`

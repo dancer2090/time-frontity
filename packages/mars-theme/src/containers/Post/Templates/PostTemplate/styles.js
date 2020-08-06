@@ -1,8 +1,10 @@
 import { styled, css } from 'frontity';
 import quoteSvg from '../../../../img/svg/blockquote.svg';
-import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../../../const/responsive';
-import SvgSprite from "../../../../components/SvgSprite";
-import Title from "../../../../components/Title";
+import {
+  SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE,
+} from '../../../../const/responsive';
+import SvgSprite from '../../../../components/SvgSprite';
+import Title from '../../../../components/Title';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -10,6 +12,10 @@ export const Wrapper = styled.div`
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding-top: 15px;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    padding-bottom: 50px;
   }
 `;
 
@@ -377,6 +383,13 @@ export const Content = styled.div`
         font-size: 12px;
         line-height: 23px;
       }
+    }
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    blockquote {
+      font-size: 12px;
+      line-height: 23px;
     }
   }
 `;
