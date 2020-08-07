@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'frontity';
 import {
   Wrapper,
@@ -35,13 +35,15 @@ import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import HeaderNews from './NewsHeader';
 import InterviewHeader from './InterviewHeader';
 import PublicationHeader from './PublicationHeader';
+import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
 import postMedium from '../../../../img/post-medium.jpg';
 import girlImage from '../../../../img/gir-image.jpg';
 
 const PostTemplate = ({ state }) => {
   console.log(state);
-  const type = 'publication';
+  const [showComments, setShowComments] = useState(false);
+  const type = '';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
@@ -198,12 +200,19 @@ const PostTemplate = ({ state }) => {
               </AuthorName>
             </AuthorInformation>
             <MobileEvents>
-              <MobileComments>
+              <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
                 <MobileCommentCount>999</MobileCommentCount>
               </MobileComments>
               <Shared />
             </MobileEvents>
+
+            {/* mobile comments modal */}
+            <CommentsModal
+              isOpen={showComments}
+              handleClose={() => setShowComments(false)}
+            />
+
             <SubscribeBlock>
               <SubscribeNews />
             </SubscribeBlock>

@@ -1,11 +1,18 @@
 import { styled } from 'frontity';
 import SvgSprite from '../../SvgSprite';
+import { SIZE_LAPTOP_SMALL } from '../../../const/responsive';
 
 export const Wrapper = styled.div`
   margin-bottom: 41px;
   
   &:last-child {
     margin-bottom: 0;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    margin-bottom: 26px;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -14,6 +21,13 @@ export const DateValue = styled.div`
   line-height: 12px;
   color: #969696;
   text-align: right;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 12px;
+    line-height: 15px;
+    order: 3;
+    text-align: left;
+  }
 `;
 
 export const NameAuthor = styled.h3`
@@ -21,6 +35,12 @@ export const NameAuthor = styled.h3`
   line-height: 24px;
   color: #666666;
   margin-bottom: 7px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 12px;
+    line-height: 24px;
+    order: 1;
+  }
 `;
 
 export const Content = styled.div`
@@ -31,6 +51,12 @@ export const Content = styled.div`
   overflow: hidden;
   position: relative;
   transition: all .3s;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 12px;
+    line-height: 23px;
+    order: 2;
+  }
 `;
 
 export const ButtonBlock = styled.div`
@@ -42,6 +68,11 @@ export const ButtonBlock = styled.div`
   position: absolute;
   bottom: 6px;
   right: 0;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    bottom: 8px;
+    height: 12px;
+  }
 `;
 
 export const Button = styled(SvgSprite)`
@@ -52,4 +83,9 @@ export const Button = styled(SvgSprite)`
   top: 0;
   left: 5px;
   cursor: pointer;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;

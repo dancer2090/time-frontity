@@ -5,17 +5,16 @@ import {
   ErrorMessage,
 } from './styles';
 
-const Input = ({
-  type = 'text',
-  textarea = false,
-  placeholder,
-  value,
-  error,
-  className,
-  onChange,
-  onFocus,
-  onBlur,
-}) => {
+const Input = (props) => {
+  const {
+    type = 'text',
+    textarea = false,
+    placeholder,
+    value,
+    error,
+    className,
+    onChange,
+  } = props;
   const textareaRef = useRef(null);
   const [heightArea, setHeightArea] = useState('49px');
 
@@ -43,11 +42,10 @@ const Input = ({
               value={value}
               className={className}
               error={error}
-              onChange={(e) => onChangeTextArea(e)}
-              onFocus={(e) => onFocus(e)}
-              onBlur={(e) => onBlur(e)}
               ref={textareaRef}
               style={{ height: heightArea }}
+              {...props}
+              onChange={(e) => onChangeTextArea(e)}
             />
           )
           : (
@@ -58,8 +56,7 @@ const Input = ({
               className={className}
               error={error}
               onChange={(e) => onChange(e)}
-              onFocus={(e) => onFocus(e)}
-              onBlur={(e) => onBlur(e)}
+              {...props}
             />
           )
       }

@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { connect, styled } from "frontity";
-import {
-  ModalBackground, ModalButton, ModalButtonWrapper, ModalText, ModalTitle, CModal,
-} from './styles';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'frontity';
 import Modal from 'react-modal';
+import {
+  ModalButton,
+  ModalTitle,
+  CModal,
+  ModalWrapper,
+} from './styles';
+import SvgSprite from '../SvgSprite';
 
-// http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root');
- 
-function ModalComponent({title, text, isOpen, afterOpen, handleClose, state, libraries}) {
+
+function ModalComponent({
+  title,
+  children,
+  isOpen = true,
+  afterOpen,
+  handleClose,
+  libraries,
+  fullSize = false,
+}) {
   const customStyles = {
     content: {
       top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       padding: '0',
-      borderRadius: 'none'
+      borderRadius: 'none',
+      border: 'none',
     },
     overlay: {
       position: 'fixed',
@@ -27,9 +37,9 @@ function ModalComponent({title, text, isOpen, afterOpen, handleClose, state, lib
       left: '0px',
       right: '0px',
       bottom: '0px',
-      background: 'rgba(30, 30, 30, 0.9)',
+      background: 'rgba(40, 40, 40, 0.8)',
       zIndex: '1000',
-    }
+    },
   };
   const Html2React = libraries.html2react.Component;
   return (
@@ -41,14 +51,20 @@ function ModalComponent({title, text, isOpen, afterOpen, handleClose, state, lib
         style={customStyles}
         contentLabel="Modal"
       >
-        <CModal>
-          <ModalTitle><Html2React html={title} /></ModalTitle>
-          <ModalText><Html2React html={text} /></ModalText>
-          <ModalButtonWrapper>
-            <ModalButton onClick={handleClose}>
-              <svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path></svg>
-            </ModalButton>
-          </ModalButtonWrapper>
+        <CModal size={fullSize}>
+          {
+            title && (
+              <ModalTitle>
+                <Html2React html={title} />
+              </ModalTitle>
+            )
+          }
+          <ModalWrapper>
+            { children }
+          </ModalWrapper>
+          <ModalButton onClick={handleClose}>
+            <SvgSprite name="close" />
+          </ModalButton>
         </CModal>
       </Modal>
     </div>

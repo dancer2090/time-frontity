@@ -50,19 +50,6 @@ const Theme = ({ state, actions }) => {
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
-        {/* Add the header of the site.  */}
-        <Modal
-          title="Done"
-          text="Thank you for feedback! <br> The confirmation email was sent to your address, please check your inbox."
-          isOpen={state.customSettings.isFormSend}
-          handleClose={formHandleClose}
-        />
-        <Modal
-          title="Done"
-          text="Thank you for subscribing! <br> The confirmation email was sent to your address, please check your inbox."
-          isOpen={state.customSettings.isSubscribeSend}
-          handleClose={subscribeHandleClose}
-        />
         {/* Header components */}
 
 
