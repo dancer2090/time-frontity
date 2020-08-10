@@ -17,6 +17,7 @@ export const Card = styled.div`
 export const FrameBlock = styled.div`
   width: 100%;
   height: 206px;
+  position: relative;
 `;
 
 export const Frame = styled.img`
@@ -67,4 +68,31 @@ export const Resources = styled.a``;
 export const ResourcesImage = styled.img`
   width: 56px;
   height: auto;
+`;
+
+export const VideoButton = styled.img`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 55px;
+  height: 54px;
+`;
+
+export const TimeVideo = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  height: 19px;
+  width: fit-content;
+  min-width: 54px;
+  font-family: 'Noto Sans';
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  color: #FFFFFF;
 `;
