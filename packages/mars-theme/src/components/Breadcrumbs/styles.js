@@ -1,0 +1,52 @@
+import { styled } from 'frontity';
+
+export const Wrapper = styled.div`
+  ul { 
+    li {
+      a {
+        text-decoration: none;
+        font-size: 12px;
+        line-height: 15px;
+        text-transform: capitalize;
+        color: #282828;
+        transition: all .3s;
+        position: relative;
+        
+        &:after {
+          content: '|';
+          margin: 0 5px;
+          font-size: 12px;
+          line-height: 15px;
+          color: #282828;
+        }
+        
+        &:hover {
+          color: #000000;
+        }
+      }
+    }
+    
+    a[href='#'] {
+      font-size: 12px;
+      line-height: 15px;
+      color: #969696;
+      
+      &:hover {
+        cursor: default;
+        color: #969696;
+      }
+    }
+    
+    li {
+      display: inline;
+    
+      &:last-child {
+        a {
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+`;
