@@ -339,6 +339,11 @@ export const BurgerButton = styled.button`
   padding: 0;
   display: none;
 
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     display: block
   }

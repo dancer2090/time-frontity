@@ -52,12 +52,19 @@ export const MenuBody = styled.div`
   background: #F2F2F2;
 `;
 
-export const MobileLanguage = styled.div`
+export const MobileLanguage = styled.button`
+  border: none;
+  background-color: transparent;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-transform: capitalize;
   color: #282828;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const Navigation = styled.div`
