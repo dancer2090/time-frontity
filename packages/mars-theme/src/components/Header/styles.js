@@ -358,10 +358,75 @@ export const BurgerIcon = styled(SvgSprite)`
 export const MobileSearchIcon = styled(SvgSprite)`
   width: 30px;
   height: 20px;
+  display: none;
   fill: #282828;
+
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    display: block;
+  }
 
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     width: 19px;
     height: 19px;
+  }
+`;
+
+export const MobileSearch = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 0 31px 0 18px;
+  display: flex;
+  align-items: center;
+  transform: translateX(-100%);
+  transition: all .3s;
+
+  ${({ show }) => (
+    show
+      ? 'transform: none'
+      : null
+  )};
+`;
+
+export const MobileSearchBlockIcon = styled(SvgSprite)`
+  width: 19px;
+  height: 19px;
+  fill: #969696;
+  margin-right: 10px;
+`;
+
+export const MobileSearchBlock = styled.div`
+  flex-grow: 2;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 12px;
+    width: 1px;
+    background-color: #969696;
+  }
+`;
+
+export const MobileSearchClose = styled(SvgSprite)`
+  width: 13px;
+  height: 13px;
+  fill: #969696;
+`;
+
+export const MobileInput = styled.input`
+  width: 100%;
+  padding: 0 10px;
+  border: none;
+  outline: none;
+
+  &:focus {
+    outline: none;
   }
 `;

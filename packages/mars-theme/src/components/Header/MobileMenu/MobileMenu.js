@@ -16,6 +16,8 @@ import {
   DownloadPdf,
   DownloadPdfIcon,
   DownloadPdfLabel,
+  SubcribeBlock,
+  GSubscribe,
 } from './styles';
 import Link from '../../link';
 import SocialList from '../../SocialList';
@@ -62,7 +64,7 @@ const navigationOption = [
   },
 ];
 
-const MobileMenu = () => {
+const MobileMenu = ({ isOpen, closeModal }) => {
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(navigationOption);
   const toggleItem = (event, index) => {
@@ -84,10 +86,10 @@ const MobileMenu = () => {
   };
 
   return (
-    <MobileMenuWrapper>
-      <MenuWrapper>
+    <MobileMenuWrapper isOpen={isOpen}>
+      <MenuWrapper isOpen={isOpen}>
         <MenuHeader>
-          <MenuClose name="close" />
+          <MenuClose name="close" onClick={() => closeModal()} />
           <MobileLanguage>
             Ru / ukr
           </MobileLanguage>
@@ -132,6 +134,9 @@ const MobileMenu = () => {
             }
           </Navigation>
           <MobileFooter>
+            <SubcribeBlock>
+              <GSubscribe />
+            </SubcribeBlock>
             <DownloadPdf>
               <DownloadPdfIcon name="pdf" />
               <DownloadPdfLabel>

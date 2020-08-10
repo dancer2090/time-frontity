@@ -1,5 +1,6 @@
 import { styled } from 'frontity';
 import SvgSprite from '../../SvgSprite';
+import SubscribeNews from '../../SubscribeNews';
 
 export const MobileMenuWrapper = styled.div`
   position: fixed;
@@ -8,12 +9,28 @@ export const MobileMenuWrapper = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 2;
+  opacity: 0;
+  z-index: -1;
+  transition: all .3s ease-in-out;
+
+  ${({ isOpen }) => (
+    isOpen
+      ? 'z-index: 2; opacity: 1;'
+      : null
+  )}
 `;
 
 export const MenuWrapper = styled.div`
   max-width: 288px;
   width: 100%;
+  transform: translateX(-100%);
+  transition: all .3s ease-in-out;
+  
+  ${({ isOpen }) => (
+    isOpen
+      ? 'transition-duration: .3s; transform: none;'
+      : null
+  )}
 `;
 
 export const MenuHeader = styled.div`
@@ -108,18 +125,37 @@ export const NavigationContent = styled.div`
 
 export const MobileFooter = styled.div`
   border-top: 1px solid #969696;
-  padding: 15px 15px 40px 15px; 
+  padding: 15px 15px 40px 33px; 
 `;
 
 export const SocialListBlock = styled.div`
   display: flex;
-  justify-content: center;
+`;
+
+export const SubcribeBlock = styled.div`
+  display: flex;
+  margin-bottom: 23px;
+`;
+
+export const GSubscribe = styled(SubscribeNews)`
+  svg {
+    width: 17px;
+    height: 14px;
+    margin-right: 6px;
+  }
+
+  span {
+    font-size: 12px;
+    line-height: 27px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #666666;
+  }
 `;
 
 export const DownloadPdf = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 32px;
 `;
 

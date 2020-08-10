@@ -26,6 +26,11 @@ import {
   BurgerButton,
   BurgerIcon,
   MobileSearchIcon,
+  MobileSearch,
+  MobileSearchBlockIcon,
+  MobileSearchBlock,
+  MobileSearchClose,
+  MobileInput,
 } from './styles';
 import logo from '../../img/logo.svg';
 import Link from '../link';
@@ -40,7 +45,9 @@ const Header = () => {
   const [showLanguage, setShowLanguage] = useState(false);
   const [languageValue, setLanguageValue] = useState('ru');
   const [showSearch, setShowSearch] = useState(false);
+  const [showMobileModal, setShowMobileModal] = useState(false);
   const [search, setSearch] = useState('');
+  const [mobileSearch, setMobileSearch] = useState(false);
   const filterLanguage = languageOptions.filter((item) => item !== languageValue);
 
   useEffect(() => {
@@ -80,11 +87,22 @@ const Header = () => {
       <WrapperContainer>
         <Container resize={resizeContainer}>
           <TopLayout resize={resizeContainer}>
-            <BurgerButton>
+            <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
             <Logo src={logo} />
-            <MobileSearchIcon name="search" />
+            <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
+            <MobileSearch show={mobileSearch}>
+              <MobileSearchBlockIcon name="search" />
+              <MobileSearchBlock>
+                <MobileInput
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyPress={(e) => sendSearch(e)}
+                />
+              </MobileSearchBlock>
+              <MobileSearchClose onClick={() => setMobileSearch(false)} name="close" />
+            </MobileSearch>
           </TopLayout>
           <BottomContent ref={navigation}>
             <ScrollImage resize={resizeContainer} src={logo} />
@@ -146,7 +164,7 @@ const Header = () => {
         </HeaderContent>
       </WrapperContainer>
 
-      <MobileMenu />
+      <MobileMenu isOpen={showMobileModal} closeModal={() => setShowMobileModal(false)} />
     </Wrapper>
   );
 };
