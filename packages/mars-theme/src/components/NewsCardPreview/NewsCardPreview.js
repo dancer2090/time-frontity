@@ -13,7 +13,7 @@ const NewsCardPreview = ({ size }) => (
     <FrameBlock size={size}>
       <FrameImage src={preview} />
     </FrameBlock>
-    <Content>
+    <Content size={size}>
       <Link link="#">
         В Хабаровске десятки тысяч человек вышли на
         акцию в поддержку Сергея Фургала

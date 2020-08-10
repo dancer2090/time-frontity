@@ -59,6 +59,12 @@ export const ItemCard = styled.div`
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-right: 0;
     width: 100%;
+
+    ${({ index }) => (
+      index >= 3
+        ? 'display: none;'
+        : null
+    )};
   }
   
   @media screen and (max-width: ${SIZE_MOBILE}px) {

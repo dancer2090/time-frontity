@@ -1,5 +1,5 @@
 import { styled, css } from 'frontity';
-import {SIZE_LAPTOP, SIZE_MOBILE} from '../../const/responsive';
+import {SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../const/responsive';
 
 export const Card = styled.div`
   width: 100%;
@@ -50,10 +50,21 @@ export const Content = styled.div`
     font-size: 16px;
     line-height: 141.9%;
     letter-spacing: 0.03em;
-    text-transform: uppercase;
     color: #000000;
+
+    ${({ size }) => (
+      size === ''
+        ? 'text-transform: uppercase;'
+        : null
+    )};
   }
   
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    a {
+      text-transform: initial;
+    }
+  }
+
   @media screen and (max-width: ${SIZE_MOBILE}px) {
     padding: 18px;
     
