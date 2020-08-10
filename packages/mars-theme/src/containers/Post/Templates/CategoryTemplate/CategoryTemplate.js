@@ -127,7 +127,10 @@ const CategoryTemplate = () => (
   <Wrapper>
     <Container>
       <TopContainer>
-        <Breadcrumbs />
+        <Breadcrumbs links={[
+          { name: 'Харків', link: '/' },
+        ]}
+        />
         <SocialList />
       </TopContainer>
       <Title>
