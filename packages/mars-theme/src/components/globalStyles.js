@@ -80,6 +80,7 @@ export const globalStyles = css`
 `;
 
 export const Main = styled.div`
+  background-color: #E5E5E5;
   position: relative;
   min-height: 400px;
 `;
