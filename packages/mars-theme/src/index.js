@@ -9,6 +9,27 @@ import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace } from './utils/func';
 
+const newHandler = {
+  name: "categoryOrPostType",
+  priority: 19,
+  pattern: "/(.*)?/:slug", 
+  func: async ({ route, params, state, libraries }) => {
+    // 1. try with category.
+    try {
+      const category = libraries.source.handlers.find(
+        handler => handler.name == "category"
+      );
+      await category.func({ route, params, state, libraries });
+    } catch (e) {
+      // It's not a category
+      const postType = libraries.source.handlers.find(
+        handler => handler.name == "post type"
+      );
+      await postType.func({ link: route, params, state, libraries });
+    }
+  }
+};
+
 const UkMainHandler = {
   name: 'UkMainHandler',
   priority: 19,
@@ -34,6 +55,61 @@ const UkMainHandler = {
 
       // Populate state.source.data with the proper info about this URL.
       Object.assign(state.source.data[route], alt_page[0]);
+  },
+};
+
+const UkMainHandler2 = {
+  name: 'UkMainHandler2',
+  priority: 19,
+  pattern: '/uk/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+
+      const postsResponse = await libraries.source.api.get({
+        endpoint: "pages",
+        params: { slug: params.slug, _embed: true }
+      });
+      const alt_page = await libraries.source.populate({
+        state,
+        response: postsResponse
+      });
+      if(alt_page[0].type !== 'page'){
+        const postsResponse2 = await libraries.source.api.get({
+          endpoint: "categories",
+          params: { slug: params.slug, _embed: true }
+        });
+        const alt_page2 = await libraries.source.populate({
+          state,
+          response: postsResponse2
+        });
+        alt_page2[0].isArchive = true;
+        alt_page2[0].isCategory = true;
+        alt_page2[0].isTaxonomy = true;
+        alt_page2[0].taxonomy =  "category";
+
+        // Get the posts from those categories.
+        const postsResponse3 = await libraries.source.api.get({
+          endpoint: "posts",
+          params: { categories: alt_page2.id, _embed: true }
+        });
+        const items = await libraries.source.populate({
+          state,
+          response: postsResponse3
+        });
+        const total = libraries.source.getTotal(postsResponse3);
+        const totalPages = libraries.source.getTotalPages(postsResponse3);
+        alt_page2[0].items =  items;
+        alt_page2[0].total =  total;
+        alt_page2[0].totalPages =  totalPages;
+
+        Object.assign(state.source.data[route], alt_page2[0]);
+      } else {
+        alt_page[0].isPage = true;
+        alt_page[0].isPostType = true;
+        Object.assign(state.source.data[route], alt_page[0]);
+      }
+
   },
 };
 
@@ -197,7 +273,7 @@ const marsTheme = {
       imageUrlCheck: linkImageReplace,
     },
     source: {
-      handlers: [UkMainHandler],
+      handlers: [UkMainHandler, UkMainHandler2, newHandler],
     },
     html2react: {
       /**
