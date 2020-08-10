@@ -117,6 +117,10 @@ export const Content = styled.div`
       color: #000000;
      }
   }
+
+  em {
+    font-style: italic;
+  }
   
   /* Для изображений, видео, figure и т.д. */
   .alignright {

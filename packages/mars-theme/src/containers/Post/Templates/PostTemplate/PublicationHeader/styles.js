@@ -88,6 +88,7 @@ export const Quote = styled.div`
   font-size: 18px;
   line-height: 27px;
   color: #000000;
+  letter-spacing: 0.03em;
   margin-top: 33px;
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {

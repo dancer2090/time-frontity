@@ -43,7 +43,7 @@ import girlImage from '../../../../img/gir-image.jpg';
 const PostTemplate = ({ state }) => {
   console.log(state);
   const [showComments, setShowComments] = useState(false);
-  const type = '';
+  const type = 'interview';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {

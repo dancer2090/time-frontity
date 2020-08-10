@@ -101,6 +101,7 @@ export const GPostDetails = styled(PostDetails)`
 
 export const TextDescription = styled.p`
   font-weight: 500;
+  letter-spacing: 0.03em;
   font-size: 18px;
   line-height: 27px;
   text-align: center;
