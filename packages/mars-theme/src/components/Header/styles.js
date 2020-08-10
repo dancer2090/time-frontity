@@ -115,6 +115,10 @@ export const ScrollImage = styled.img`
       ? 'display: block;'
       : null
   )};
+
+  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+    margin-right: 20px;
+  }
 `;
 
 export const BottomRelative = styled.div`
@@ -138,6 +142,12 @@ export const Navigation = styled.nav`
 
     &:hover {
       color: #000;
+    }
+  }
+
+  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+    a, span {
+      font-size: 10px;
     }
   }
 `;

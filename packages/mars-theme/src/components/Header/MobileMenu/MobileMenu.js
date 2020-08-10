@@ -18,6 +18,7 @@ import {
   DownloadPdfLabel,
   SubcribeBlock,
   GSubscribe,
+  Overflow,
 } from './styles';
 import Link from '../../link';
 import SocialList from '../../SocialList';
@@ -90,6 +91,7 @@ const MobileMenu = ({ isOpen, closeModal }) => {
 
   return (
     <MobileMenuWrapper isOpen={isOpen}>
+      <Overflow onClick={() => closeModal()} />
       <MenuWrapper isOpen={isOpen}>
         <MenuHeader>
           <MenuClose name="close" onClick={() => closeModal()} />

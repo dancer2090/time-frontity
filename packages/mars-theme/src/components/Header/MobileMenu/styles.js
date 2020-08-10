@@ -8,9 +8,9 @@ export const MobileMenuWrapper = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   z-index: -1;
+  overflow: auto;
   transition: all .3s ease-in-out;
 
   ${({ isOpen }) => (
@@ -18,6 +18,16 @@ export const MobileMenuWrapper = styled.div`
       ? 'z-index: 2; opacity: 1;'
       : null
   )}
+`;
+
+export const Overflow = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.7);
 `;
 
 export const MenuWrapper = styled.div`
@@ -152,6 +162,7 @@ export const GSubscribe = styled(SubscribeNews)`
     width: 17px;
     height: 14px;
     margin-right: 6px;
+    fill: #666666;
   }
 
   span {
