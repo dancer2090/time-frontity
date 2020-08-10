@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
+import Header from '../components/Header';
 import Loader from '../components/Loader';
 import Title from '../components/title';
 import Modal from '../components/Modal';
@@ -65,7 +66,7 @@ const Theme = ({ state, actions }) => {
         />
 
         {/* Header components */}
-
+        <Header />
 
         {/* Add the main section. It renders a different component depending
         on the type of URL we are in. */}
