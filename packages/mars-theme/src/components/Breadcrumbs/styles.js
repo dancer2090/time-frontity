@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
         transition: all .3s;
         position: relative;
         
-        &:after {
+        &:before {
           content: '|';
           margin: 0 5px;
           font-size: 12px;
@@ -31,6 +31,10 @@ export const Wrapper = styled.div`
       line-height: 15px;
       color: #969696;
       
+      &:before {
+        color: #969696;
+      }
+
       &:hover {
         cursor: default;
         color: #969696;
@@ -40,9 +44,9 @@ export const Wrapper = styled.div`
     li {
       display: inline;
     
-      &:last-child {
+      &:first-child {
         a {
-          &:after {
+          &:before {
             display: none;
           }
         }
