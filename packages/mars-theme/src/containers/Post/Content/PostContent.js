@@ -5,7 +5,7 @@ import MainTemplate from '../Templates/MainTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => (
   <Switch>
-    <MainTemplate scrollRef={scrollRef} when={state.router.link === '/'} />
+    <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
   </Switch>
 );
 

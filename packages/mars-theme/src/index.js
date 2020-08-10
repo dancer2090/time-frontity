@@ -9,6 +9,36 @@ import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace } from './utils/func';
 
+const UkMainHandler = {
+  name: 'UkMainHandler',
+  priority: 19,
+  pattern: '/uk/',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+      // Get the posts from those categories.
+      const postsResponse = await libraries.source.api.get({
+        endpoint: "pages",
+        params: { slug: 'main', _embed: true }
+      });
+      const alt_page = await libraries.source.populate({
+        state,
+        response: postsResponse
+      });
+      alt_page[0].isHome = true;
+      alt_page[0].isPage = true;
+      alt_page[0].isPostType = true;
+      state.theme.lang = "uk";
+      //const total = libraries.source.getTotal(postsResponse);
+      //const totalPages = libraries.source.getTotalPages(postsResponse);
+
+      // Populate state.source.data with the proper info about this URL.
+      Object.assign(state.source.data[route], alt_page[0]);
+  },
+};
+
+
+
 const marsTheme = {
   name: '@frontity/mars-theme',
   roots: {
@@ -167,7 +197,7 @@ const marsTheme = {
       imageUrlCheck: linkImageReplace,
     },
     source: {
-      handlers: [],
+      handlers: [UkMainHandler],
     },
     html2react: {
       /**

@@ -36,6 +36,8 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
+  console.log(state);
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -73,7 +75,7 @@ const Theme = ({ state, actions }) => {
         <Main>
           <Switch>
             <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Post scrollRef={formRef} when={data.isPostType} />
             <PageError when={data.isError} />
           </Switch>
         </Main>

@@ -147,6 +147,11 @@ const MainTemplate = ({ state, libraries }) => {
   const { urlsWithLocal = {} } = state.customSettings;
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
+  const dataP = state.source.get(state.router.link.replace("/ru/",""));
+  const post = state.source[dataP.type][dataP.id];
+
+  const { acf = {} } = post;
+
   return (
     <Wrapper>
       <Container>
