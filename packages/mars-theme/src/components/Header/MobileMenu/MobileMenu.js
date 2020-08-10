@@ -68,6 +68,9 @@ const MobileMenu = ({ isOpen, closeModal }) => {
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(navigationOption);
   const toggleItem = (event, index) => {
+    event.preventDefault();
+    console.log('click');
+
     const result = navigation.map((item, indexEl) => {
       if (index === indexEl) {
         const activeValue = !item.active;
@@ -100,16 +103,25 @@ const MobileMenu = ({ isOpen, closeModal }) => {
               navigation.map((item, index) => {
                 return (
                   <NavigationItem key={index}>
-                    <Link link="#">
-                      { item.name }
-                    </Link>
+                    {
+                      item.subMenu
+                        ? (
+                          <span onClick={(e) => toggleItem(e, index)}>
+                            { item.name }
+                          </span>
+                        )
+                        : (
+                          <Link link="#">
+                            { item.name }
+                          </Link>
+                        )
+                    }
                     {
                       item.subMenu && (
                         <>
                           <IconArrow
                             name="arrow-lang"
                             active={item.active}
-                            onClick={(e) => toggleItem(e, index)}
                           />
                           <NavigationSubContent
                             ref={subContent}

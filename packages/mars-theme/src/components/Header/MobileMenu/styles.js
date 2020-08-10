@@ -67,21 +67,24 @@ export const Navigation = styled.div`
 export const NavigationItem = styled.div`
   margin-bottom: 22px;
   display: flex;
-  align-items: center;
+  width: 100%;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  a {
+  a, span {
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
     letter-spacing: 0.03em;
     text-decoration: none;
     color: #000000;
+    display: block;
+    flex-grow: 2;
   }
 `;
 
