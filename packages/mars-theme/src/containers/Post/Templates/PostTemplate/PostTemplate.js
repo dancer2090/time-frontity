@@ -15,10 +15,21 @@ import {
 import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import post from '../../../../img/post.jpg';
 
-const PostTemplate = ({ state, libraries }) => {
-  const { imageUrlCheck } = libraries.func;
-  const { urlsWithLocal = {} } = state.customSettings;
-  const postUrl = imageUrlCheck(post, urlsWithLocal);
+const PostTemplate = ({ state }) => {
+  console.log(state);
+  const [showComments, setShowComments] = useState(false);
+  const type = 'interview';
+
+  const renderHeaderPost = (typePost) => {
+    switch (typePost) {
+      case 'interview':
+        return <InterviewHeader />;
+      case 'publication':
+        return <PublicationHeader />;
+      default:
+        return <HeaderNews />;
+    }
+  };
 
   return (
     <Wrapper>
