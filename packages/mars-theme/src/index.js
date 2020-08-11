@@ -76,7 +76,11 @@ const UkMainHandler2 = {
           state,
           response: postsResponse
         });
-        if(alt_page.length===0){
+        if(alt_page.length>0){
+          alt_page[0].isPage = true;
+          alt_page[0].isPostType = true;
+          Object.assign(state.source.data[route], alt_page[0]);
+        } else {
           //Check category
           const postsResponse2 = await libraries.source.api.get({
             endpoint: "categories",
@@ -86,20 +90,7 @@ const UkMainHandler2 = {
             state,
             response: postsResponse2
           });
-          if(alt_page2.length===0){
-            //Check post
-            const postsResponse4 = await libraries.source.api.get({
-              endpoint: "posts",
-              params: { slug: params.slug, _embed: true }
-            });
-            const alt_page4 = await libraries.source.populate({
-              state,
-              response: postsResponse4
-            });
-            alt_page4[0].isPostType = true;
-            alt_page4[0].isPost = true;
-            Object.assign(state.source.data[route], alt_page4[0]);
-          } else {
+          if(alt_page2.length>0){
             alt_page2[0].isArchive = true;
             alt_page2[0].isCategory = true;
             alt_page2[0].isTaxonomy = true;
@@ -121,11 +112,20 @@ const UkMainHandler2 = {
             alt_page2[0].totalPages =  totalPages;
 
             Object.assign(state.source.data[route], alt_page2[0]);
+          } else {
+            //Check post
+            const postsResponse4 = await libraries.source.api.get({
+              endpoint: "posts",
+              params: { slug: params.slug, _embed: true }
+            });
+            const alt_page4 = await libraries.source.populate({
+              state,
+              response: postsResponse4
+            });
+            alt_page4[0].isPostType = true;
+            alt_page4[0].isPost = true;
+            Object.assign(state.source.data[route], alt_page4[0]);
           }
-        } else {
-          alt_page[0].isPage = true;
-          alt_page[0].isPostType = true;
-          Object.assign(state.source.data[route], alt_page[0]);
         }
       }
   },
