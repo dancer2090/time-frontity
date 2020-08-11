@@ -9,6 +9,138 @@ import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace } from './utils/func';
 
+const newHandler = {
+  name: "categoryOrPostType",
+  priority: 19,
+  pattern: "/(.*)?/:slug", 
+  func: async ({ route, params, state, libraries }) => {
+    // 1. try with category.
+    try {
+      const category = libraries.source.handlers.find(
+        handler => handler.name == "category"
+      );
+      await category.func({ route, params, state, libraries });
+    } catch (e) {
+      // It's not a category
+      const postType = libraries.source.handlers.find(
+        handler => handler.name == "post type"
+      );
+      await postType.func({ link: route, params, state, libraries });
+    }
+  }
+};
+
+const UkMainHandler = {
+  name: 'UkMainHandler',
+  priority: 19,
+  pattern: '/uk/',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+      // Get the posts from those categories.
+      const postsResponse = await libraries.source.api.get({
+        endpoint: "pages",
+        params: { slug: 'main', _embed: true }
+      });
+      const alt_page = await libraries.source.populate({
+        state,
+        response: postsResponse
+      });
+      alt_page[0].isHome = true;
+      alt_page[0].isPage = true;
+      alt_page[0].isPostType = true;
+      state.theme.lang = "uk";
+      //const total = libraries.source.getTotal(postsResponse);
+      //const totalPages = libraries.source.getTotalPages(postsResponse);
+
+      // Populate state.source.data with the proper info about this URL.
+      Object.assign(state.source.data[route], alt_page[0]);
+  },
+};
+
+const UkMainHandler2 = {
+  name: 'UkMainHandler2',
+  priority: 19,
+  pattern: '/uk/(.*)?/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+      if(params.slug!=='css2'){
+        state.theme.lang = "uk";
+        //Check page
+        const postsResponse = await libraries.source.api.get({
+          endpoint: "pages",
+          params: { slug: params.slug, _embed: true }
+        });
+        const alt_page = await libraries.source.populate({
+          state,
+          response: postsResponse
+        });
+        console.log('-----');
+        console.log(alt_page);
+        console.log('-----');
+        console.log(params.slug);
+        console.log('-----');
+        if(alt_page.length===0){
+          //Check category
+          const postsResponse2 = await libraries.source.api.get({
+            endpoint: "categories",
+            params: { slug: params.slug, _embed: true }
+          });
+          const alt_page2 = await libraries.source.populate({
+            state,
+            response: postsResponse2
+          });
+          console.log('++++');
+          console.log(alt_page2);
+          console.log('++++');
+          if(alt_page2.length===0){
+            //Check post
+            const postsResponse4 = await libraries.source.api.get({
+              endpoint: "posts",
+              params: { slug: params.slug, _embed: true }
+            });
+            const alt_page4 = await libraries.source.populate({
+              state,
+              response: postsResponse4
+            });
+            alt_page4[0].isPostType = true;
+            alt_page4[0].isPost = true;
+            Object.assign(state.source.data[route], alt_page4[0]);
+          } else {
+            alt_page2[0].isArchive = true;
+            alt_page2[0].isCategory = true;
+            alt_page2[0].isTaxonomy = true;
+            alt_page2[0].taxonomy =  "category";
+
+            // Get the posts from those categories.
+            const postsResponse3 = await libraries.source.api.get({
+              endpoint: "posts",
+              params: { categories: alt_page2.id, _embed: true }
+            });
+            const items = await libraries.source.populate({
+              state,
+              response: postsResponse3
+            });
+            const total = libraries.source.getTotal(postsResponse3);
+            const totalPages = libraries.source.getTotalPages(postsResponse3);
+            alt_page2[0].items =  items;
+            alt_page2[0].total =  total;
+            alt_page2[0].totalPages =  totalPages;
+
+            Object.assign(state.source.data[route], alt_page2[0]);
+          }
+        } else {
+          alt_page[0].isPage = true;
+          alt_page[0].isPostType = true;
+          Object.assign(state.source.data[route], alt_page[0]);
+        }
+      }
+  },
+};
+
+
+
 const marsTheme = {
   name: '@frontity/mars-theme',
   roots: {
@@ -167,7 +299,7 @@ const marsTheme = {
       imageUrlCheck: linkImageReplace,
     },
     source: {
-      handlers: [],
+      handlers: [UkMainHandler, UkMainHandler2, newHandler],
     },
     html2react: {
       /**
