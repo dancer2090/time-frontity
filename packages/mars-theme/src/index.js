@@ -76,11 +76,6 @@ const UkMainHandler2 = {
           state,
           response: postsResponse
         });
-        console.log('-----');
-        console.log(alt_page);
-        console.log('-----');
-        console.log(params.slug);
-        console.log('-----');
         if(alt_page.length===0){
           //Check category
           const postsResponse2 = await libraries.source.api.get({
@@ -91,9 +86,6 @@ const UkMainHandler2 = {
             state,
             response: postsResponse2
           });
-          console.log('++++');
-          console.log(alt_page2);
-          console.log('++++');
           if(alt_page2.length===0){
             //Check post
             const postsResponse4 = await libraries.source.api.get({
