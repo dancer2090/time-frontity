@@ -23,7 +23,9 @@ const VideoTemplate = () => (
         <SocialList />
       </TopContainer>
       <Content>
-        <Title>время</Title>
+        <Title>
+          время
+        </Title>
         <Row>
           {
             [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
