@@ -281,7 +281,16 @@ const marsTheme = {
           }
         });
       },
-      beforeSSR: ({ state, actions, libraries }) => {
+      beforeSSR: async ({ state, actions, libraries }) => {
+        actions.theme.alternativeUrlForImage();
+        if (
+          state.router.link.includes('/') ||
+          state.router.link.includes('/uk/')
+        ) {
+          await actions.source.fetch('/aktualnoe-segodnya/');
+          await actions.source.fetch('/poslednie-novosti/');
+          await actions.source.fetch('/analitika/');
+        }
       },
     },
   },

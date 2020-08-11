@@ -16,7 +16,7 @@ const settings = [
       "replaceImageUrl": !!process.env.LOCAL ? [] : [process.env.ADMIN_URL, process.env.SITE_URL]
     },
     "theme":{
-      "lang": "uk"
+      "lang": "ru"
     }
   },
   "packages": [
