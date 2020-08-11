@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'frontity';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   Wrapper,
   SocialsWrapper,
@@ -143,14 +144,88 @@ const timeLineData = [
 ];
 
 const MainTemplate = ({ state, libraries }) => {
+  const [page, setPage] = useState(1);
+  const [lastPost, setLastPost] = useState([]);
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
-  const dataP = state.source.get(state.router.link.replace("/ru/",""));
+  const dataP = state.source.get(state.router.link.replace('/ru/', ''));
   const post = state.source[dataP.type][dataP.id];
 
   const { acf = {} } = post;
+  const formatTime = (valueDate) => {
+    const date = new Date(valueDate);
+    return `${date.getHours()}:${date.getMinutes()}`;
+  };
+
+  const formatDate = (valueDate) => {
+    const date = new Date(valueDate);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+    };
+    // uk-UA
+    const resultDate = `${date.toLocaleDateString('ru-RU', options)} ${date.toLocaleDateString('ru-RU', {
+      weekday: 'long',
+    })}`;
+    return resultDate.replace(' г.', ',');
+  };
+
+  const loadData = () => {
+    const allPosts = state.source.get(`/poslednie-novosti/page/${page}`);
+    if (allPosts.items) {
+      const resultPost = allPosts.items.map((item) => {
+        const result = state.source.get(item.link);
+        return state.source[result.type][result.id];
+      });
+      const data = lastPost.concat(resultPost);
+      const resultsData = [];
+      data.forEach((item) => {
+        const date = formatDate(item.date);
+        const result = [];
+        data.forEach((element) => {
+          if (formatDate(element.date) === date) {
+            result.push({
+              time: formatTime(element.date),
+              date: formatDate(element.date),
+              post: {
+                ...element,
+              },
+            });
+          }
+        });
+
+        if (resultsData.length === 0) {
+          resultsData.push(result);
+        } else {
+          resultsData.forEach((el) => {
+            if (JSON.stringify(el) !== JSON.stringify(result)) {
+              resultsData.push(result);
+            }
+          });
+        }
+      });
+      const dataArray = resultsData.map((item) => {
+        return {
+          date: item[0].date,
+          posts: item,
+        };
+      });
+
+      setLastPost(dataArray);
+      setPage(page + 1);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const fetchMoreData = () => {
+    loadData();
+  };
 
   return (
     <Wrapper>
@@ -204,14 +279,21 @@ const MainTemplate = ({ state, libraries }) => {
             <Title size="small">
               последние новости
             </Title>
-            {
-              timeLineData.map((item, index) => (
-                <TimeLine
-                  key={index}
-                  data={item}
-                />
-              ))
-            }
+            <InfiniteScroll
+              dataLength={lastPost.length}
+              next={fetchMoreData}
+              hasMore
+              loader={<h4>Loading...</h4>}
+            >
+              {
+                lastPost.map((item, index) => (
+                  <TimeLine
+                    key={index}
+                    data={item}
+                  />
+                ))
+              }
+            </InfiniteScroll>
           </LastNews>
           <AnalyticNews>
             <Title size="small">

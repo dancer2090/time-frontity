@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'frontity';
 import {
   Post,
   Category,
@@ -6,17 +7,24 @@ import {
 } from './styled';
 import Link from '../../link';
 
-const TimeLinePost = ({ postContent = {} }) => (
-  <Post>
-    <Link link="#">
-      <Category>
-        { postContent.category }
-      </Category>
-      <Text>
-        { postContent.text }
-      </Text>
-    </Link>
-  </Post>
-);
+const TimeLinePost = ({ postContent = {}, libraries, state }) => {
+  // Component exposed by html2react.
+  const Html2React = libraries.html2react.Component;
+  const { lang = 'ru' } = state.theme;
+  const { acf = {} } = postContent;
 
-export default TimeLinePost;
+  return (
+    <Post>
+      <Link link="#">
+        <Category>
+          { postContent.category }
+        </Category>
+        <Text>
+          <Html2React html={acf[lang].title} />
+        </Text>
+      </Link>
+    </Post>
+  );
+};
+
+export default connect(TimeLinePost);
