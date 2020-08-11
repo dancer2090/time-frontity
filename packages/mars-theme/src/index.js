@@ -61,11 +61,11 @@ const UkMainHandler = {
 const UkMainHandler2 = {
   name: 'UkMainHandler2',
   priority: 19,
-  pattern: '/uk/:slug',
+  pattern: '/uk/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
-
+      state.theme.lang = "uk";
       const postsResponse = await libraries.source.api.get({
         endpoint: "pages",
         params: { slug: params.slug, _embed: true }
@@ -74,7 +74,12 @@ const UkMainHandler2 = {
         state,
         response: postsResponse
       });
-      if(alt_page[0].type !== 'page'){
+      console.log('-----');
+      console.log(alt_page);
+      console.log('-----');
+      console.log(params.slug);
+      console.log('-----');
+      if(alt_page.length===0){
         const postsResponse2 = await libraries.source.api.get({
           endpoint: "categories",
           params: { slug: params.slug, _embed: true }
@@ -83,27 +88,43 @@ const UkMainHandler2 = {
           state,
           response: postsResponse2
         });
-        alt_page2[0].isArchive = true;
-        alt_page2[0].isCategory = true;
-        alt_page2[0].isTaxonomy = true;
-        alt_page2[0].taxonomy =  "category";
+        if(alt_page.length>0){
+          console.log('++++');
+          console.log(alt_page2);
+          console.log('++++');
+          alt_page2[0].isArchive = true;
+          alt_page2[0].isCategory = true;
+          alt_page2[0].isTaxonomy = true;
+          alt_page2[0].taxonomy =  "category";
 
-        // Get the posts from those categories.
-        const postsResponse3 = await libraries.source.api.get({
-          endpoint: "posts",
-          params: { categories: alt_page2.id, _embed: true }
-        });
-        const items = await libraries.source.populate({
-          state,
-          response: postsResponse3
-        });
-        const total = libraries.source.getTotal(postsResponse3);
-        const totalPages = libraries.source.getTotalPages(postsResponse3);
-        alt_page2[0].items =  items;
-        alt_page2[0].total =  total;
-        alt_page2[0].totalPages =  totalPages;
+          // Get the posts from those categories.
+          const postsResponse3 = await libraries.source.api.get({
+            endpoint: "posts",
+            params: { categories: alt_page2.id, _embed: true }
+          });
+          const items = await libraries.source.populate({
+            state,
+            response: postsResponse3
+          });
+          const total = libraries.source.getTotal(postsResponse3);
+          const totalPages = libraries.source.getTotalPages(postsResponse3);
+          alt_page2[0].items =  items;
+          alt_page2[0].total =  total;
+          alt_page2[0].totalPages =  totalPages;
 
-        Object.assign(state.source.data[route], alt_page2[0]);
+          Object.assign(state.source.data[route], alt_page2[0]);
+        } else {
+          const postsResponse4 = await libraries.source.api.get({
+            endpoint: "posts",
+            params: { slug: params.slug, _embed: true }
+          });
+          const alt_page4 = await libraries.source.populate({
+            state,
+            response: postsResponse4
+          });
+          alt_page4[0].isPostType = true;
+          Object.assign(state.source.data[route], alt_page4[0]);
+        }
       } else {
         alt_page[0].isPage = true;
         alt_page[0].isPostType = true;
