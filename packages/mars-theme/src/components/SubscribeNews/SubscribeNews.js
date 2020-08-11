@@ -11,7 +11,7 @@ import Input from '../Input';
 import Modal from '../Modal/Modal';
 import { validateFieldEmail } from '../../utils/validation/validation';
 
-const SubscribeNews = () => {
+const SubscribeNews = ({ className }) => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -35,7 +35,7 @@ const SubscribeNews = () => {
 
   return (
     <>
-      <Wrapper onClick={() => setShowModal(!showModal)}>
+      <Wrapper className={className} onClick={() => setShowModal(!showModal)}>
         <GIconMessage name="mail" />
         <Label>
           Подписаться на новости
