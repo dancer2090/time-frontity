@@ -4,6 +4,10 @@ import {
   Wrapper,
   SocialsWrapper,
   SocialLabel,
+  RightTopWrapper,
+  PdfWrapper,
+  PdfIcon,
+  PdfShow,
   BigNewsWrapper,
   BigNews,
   BigBanner,
@@ -154,7 +158,13 @@ const MainTemplate = ({ state, libraries }) => {
           <SocialLabel>
             Информационное агенство Время
           </SocialLabel>
-          <SocialList />
+          <RightTopWrapper>
+            <PdfWrapper>
+              <PdfIcon name="pdf-icon" />
+              <PdfShow>Печатный вариант “Время”</PdfShow>
+            </PdfWrapper>
+            <SocialList />
+          </RightTopWrapper>
         </SocialsWrapper>
 
         <BigNewsWrapper>

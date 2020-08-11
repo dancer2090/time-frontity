@@ -1,5 +1,8 @@
 import { styled } from 'frontity';
-import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL} from "../../../../const/responsive";
+import SvgSprite from '../../../../components/SvgSprite';
+import {
+  SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL,
+} from '../../../../const/responsive';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -28,6 +31,47 @@ export const SocialsWrapper = styled.div`
       display: none;
     }
   }
+`;
+
+export const RightTopWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const PdfWrapper = styled.div`
+  position: relative;
+`;
+
+export const PdfIcon = styled(SvgSprite)`
+  cursor: pointer;
+  width: 17px;
+  height: 24px;
+  margin-right: 42px;
+
+  &:hover {
+    & + div {
+      opacity: 1;
+    }
+  }
+`;
+
+export const PdfShow = styled.div`
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  top: calc(100% + 9px);
+  background: #F2F2F2;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 224px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  transition: all .3s ease-in-out;
 `;
 
 export const SocialLabel = styled.span`
