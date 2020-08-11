@@ -157,7 +157,11 @@ const marsTheme = {
           }
         });
       },
-      beforeSSR: ({ state, actions, libraries }) => {
+      beforeSSR: async ({ state, actions, libraries }) => {
+        const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
+        const optionPage = globalOptions.data || {};
+
+        state.theme.options = optionPage;
       },
     },
   },

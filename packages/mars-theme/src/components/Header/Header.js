@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   WrapperContainer,
@@ -32,13 +33,26 @@ import {
   MobileSearchClose,
   MobileInput,
 } from './styles';
-import logo from '../../img/logo.svg';
 import Link from '../link';
 import MobileMenu from './MobileMenu';
 
 const languageOptions = ['ru', 'ukr'];
 
-const Header = () => {
+const Header = ({ state, libraries }) => {
+  // data theme options
+  const { acf = {} } = state.theme.options;
+  const { header_menu = [] } = acf;
+  const { logo = {} } = acf;
+  const { imageUrlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
+  const urlImage = imageUrlCheck(logo.url, urlsWithLocal);
+
+  const filterMenu = header_menu.map((item) => ({
+    ...item,
+    active: false,
+  }));
+
+  // state
   const navigation = useRef(null);
   const [resizeContainer, setResizeContainer] = useState(false);
   const [showNavigation, setShowNavigation] = useState(false);
@@ -48,6 +62,7 @@ const Header = () => {
   const [showMobileModal, setShowMobileModal] = useState(false);
   const [search, setSearch] = useState('');
   const [mobileSearch, setMobileSearch] = useState(false);
+  const [linksSubMenu, setLinksSubMenu] = useState([]);
   const filterLanguage = languageOptions.filter((item) => item !== languageValue);
 
   useEffect(() => {
@@ -77,8 +92,9 @@ const Header = () => {
     }
   };
 
-  const toggleLinks = (e) => {
+  const toggleLinks = (e, index) => {
     e.preventDefault();
+    setLinksSubMenu(filterMenu[index].subMenu);
     setShowNavigation(!showNavigation);
   };
 
@@ -90,7 +106,9 @@ const Header = () => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Logo src={logo} />
+            <Link link="/">
+              <Logo src={urlImage} />
+            </Link>
             <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
             <MobileSearch show={mobileSearch}>
               <MobileSearchBlockIcon name="search" />
@@ -105,20 +123,23 @@ const Header = () => {
             </MobileSearch>
           </TopLayout>
           <BottomContent ref={navigation}>
-            <ScrollImage resize={resizeContainer} src={logo} />
+            <ScrollImage resize={resizeContainer} src={urlImage} />
             <BottomRelative>
               <Navigation>
-                <Link link="#">Харьков</Link>
-                <Link link="#">Украина</Link>
-                <Link link="#">аналитика</Link>
-                <Link link="#">мнения</Link>
-                <Link link="#">светская хроника</Link>
-                <Link link="#">персоны</Link>
-                <Link link="#">подкасты</Link>
-                <Link link="#">ВРЕМЯ тВ</Link>
-                <Link link="#">фото</Link>
-                <Link link="#">спецтемы</Link>
-                <span onClick={(e) => toggleLinks(e)}>о нас</span>
+                {
+                  filterMenu.map((item, index) => {
+                    const { link = {} } = item;
+                    return (
+                      !item.subMenu
+                        ? <Link key={index} link={link.url}>{ link.title }</Link>
+                        : (
+                          <span key={index} onClick={(e) => toggleLinks(e, index)}>
+                            { link.title }
+                          </span>
+                        )
+                    );
+                  })
+                }
               </Navigation>
               <Search active={showSearch}>
                 <SearchIcon name="search" onClick={() => setShowSearch(true)} />
@@ -158,15 +179,25 @@ const Header = () => {
         </Container>
         <HeaderContent show={showNavigation}>
           <Links>
-            <Link link="#">Контакты</Link>
-            <Link link="#">Медиацентр</Link>
+            {
+              linksSubMenu.map((item, index) => {
+                const { link = {} } = item;
+                return (
+                  <Link key={index} link={link.url}>{ link.title }</Link>
+                );
+              })
+            }
           </Links>
         </HeaderContent>
       </WrapperContainer>
 
-      <MobileMenu isOpen={showMobileModal} closeModal={() => setShowMobileModal(false)} />
+      <MobileMenu
+        isOpen={showMobileModal}
+        closeModal={() => setShowMobileModal(false)}
+        menu={filterMenu}
+      />
     </Wrapper>
   );
 };
 
-export default Header;
+export default connect(Header);

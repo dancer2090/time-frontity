@@ -23,54 +23,11 @@ import {
 import Link from '../../link';
 import SocialList from '../../SocialList';
 
-const navigationOption = [
-  {
-    name: 'Главная',
-  },
-  {
-    name: 'Украина',
-  },
-  {
-    name: 'Аналитика',
-  },
-  {
-    name: 'Аналитика',
-    active: false,
-    subMenu: [
-      {
-        name: 'Культурные обзоры',
-      },
-      {
-        name: 'Рынок недвижимости',
-      },
-      {
-        name: 'Медицина',
-      },
-    ],
-  },
-  {
-    name: 'Украина',
-    active: false,
-    subMenu: [
-      {
-        name: 'Культурные обзоры',
-      },
-      {
-        name: 'Рынок недвижимости',
-      },
-    ],
-  },
-  {
-    name: 'Аналитика',
-  },
-];
-
-const MobileMenu = ({ isOpen, closeModal }) => {
+const MobileMenu = ({ isOpen, closeModal, menu }) => {
   const subContent = useRef(null);
-  const [navigation, setNavigation] = useState(navigationOption);
+  const [navigation, setNavigation] = useState(menu);
   const toggleItem = (event, index) => {
     event.preventDefault();
-    console.log('click');
 
     const result = navigation.map((item, indexEl) => {
       if (index === indexEl) {
@@ -103,18 +60,19 @@ const MobileMenu = ({ isOpen, closeModal }) => {
           <Navigation>
             {
               navigation.map((item, index) => {
+                const { link = {} } = item;
                 return (
                   <NavigationItem key={index}>
                     {
                       item.subMenu
                         ? (
                           <span onClick={(e) => toggleItem(e, index)}>
-                            { item.name }
+                            { link.title }
                           </span>
                         )
                         : (
-                          <Link link="#">
-                            { item.name }
+                          <Link link={link.url}>
+                            { link.title }
                           </Link>
                         )
                     }
@@ -131,11 +89,14 @@ const MobileMenu = ({ isOpen, closeModal }) => {
                           >
                             <NavigationContent>
                               {
-                                item.subMenu.map((subItem, subIndex) => (
-                                  <Link link="#" key={subIndex}>
-                                    { subItem.name }
-                                  </Link>
-                                ))
+                                item.subMenu.map((subItem, subIndex) => {
+                                  const { link: linkItem = {} } = subItem;
+                                  return (
+                                    <Link link={linkItem.url} key={subIndex}>
+                                      { linkItem.title }
+                                    </Link>
+                                  );
+                                })
                               }
                             </NavigationContent>
                           </NavigationSubContent>
@@ -151,7 +112,7 @@ const MobileMenu = ({ isOpen, closeModal }) => {
             <SubcribeBlock>
               <GSubscribe />
             </SubcribeBlock>
-            <DownloadPdf>
+            <DownloadPdf href="file.pdf">
               <DownloadPdfIcon name="pdf" />
               <DownloadPdfLabel>
                 Печатный вариант “Время”
