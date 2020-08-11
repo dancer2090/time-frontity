@@ -1,33 +1,56 @@
 import { styled, css } from 'frontity';
+import { SIZE_MOBILE } from '../../const/responsive';
 
 export const Content = styled.div`
-  top: '50%';
-  left: '50%';
-  right: 'auto';
-  bottom: 'auto';
-  marginRight: '-50%';
-  transform: 'translate(-50%, -50%)';
-  padding: '0';
-  borderRadius: 'none';
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: none !important;
 `;
-export const CModal = styled.div`
-  padding: 40px 50px;
-  max-width: 420px;
-  background-color: #fff;
-  color: #222222;
 
-  @media (max-width: 600px) {
-    padding: 30px 40px;
+export const CModal = styled.div`
+  padding: 40px 32px 50px 27px;
+  max-width: 420px;
+  min-width: 420px;
+  min-height: 207px;
+  width: 100%;
+  color: #222222;
+  background: #F2F2F2;
+  position: relative;
+
+  @media (max-width: ${SIZE_MOBILE}px) {
+    padding: 40px 17px;
+    min-width: 320px;
+    
+    ${({ size }) => (
+    size
+      ? css`
+          max-width: 100%;
+          min-width: 100vw;
+          padding: 17px 0 0 0;
+        `
+      : null
+  )}
   }
 `;
+
 export const ModalTitle = styled.h2`
-  font-size: 20px;
-  margin-bottom: 27px;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
   text-align: center;
-  font-weight: bold;
-  color: #a6c950;
+  margin-bottom: 25px;
+  
+  @media screen and (max-width: ${SIZE_MOBILE}) {
+    font-size: 13px;
+    line-height: 16px;
+  }
 `;
+
 export const ModalText = styled.div`
   font-size: 16px;
   line-height: 28px;
@@ -52,35 +75,36 @@ export const ModalText = styled.div`
     }
   }
 `;
-export const ModalButtonWrapper = styled.div`
-    padding-top: 24px;
-    width: 100%;
-    text-align: center;
+
+export const ModalWrapper = styled.div`
+  width: 100%;
+  height: 100%;
 `;
+
 export const ModalButton = styled.button`
   text-transform: uppercase;
   font-size: 16px;
   font-weight: 700;
   color: #fff;
   background-color: transparent;
-  border: 0px;
-  padding: 10px;
+  border: 0;
+  padding: 0;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 15px;
+  right: 18px;
   cursor: pointer;
-  & svg{
-    width: 24px;
-    height: 24px;
-    path{
-      fill: #77716D;
-    }
+  
+  &:active {
+    outline: none;
   }
-  &:hover {
-    background-color: linear-gradient(274.43deg,#FFB03A 3.6%,#FF9233 97.69%);
-    opacity: 1;
+  
+  & svg{
+    width: 13px;
+    height: 13px;
+    fill: #969696;
   }
 `;
+
 export const ModalBackground = styled.div`
   position: fixed;
   top: 0;

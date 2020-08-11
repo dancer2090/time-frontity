@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
+import Header from '../components/Header';
 import Loader from '../components/Loader';
 import Title from '../components/title';
 import Modal from '../components/Modal';
@@ -52,22 +53,8 @@ const Theme = ({ state, actions }) => {
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
-        {/* Add the header of the site.  */}
-        <Modal
-          title="Done"
-          text="Thank you for feedback! <br> The confirmation email was sent to your address, please check your inbox."
-          isOpen={state.customSettings.isFormSend}
-          handleClose={formHandleClose}
-        />
-        <Modal
-          title="Done"
-          text="Thank you for subscribing! <br> The confirmation email was sent to your address, please check your inbox."
-          isOpen={state.customSettings.isSubscribeSend}
-          handleClose={subscribeHandleClose}
-        />
-
         {/* Header components */}
-
+        <Header />
 
         {/* Add the main section. It renders a different component depending
         on the type of URL we are in. */}
@@ -75,7 +62,9 @@ const Theme = ({ state, actions }) => {
         <Main>
           <Switch>
             <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={data.isPostType} />
+            <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/category/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>
