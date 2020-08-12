@@ -5,7 +5,8 @@ import {
 } from './styles';
 import Link from '../../../../../components/link';
 
-const TextPost = ({ state, className, item }) => {
+const TextPost = ({ state, className, item, libraries }) => {
+  const { urlCheck } = libraries.func;
   const {
     _embedded : itemEmbed = {},
     link : itemLink = "",
@@ -29,7 +30,7 @@ const TextPost = ({ state, className, item }) => {
 
   return (
     <Post className={className}>
-      <Link link={itemLink} className="post-name">
+      <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])} className="post-name">
         {itemMeta[state.theme.lang].title}
       </Link>
       <Link link="#" className="post-author">
