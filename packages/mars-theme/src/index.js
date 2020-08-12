@@ -148,7 +148,8 @@ const marsTheme = {
      * relevant state. It is scoped to the `theme` namespace.
      */
     customSettings: {
-      pageNumber: 2,
+      actualNumberPage : 2,
+      lastNumberPage : 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -156,13 +157,13 @@ const marsTheme = {
       isCommentSend: false,
       sendFormGuide: false,
       isThanksOpen: true,
-      blogLoadMore: false,
+      actualLoadMore: false,
+      lastLoadMore: false,
     },
     theme: {
       menu: {},
       cases: {},
       teammembers: {},
-      faq: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
       featured: {
