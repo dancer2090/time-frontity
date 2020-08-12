@@ -153,7 +153,8 @@ const marsTheme = {
      * relevant state. It is scoped to the `theme` namespace.
      */
     customSettings: {
-      pageNumber: 2,
+      actualNumberPage : 2,
+      lastNumberPage : 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -161,13 +162,13 @@ const marsTheme = {
       isCommentSend: false,
       sendFormGuide: false,
       isThanksOpen: true,
-      blogLoadMore: false,
+      actualLoadMore: false,
+      lastLoadMore: false,
     },
     theme: {
       menu: {},
       cases: {},
       teammembers: {},
-      faq: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
       featured: {
@@ -256,9 +257,9 @@ const marsTheme = {
           state.router.link.includes('/')
           || state.router.link.includes('/uk/')
         ) {
-          await actions.source.fetch('/aktualnoe-segodnya/');
-          await actions.source.fetch('/poslednie-novosti/');
-          await actions.source.fetch('/analitika/');
+          const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
+          const main = mainData.data;
+          Object.assign(state.source.data[state.router.link], main);
         }
 
         const linksCategory = state.router.link.split('/');
