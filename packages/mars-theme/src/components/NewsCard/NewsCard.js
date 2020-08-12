@@ -55,7 +55,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
   const date = new Date(itemDate);
   const monthDay = date.getDate();
   const month = date.getMonth() + 1;
-  const mothValue = months[month - 1];
+  const mothValue = months[state.theme.lang][month - 1];
 
   const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
 

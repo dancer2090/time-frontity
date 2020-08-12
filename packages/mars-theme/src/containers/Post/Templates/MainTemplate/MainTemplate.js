@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { connect } from 'frontity';
 import {
   Wrapper,
@@ -144,6 +145,9 @@ const timeLineData = [
 const testArray = [1, 2, 3, 4, 5, 6];
 
 const MainTemplate = ({ state, libraries }) => {
+
+  const [loadMoreHidden, setLoadMoreHidden] = useState(false);
+
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -151,6 +155,7 @@ const MainTemplate = ({ state, libraries }) => {
 
   const dataP = state.source.get(state.router.link);
   const post = state.source[dataP.type][dataP.id];
+  const totalPages = Math.floor(dataP.countActual / 6);
 
   const {
     actual = [],
@@ -160,6 +165,7 @@ const MainTemplate = ({ state, libraries }) => {
   } = dataP;
   const { post : bannerPost = {} } = banner;
   const {
+    ID : bannerId = "",
     _embedded : bannerEmbed = {},
     link : bannerLink = "",
     acf : bannerAcf = {},
@@ -175,6 +181,26 @@ const MainTemplate = ({ state, libraries }) => {
     'uk' : bannerUk,
     'ru' : bannerRu,
   };
+
+  const loadMore1 = () => {
+    state.customSettings.actualLoadMore = true;
+
+    const config = {
+      cat_minus : '-28, -7',
+      post_minus : bannerId
+    };
+    axios.get(
+      `${state.source.api}/frontity-api/get-actual/page/${state.customSettings.actualNumberPage}`,
+      config
+    ).then((response) => {
+      const items = response.data;
+      state.source.data[state.router.link].actual.push(...items);
+      state.customSettings.actualNumberPage += 1;
+    });
+
+    if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
+  };
+
 
   const { acf = {} } = post;
 
@@ -218,7 +244,7 @@ const MainTemplate = ({ state, libraries }) => {
             }
           </NewsListRow>
           <NewsLoad>
-            <Button>
+            <Button hidden={loadMoreHidden} onClick={() => loadMore1()}>
               загрузить еще новости
             </Button>
           </NewsLoad>
@@ -244,8 +270,8 @@ const MainTemplate = ({ state, libraries }) => {
             </Title>
             <TextPostList>
               {
-                testArray.map((item) => (
-                  <TextPost key={item} />
+                analytic.map((item) => (
+                  <TextPost key={item.ID} item={item} />
                 ))
               }
             </TextPostList>
