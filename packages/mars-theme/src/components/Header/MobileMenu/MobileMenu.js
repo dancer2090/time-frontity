@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { connect } from 'frontity';
 import {
   MobileMenuWrapper,
   MenuWrapper,
@@ -23,7 +24,10 @@ import {
 import Link from '../../link';
 import SocialList from '../../SocialList';
 
-const MobileMenu = ({ isOpen, closeModal, menu }) => {
+const MobileMenu = ({
+  state, actions, isOpen, closeModal, menu,
+}) => {
+  const { lang = 'ru' } = state.theme;
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(menu);
   const toggleItem = (event, index) => {
@@ -46,14 +50,31 @@ const MobileMenu = ({ isOpen, closeModal, menu }) => {
     setNavigation(result);
   };
 
+  const changeLang = () => {
+    if (lang !== 'uk') {
+      state.theme.lang = 'uk';
+      actions.router.set(`/uk${state.router.link}`);
+    } else {
+      state.theme.lang = 'ru';
+      const url = state.router.link.replace('/uk', '');
+      actions.router.set(url);
+    }
+    setNavigation(menu);
+    closeModal();
+  };
+
   return (
     <MobileMenuWrapper isOpen={isOpen}>
       <Overflow onClick={() => closeModal()} />
       <MenuWrapper isOpen={isOpen}>
         <MenuHeader>
           <MenuClose name="close" onClick={() => closeModal()} />
-          <MobileLanguage>
-            Ru / ukr
+          <MobileLanguage onClick={() => changeLang()}>
+            {
+              lang === 'ru'
+                ? <span>Ru / uk</span>
+                : <span>Uk / ru</span>
+            }
           </MobileLanguage>
         </MenuHeader>
         <MenuBody>
@@ -128,4 +149,4 @@ const MobileMenu = ({ isOpen, closeModal, menu }) => {
   );
 };
 
-export default MobileMenu;
+export default connect(MobileMenu);

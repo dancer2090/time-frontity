@@ -36,12 +36,13 @@ import {
 import Link from '../link';
 import MobileMenu from './MobileMenu';
 
-const languageOptions = ['ru', 'ukr'];
+const languageOptions = ['ru', 'uk'];
 
-const Header = ({ state, libraries }) => {
+const Header = ({ state, libraries, actions }) => {
   // data theme options
+  const { lang = 'ru' } = state.theme;
   const { acf = {} } = state.theme.options;
-  const { header_menu = [] } = acf;
+  const { header_menu = [] } = acf[lang];
   const { logo = {} } = acf;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -57,7 +58,7 @@ const Header = ({ state, libraries }) => {
   const [resizeContainer, setResizeContainer] = useState(false);
   const [showNavigation, setShowNavigation] = useState(false);
   const [showLanguage, setShowLanguage] = useState(false);
-  const [languageValue, setLanguageValue] = useState('ru');
+  const [languageValue, setLanguageValue] = useState(lang);
   const [showSearch, setShowSearch] = useState(false);
   const [showMobileModal, setShowMobileModal] = useState(false);
   const [search, setSearch] = useState('');
@@ -80,7 +81,14 @@ const Header = ({ state, libraries }) => {
 
   const setLanguage = (e, index) => {
     e.preventDefault();
-
+    if (filterLanguage[index] === 'uk') {
+      state.theme.lang = 'uk';
+      actions.router.set(`/uk${state.router.link}`);
+    } else {
+      state.theme.lang = filterLanguage[index];
+      const url = state.router.link.replace('/uk', '');
+      actions.router.set(url);
+    }
     setShowLanguage(false);
     setLanguageValue(filterLanguage[index]);
   };
@@ -131,7 +139,7 @@ const Header = ({ state, libraries }) => {
                     const { link = {} } = item;
                     return (
                       !item.subMenu
-                        ? <Link key={index} link={link.url}>{ link.title }</Link>
+                        ? <Link key={index} link={lang === 'ru' ? link.url : `/uk${link.url}`}>{ link.title }</Link>
                         : (
                           <span key={index} onClick={(e) => toggleLinks(e, index)}>
                             { link.title }
@@ -183,7 +191,7 @@ const Header = ({ state, libraries }) => {
               linksSubMenu.map((item, index) => {
                 const { link = {} } = item;
                 return (
-                  <Link key={index} link={link.url}>{ link.title }</Link>
+                  <Link key={index} link={lang === 'ru' ? link.url : `/uk${link.url}`}>{ link.title }</Link>
                 );
               })
             }
