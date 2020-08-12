@@ -7,12 +7,23 @@ import {
   Content,
 } from './styles';
 import Link from '../../../../../components/link';
-import post from '../../../../../img/post.jpg';
 
-const RelatedNewsCard = ({ state, libraries }) => {
+const RelatedNewsCard = ({ data, state, libraries }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  // state variables
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const postUrl = imageUrlCheck(post, urlsWithLocal);
+  const { lang = 'ru' } = state.theme;
+
+  // components data
+  const { acf = {} } = data;
+  const { title = '' } = acf[lang];
+  const { featured_media: frameId = '' } = data;
+  const {
+    source_url: urlImage = '',
+  } = state.source.attachment[frameId];
+  const postUrl = imageUrlCheck(urlImage, urlsWithLocal);
 
   return (
     <Card>
@@ -20,8 +31,8 @@ const RelatedNewsCard = ({ state, libraries }) => {
         <FrameImage src={postUrl} />
       </Frame>
       <Content>
-        <Link>
-          Харьковская область готова к ослаблению карантина
+        <Link link={data.link}>
+          <Html2React html={title} />
         </Link>
       </Content>
     </Card>

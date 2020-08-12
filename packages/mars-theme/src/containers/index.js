@@ -37,7 +37,7 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
-  console.log(state);
+  console.log(data);
 
   return (
     <>
@@ -63,7 +63,7 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/category/'} />
+            <Post scrollRef={formRef} when={data.isPostType} />
             <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>

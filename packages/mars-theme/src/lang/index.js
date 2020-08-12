@@ -4,4 +4,4 @@ import ru from './ru';
 export default {
   uk,
   ru,
-}
+};

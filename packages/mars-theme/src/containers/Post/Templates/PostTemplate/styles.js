@@ -132,7 +132,12 @@ export const Content = styled.div`
   
     img {
       width: 389px !important;
-      height: 525px !important
+      height: 525px !important;
+      position: relative !important; 
+    }
+    
+    span {
+      padding-bottom: 0 !important;
     }
   }
   
@@ -142,10 +147,15 @@ export const Content = styled.div`
     margin-bottom: 33px;
     width: fit-content !important;
     height: fit-content !important;
+    
+    span {
+      padding-bottom: 0 !important;
+    }
   
     img {
       width: 389px !important;
-      height: 525px !important
+      height: 525px !important;
+      position: relative !important; 
     }
   }
   
@@ -365,9 +375,28 @@ export const Content = styled.div`
        width: calc(100% + 40px) !important; 
     }
     
-    .alignleft img {
-      width: 100% !important;
-      height: 432px !important;
+    .alignleft {
+      margin-left: -20px;
+      margin-right: -20px;
+      
+      img {
+        width: 100% !important;
+        height: 432px !important;
+      }
+    }
+    
+    div.aligncenter {
+      margin-left: -20px;
+      margin-right: -20px;
+      width: calc(100% + 40px) !important;
+      
+      span {
+        padding: 0 !important;
+      }
+      
+      img {
+        position: relative;
+      }
     }
     
     video, iframe {
@@ -415,10 +444,16 @@ export const TabsWrapper = styled.div`
 `;
 
 export const AuthorInformation = styled.div`
-  display: flex;
-  align-items: center;
   padding-top: 14px;
   margin-bottom: 26px;
+  text-decoration: none;
+  
+  a {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 `;
 
 export const AuthorImage = styled.img`
@@ -432,6 +467,7 @@ export const AuthorName = styled.span`
   line-height: 27px;
   letter-spacing: 0.02em;
   color: #666666;
+  text-decoration: none;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     font-size: 12px;
@@ -524,7 +560,7 @@ export const RightBanner = styled.div`
 `;
 
 export const GMobileTitle = styled(Title)`
-  display: none;
+  display: none !important;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     display: block;

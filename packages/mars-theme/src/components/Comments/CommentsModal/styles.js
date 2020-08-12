@@ -44,3 +44,8 @@ export const SendButton = styled(SvgSprite)`
   bottom: 13px;
   fill: #666;
 `;
+
+export const Message = styled.div`
+  padding: 10px 10px;
+  font-size: 12px;
+`;
