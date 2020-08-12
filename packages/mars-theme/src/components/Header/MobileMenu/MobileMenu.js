@@ -25,9 +25,10 @@ import Link from '../../link';
 import SocialList from '../../SocialList';
 
 const MobileMenu = ({
-  state, actions, isOpen, closeModal, menu,
+  state, actions, libraries, isOpen, closeModal, menu,
 }) => {
   const { lang = 'ru' } = state.theme;
+  const { urlCheck } = libraries.func;
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(menu);
   const toggleItem = (event, index) => {
@@ -92,7 +93,13 @@ const MobileMenu = ({
                           </span>
                         )
                         : (
-                          <Link link={link.url}>
+                          <Link
+                            link={
+                              lang === 'ru'
+                                ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
+                                : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
+                            }
+                          >
                             { link.title }
                           </Link>
                         )
@@ -113,7 +120,14 @@ const MobileMenu = ({
                                 item.subMenu.map((subItem, subIndex) => {
                                   const { link: linkItem = {} } = subItem;
                                   return (
-                                    <Link link={linkItem.url} key={subIndex}>
+                                    <Link
+                                      key={subIndex}
+                                      link={
+                                        lang === 'ru'
+                                          ? urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])
+                                          : `/uk${urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])}`
+                                      }
+                                    >
                                       { linkItem.title }
                                     </Link>
                                   );

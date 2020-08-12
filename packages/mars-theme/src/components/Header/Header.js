@@ -45,6 +45,7 @@ const Header = ({ state, libraries, actions }) => {
   const { header_menu = [] } = acf[lang];
   const { logo = {} } = acf;
   const { imageUrlCheck } = libraries.func;
+  const { urlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const urlImage = imageUrlCheck(logo.url, urlsWithLocal);
 
@@ -114,7 +115,7 @@ const Header = ({ state, libraries, actions }) => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Link link="/">
+            <Link link={lang === 'ru' ? '/' : '/uk'}>
               <Logo src={urlImage} />
             </Link>
             <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
@@ -139,7 +140,18 @@ const Header = ({ state, libraries, actions }) => {
                     const { link = {} } = item;
                     return (
                       !item.subMenu
-                        ? <Link key={index} link={lang === 'ru' ? link.url : `/uk${link.url}`}>{ link.title }</Link>
+                        ? (
+                          <Link
+                            key={index}
+                            link={
+                              lang === 'ru'
+                                ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
+                                : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
+                            }
+                          >
+                            { link.title }
+                          </Link>
+                        )
                         : (
                           <span key={index} onClick={(e) => toggleLinks(e, index)}>
                             { link.title }
