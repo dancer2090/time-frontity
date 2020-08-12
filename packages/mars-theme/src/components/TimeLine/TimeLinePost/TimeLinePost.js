@@ -16,10 +16,9 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
   const { title = '' } = acf[lang];
   const { link = '' } = postContent;
   const linkValue = urlCheck(link, [state.frontity.url, state.frontity.adminUrl]);
-  console.log(linkValue);
   return (
     <Post>
-      <Link link={linkValue}>
+      <Link link={lang === 'ru' ? linkValue : `/ua${linkValue}`}>
         <Category>
           { postContent.category }
         </Category>
