@@ -43,7 +43,7 @@ import Translator from '../../../../components/Translator/Translator';
 const PostTemplate = ({ state, libraries }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
-
+  const fullPostUrl = `${state.frontity.url}${state.router.link}`;
   // get Data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
@@ -55,7 +55,6 @@ const PostTemplate = ({ state, libraries }) => {
   const linksCategory = state.router.link.split('/');
   const categoryPost = linksCategory[1];
   const categoryData = state.source.get(`/${categoryPost}/`);
-  console.log(state);
   const category = state.source.category[categoryData.id];
   const { acf: acfCategory = {} } = category;
   const { title: categoryName = '' } = acfCategory[lang];
@@ -129,7 +128,7 @@ const PostTemplate = ({ state, libraries }) => {
 
             <TabsWrapper>
               <TabsPost />
-              <Shared />
+              <Shared link={fullPostUrl} />
             </TabsWrapper>
             <AuthorInformation>
               <Link link={authorLink}>
@@ -144,7 +143,7 @@ const PostTemplate = ({ state, libraries }) => {
                 <MobileCommentsIco name="comments" />
                 <MobileCommentCount>999</MobileCommentCount>
               </MobileComments>
-              <Shared />
+              <Shared link={fullPostUrl} />
             </MobileEvents>
 
             {/* mobile comments modal */}

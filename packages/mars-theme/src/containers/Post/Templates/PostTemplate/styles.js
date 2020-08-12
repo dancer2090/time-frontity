@@ -9,6 +9,7 @@ import Title from '../../../../components/Title';
 export const Wrapper = styled.div`
   width: 100%;
   padding-top: 21px;
+  padding-bottom: 20px;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding-top: 15px;
@@ -596,7 +597,6 @@ export const FullBanner = styled.div`
   width: 100%;
   height: 258px;
   background: #C4C4C4;
-  margin-bottom: 80px;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     display: none;
