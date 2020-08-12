@@ -31,7 +31,7 @@ const RelatedNewsCard = ({ data, state, libraries }) => {
         <FrameImage src={postUrl} />
       </Frame>
       <Content>
-        <Link link={data.link}>
+        <Link link={lang === 'ru' ? data.link : `/uk/${data.link}`}>
           <Html2React html={title} />
         </Link>
       </Content>
