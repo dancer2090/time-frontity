@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'frontity';
 import {
@@ -201,8 +201,13 @@ const MainTemplate = ({ state, libraries }) => {
     if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
   };
 
-
   const { acf = {} } = post;
+
+  useEffect(() => {
+    const mainData = axios.get(`${state.source.api}/frontity-api/get-main`);
+    const main = mainData.data;
+    Object.assign(state.source.data[state.router.link], main);
+  }, []);
 
   return (
     <Wrapper>
