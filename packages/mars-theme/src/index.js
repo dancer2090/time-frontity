@@ -10,24 +10,30 @@ import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace } from './utils/func';
 
 const newHandler = {
-  name: "categoryOrPostType",
+  name: 'categoryOrPostType',
   priority: 19,
-  pattern: "/(.*)?/:slug", 
-  func: async ({ route, params, state, libraries }) => {
+  pattern: '/(.*)?/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
     // 1. try with category.
     try {
       const category = libraries.source.handlers.find(
-        handler => handler.name == "category"
+        (handler) => handler.name == 'category',
       );
-      await category.func({ route, params, state, libraries });
+      await category.func({
+        route, params, state, libraries,
+      });
     } catch (e) {
       // It's not a category
       const postType = libraries.source.handlers.find(
-        handler => handler.name == "post type"
+        (handler) => handler.name == 'post type',
       );
-      await postType.func({ link: route, params, state, libraries });
+      await postType.func({
+        link: route, params, state, libraries,
+      });
     }
-  }
+  },
 };
 
 const UkMainHandler = {
@@ -37,24 +43,24 @@ const UkMainHandler = {
   func: async ({
     route, params, state, libraries,
   }) => {
-      // Get the posts from those categories.
-      const postsResponse = await libraries.source.api.get({
-        endpoint: "pages",
-        params: { slug: 'main', _embed: true }
-      });
-      const alt_page = await libraries.source.populate({
-        state,
-        response: postsResponse
-      });
-      alt_page[0].isHome = true;
-      alt_page[0].isPage = true;
-      alt_page[0].isPostType = true;
-      state.theme.lang = "uk";
-      //const total = libraries.source.getTotal(postsResponse);
-      //const totalPages = libraries.source.getTotalPages(postsResponse);
+    // Get the posts from those categories.
+    const postsResponse = await libraries.source.api.get({
+      endpoint: 'pages',
+      params: { slug: 'main', _embed: true },
+    });
+    const alt_page = await libraries.source.populate({
+      state,
+      response: postsResponse,
+    });
+    alt_page[0].isHome = true;
+    alt_page[0].isPage = true;
+    alt_page[0].isPostType = true;
+    state.theme.lang = 'uk';
+    // const total = libraries.source.getTotal(postsResponse);
+    // const totalPages = libraries.source.getTotalPages(postsResponse);
 
-      // Populate state.source.data with the proper info about this URL.
-      Object.assign(state.source.data[route], alt_page[0]);
+    // Populate state.source.data with the proper info about this URL.
+    Object.assign(state.source.data[route], alt_page[0]);
   },
 };
 
@@ -65,72 +71,71 @@ const UkMainHandler2 = {
   func: async ({
     route, params, state, libraries,
   }) => {
-      if(params.slug!=='css2'){
-        state.theme.lang = "uk";
-        //Check page
-        const postsResponse = await libraries.source.api.get({
-          endpoint: "pages",
-          params: { slug: params.slug, _embed: true }
+    if (params.slug !== 'css2') {
+      state.theme.lang = 'uk';
+      // Check page
+      const postsResponse = await libraries.source.api.get({
+        endpoint: 'pages',
+        params: { slug: params.slug, _embed: true },
+      });
+      const alt_page = await libraries.source.populate({
+        state,
+        response: postsResponse,
+      });
+      if (alt_page.length > 0) {
+        alt_page[0].isPage = true;
+        alt_page[0].isPostType = true;
+        Object.assign(state.source.data[route], alt_page[0]);
+      } else {
+        // Check category
+        const postsResponse2 = await libraries.source.api.get({
+          endpoint: 'categories',
+          params: { slug: params.slug, _embed: true },
         });
-        const alt_page = await libraries.source.populate({
+        const alt_page2 = await libraries.source.populate({
           state,
-          response: postsResponse
+          response: postsResponse2,
         });
-        if(alt_page.length>0){
-          alt_page[0].isPage = true;
-          alt_page[0].isPostType = true;
-          Object.assign(state.source.data[route], alt_page[0]);
-        } else {
-          //Check category
-          const postsResponse2 = await libraries.source.api.get({
-            endpoint: "categories",
-            params: { slug: params.slug, _embed: true }
+        if (alt_page2.length > 0) {
+          alt_page2[0].isArchive = true;
+          alt_page2[0].isCategory = true;
+          alt_page2[0].isTaxonomy = true;
+          alt_page2[0].taxonomy = 'category';
+
+          // Get the posts from those categories.
+          const postsResponse3 = await libraries.source.api.get({
+            endpoint: 'posts',
+            params: { categories: alt_page2.id, _embed: true },
           });
-          const alt_page2 = await libraries.source.populate({
+          const items = await libraries.source.populate({
             state,
-            response: postsResponse2
+            response: postsResponse3,
           });
-          if(alt_page2.length>0){
-            alt_page2[0].isArchive = true;
-            alt_page2[0].isCategory = true;
-            alt_page2[0].isTaxonomy = true;
-            alt_page2[0].taxonomy =  "category";
+          const total = libraries.source.getTotal(postsResponse3);
+          const totalPages = libraries.source.getTotalPages(postsResponse3);
+          alt_page2[0].items = items;
+          alt_page2[0].total = total;
+          alt_page2[0].totalPages = totalPages;
 
-            // Get the posts from those categories.
-            const postsResponse3 = await libraries.source.api.get({
-              endpoint: "posts",
-              params: { categories: alt_page2.id, _embed: true }
-            });
-            const items = await libraries.source.populate({
-              state,
-              response: postsResponse3
-            });
-            const total = libraries.source.getTotal(postsResponse3);
-            const totalPages = libraries.source.getTotalPages(postsResponse3);
-            alt_page2[0].items =  items;
-            alt_page2[0].total =  total;
-            alt_page2[0].totalPages =  totalPages;
-
-            Object.assign(state.source.data[route], alt_page2[0]);
-          } else {
-            //Check post
-            const postsResponse4 = await libraries.source.api.get({
-              endpoint: "posts",
-              params: { slug: params.slug, _embed: true }
-            });
-            const alt_page4 = await libraries.source.populate({
-              state,
-              response: postsResponse4
-            });
-            alt_page4[0].isPostType = true;
-            alt_page4[0].isPost = true;
-            Object.assign(state.source.data[route], alt_page4[0]);
-          }
+          Object.assign(state.source.data[route], alt_page2[0]);
+        } else {
+          // Check post
+          const postsResponse4 = await libraries.source.api.get({
+            endpoint: 'posts',
+            params: { slug: params.slug, _embed: true },
+          });
+          const alt_page4 = await libraries.source.populate({
+            state,
+            response: postsResponse4,
+          });
+          alt_page4[0].isPostType = true;
+          alt_page4[0].isPost = true;
+          Object.assign(state.source.data[route], alt_page4[0]);
         }
       }
+    }
   },
 };
-
 
 
 const marsTheme = {
@@ -148,7 +153,8 @@ const marsTheme = {
      * relevant state. It is scoped to the `theme` namespace.
      */
     customSettings: {
-      pageNumber: 2,
+      actualNumberPage: 2,
+      lastNumberPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -156,13 +162,13 @@ const marsTheme = {
       isCommentSend: false,
       sendFormGuide: false,
       isThanksOpen: true,
-      blogLoadMore: false,
+      actualLoadMore: false,
+      lastLoadMore: false,
     },
     theme: {
       menu: {},
       cases: {},
       teammembers: {},
-      faq: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
       featured: {
@@ -284,8 +290,8 @@ const marsTheme = {
       beforeSSR: async ({ state, actions, libraries }) => {
         actions.theme.alternativeUrlForImage();
         if (
-          state.router.link.includes('/') ||
-          state.router.link.includes('/uk/')
+          state.router.link.includes('/')
+          || state.router.link.includes('/uk/')
         ) {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;

@@ -1,4 +1,4 @@
-import { styled } from 'frontity';
+import { styled, css } from 'frontity';
 
 export const StyledButton = styled.button`
   height: 46px;
@@ -17,7 +17,9 @@ export const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
   transition: all .3s ease-in-out;
-  
+  ${(props) => props.hidden && css`
+    display: none;
+  `}
   &:before {
     content: "";
     width: calc(100% + 2.5px);

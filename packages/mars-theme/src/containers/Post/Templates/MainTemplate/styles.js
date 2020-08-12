@@ -1,5 +1,5 @@
 import { styled } from 'frontity';
-import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL} from "../../../../const/responsive";
+import { SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL } from '../../../../const/responsive';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding: 24px 0;
+  }
+  
+  .infinite-scroll-component  {
+    overflow: hidden !important;
   }
 `;
 
@@ -232,4 +236,18 @@ export const RightBanner = styled.div`
   height: auto;
   min-height: 350px;
   background: silver;
+`;
+
+export const Loading = styled.span`
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+`;
+
+export const NotLoadPost = styled.span`
+  text-align: center;
+  display: block;
+  font-weight: bold;
+  margin: 10px 0;
 `;

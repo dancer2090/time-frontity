@@ -15,6 +15,7 @@ import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
 
 const NewsCard = ({ className, state, libraries, item={} }) => {
+  const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const urlImage = imageUrlCheck(cardImg, urlsWithLocal);
@@ -55,7 +56,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
   const date = new Date(itemDate);
   const monthDay = date.getDate();
   const month = date.getMonth() + 1;
-  const mothValue = months[month - 1];
+  const mothValue = months[state.theme.lang][month - 1];
 
   const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
 
@@ -65,7 +66,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
         <Frame src={itemImage.url} />
       </FrameBlock>
       <Content>
-        <Link link={itemLink}>
+        <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
           {itemMeta[state.theme.lang].title}
         </Link>
         <Information>

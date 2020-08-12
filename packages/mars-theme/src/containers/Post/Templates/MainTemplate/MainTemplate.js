@@ -22,6 +22,8 @@ import {
   AnalyticNews,
   TextPostList,
   RightBanner,
+  Loading,
+  NotLoadPost,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
@@ -32,123 +34,15 @@ import Button from '../../../../components/Button';
 import TextPost from './TextPost';
 import TimeLine from '../../../../components/TimeLine';
 import bigImg from '../../../../img/pic.jpg';
-
-import timeLogo from '../../../../img/time-logo.png';
-import people from '../../../../img/people.jpg';
-
-const timeLineData = [
-  {
-    date: '17 сентября 2020, воскресенье',
-    posts: [
-      {
-        time: '12:00',
-        resourceImage: timeLogo,
-        post: {
-          image: people,
-          category: 'Культура',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'photo',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'video',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-  {
-    date: '18 декабря 2021, воскресенье',
-    posts: [
-      {
-        time: '12:00',
-        resourceImage: timeLogo,
-        post: {
-          image: people,
-          category: 'Культура',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'photo',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'video',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-];
-
-const testArray = [1, 2, 3, 4, 5, 6];
+import Translator from '../../../../components/Translator/Translator';
 
 const MainTemplate = ({ state, libraries }) => {
   console.log(state);
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
+  const [loadMoreHidden, setLoadMoreHidden] = useState(false);
+  const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
+
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -156,6 +50,8 @@ const MainTemplate = ({ state, libraries }) => {
 
   const dataP = state.source.get(state.router.link);
   const post = state.source[dataP.type][dataP.id];
+  const totalPages = Math.floor(dataP.countActual / 6);
+  const totalPagesLastPost = Math.floor(dataP.countLast / 10);
 
   const {
     actual = [],
@@ -168,6 +64,7 @@ const MainTemplate = ({ state, libraries }) => {
     _embedded: bannerEmbed = {},
     link: bannerLink = '',
     acf: bannerAcf = {},
+    ID: bannerId = '',
   } = bannerPost;
   const {
     featured_image: bannerImage = { url: '' },
@@ -181,10 +78,30 @@ const MainTemplate = ({ state, libraries }) => {
     ru: bannerRu,
   };
 
+  const loadMore1 = () => {
+    state.customSettings.actualLoadMore = true;
+
+    const config = {
+      cat_minus: '-28, -7',
+      post_minus: bannerId,
+    };
+    axios.get(
+      `${state.source.api}/frontity-api/get-actual/page/${state.customSettings.actualNumberPage}`,
+      config,
+    ).then((response) => {
+      const items = response.data;
+      state.source.data[state.router.link].actual.push(...items);
+      state.customSettings.actualNumberPage += 1;
+    });
+
+    if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
+  };
+
   const { acf = {} } = post;
   const formatTime = (valueDate) => {
     const date = new Date(valueDate);
-    return `${date.getHours()}:${date.getMinutes()}`;
+    const minute = date.getMinutes();
+    return `${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
   };
 
   const formatDate = (valueDate) => {
@@ -203,9 +120,9 @@ const MainTemplate = ({ state, libraries }) => {
 
   const loadData = () => {
     const allPosts = [...last];
-    const data = lastPost.concat(allPosts);
+    const data = allPosts;
     const resultsData = [];
-    data.forEach((item) => {
+    allPosts.forEach((item) => {
       const date = formatDate(item.date);
       const result = [];
       data.forEach((element) => {
@@ -243,27 +160,31 @@ const MainTemplate = ({ state, libraries }) => {
   };
 
   useEffect(() => {
+    const mainData = axios.get(`${state.source.api}/frontity-api/get-main`);
+    const main = mainData.data;
+    Object.assign(state.source.data[state.router.link], main);
+
     loadData();
   }, []);
 
-  console.log(last);
   const fetchMoreData = () => {
-    state.customSettings.actualLoadMore = true;
+    state.customSettings.lastLoadMore = true;
 
     const config = {
-      cat_minus : '-28, -14',
-      post_minus : bannerId
+      cat_minus: '-28, -14',
+      post_minus: bannerId,
     };
     axios.get(
-      `${state.source.api}/frontity-api/get-last/page/${state.customSettings.actualNumberPage}`,
-      config
+      `${state.source.api}/frontity-api/get-last/page/${state.customSettings.lastNumberPage}`,
+      config,
     ).then((response) => {
       const items = response.data;
-      state.source.data[state.router.link].actual.push(...items);
-      state.customSettings.actualNumberPage += 1;
+      state.source.data[state.router.link].last.push(...items);
+      state.customSettings.lastNumberPage += 1;
+      loadData();
     });
 
-    if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
+    if (state.customSettings.lastNumberPage - 1 === totalPagesLastPost) setLoadMoreTimeLine(true);
   };
 
   return (
@@ -298,15 +219,15 @@ const MainTemplate = ({ state, libraries }) => {
           </Title>
           <NewsListRow>
             {
-              actual.map((item) => (
-                <NewsListCol key={item.ID}>
+              actual.map((item, index) => (
+                <NewsListCol key={index}>
                   <NewsCard item={item} />
                 </NewsListCol>
               ))
             }
           </NewsListRow>
           <NewsLoad>
-            <Button>
+            <Button hidden={loadMoreHidden} onClick={() => loadMore1()}>
               загрузить еще новости
             </Button>
           </NewsLoad>
@@ -318,10 +239,14 @@ const MainTemplate = ({ state, libraries }) => {
               последние новости
             </Title>
             <InfiniteScroll
-              dataLength={lastPost.length}
+              dataLength={last.length}
               next={fetchMoreData}
-              hasMore
-              loader={<h4>Loading...</h4>}
+              hasMore={!loadMoreTimeLine}
+              scrollThreshold={0.5}
+              loader={<Loading><Translator id="loading" /></Loading>}
+              endMessage={(
+                <NotLoadPost><Translator id="notPost" /></NotLoadPost>
+              )}
             >
               {
                 lastPost.map((item, index) => (
@@ -339,8 +264,8 @@ const MainTemplate = ({ state, libraries }) => {
             </Title>
             <TextPostList>
               {
-                testArray.map((item) => (
-                  <TextPost key={item} />
+                analytic.map((item, index) => (
+                  <TextPost key={index} item={item} />
                 ))
               }
             </TextPostList>
