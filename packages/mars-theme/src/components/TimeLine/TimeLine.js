@@ -34,7 +34,6 @@ const TimeLine = ({
             data.posts.map((item, index) => {
               const { post = {} } = item;
               const { type = 'default' } = post;
-
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <Row key={index} type={type}>

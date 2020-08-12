@@ -20,7 +20,7 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
           { postContent.category }
         </Category>
         <Text>
-          <Html2React html={acf[lang].title} />
+          123123123
         </Text>
       </Link>
     </Post>

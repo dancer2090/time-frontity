@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'frontity';
+import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   Wrapper,
@@ -35,7 +36,6 @@ import bigImg from '../../../../img/pic.jpg';
 import timeLogo from '../../../../img/time-logo.png';
 import people from '../../../../img/people.jpg';
 
-const testArray = [1, 2, 3, 4, 5, 6];
 const timeLineData = [
   {
     date: '17 сентября 2020, воскресенье',
@@ -143,15 +143,43 @@ const timeLineData = [
   },
 ];
 
+const testArray = [1, 2, 3, 4, 5, 6];
+
 const MainTemplate = ({ state, libraries }) => {
+  console.log(state);
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
+  const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
-  const dataP = state.source.get(state.router.link.replace('/ru/', ''));
+  const dataP = state.source.get(state.router.link);
   const post = state.source[dataP.type][dataP.id];
+
+  const {
+    actual = [],
+    analytic = [],
+    last = [],
+    banner = {},
+  } = dataP;
+  const { post: bannerPost = {} } = banner;
+  const {
+    _embedded: bannerEmbed = {},
+    link: bannerLink = '',
+    acf: bannerAcf = {},
+  } = bannerPost;
+  const {
+    featured_image: bannerImage = { url: '' },
+  } = bannerEmbed;
+  const {
+    uk: bannerUk = { title: '', content: '' },
+    ru: bannerRu = { title: '', content: '' },
+  } = bannerAcf;
+  const bannerMeta = {
+    uk: bannerUk,
+    ru: bannerRu,
+  };
 
   const { acf = {} } = post;
   const formatTime = (valueDate) => {
@@ -174,57 +202,68 @@ const MainTemplate = ({ state, libraries }) => {
   };
 
   const loadData = () => {
-    const allPosts = state.source.get(`/poslednie-novosti/page/${page}`);
-    if (allPosts.items) {
-      const resultPost = allPosts.items.map((item) => {
-        const result = state.source.get(item.link);
-        return state.source[result.type][result.id];
-      });
-      const data = lastPost.concat(resultPost);
-      const resultsData = [];
-      data.forEach((item) => {
-        const date = formatDate(item.date);
-        const result = [];
-        data.forEach((element) => {
-          if (formatDate(element.date) === date) {
-            result.push({
-              time: formatTime(element.date),
-              date: formatDate(element.date),
-              post: {
-                ...element,
-              },
-            });
-          }
-        });
-
-        if (resultsData.length === 0) {
-          resultsData.push(result);
-        } else {
-          resultsData.forEach((el) => {
-            if (JSON.stringify(el) !== JSON.stringify(result)) {
-              resultsData.push(result);
-            }
+    const allPosts = [...last];
+    const data = lastPost.concat(allPosts);
+    const resultsData = [];
+    data.forEach((item) => {
+      const date = formatDate(item.date);
+      const result = [];
+      data.forEach((element) => {
+        if (formatDate(element.date) === date) {
+          result.push({
+            time: formatTime(element.date),
+            date: formatDate(element.date),
+            post: {
+              ...element,
+            },
           });
         }
       });
-      const dataArray = resultsData.map((item) => {
-        return {
-          date: item[0].date,
-          posts: item,
-        };
-      });
+      if (resultsData.length === 0) {
+        resultsData.push(result);
+      } else {
+        const filterArray = resultsData.filter((el) => {
+          if (JSON.stringify(el) === JSON.stringify(result)) {
+            return true;
+          }
+        });
 
-      setLastPost(dataArray);
-      setPage(page + 1);
-    }
+        if (filterArray.length === 0) {
+          resultsData.push(result);
+        }
+      }
+    });
+    const dataArray = resultsData.map((item) => ({
+      date: item[0].date,
+      posts: item,
+    }));
+
+    setLastPost(dataArray);
+    setPage(page + 1);
   };
 
   useEffect(() => {
     loadData();
   }, []);
 
+  console.log(last);
   const fetchMoreData = () => {
-    loadData();
+    state.customSettings.actualLoadMore = true;
+
+    const config = {
+      cat_minus : '-28, -14',
+      post_minus : bannerId
+    };
+    axios.get(
+      `${state.source.api}/frontity-api/get-last/page/${state.customSettings.actualNumberPage}`,
+      config
+    ).then((response) => {
+      const items = response.data;
+      state.source.data[state.router.link].actual.push(...items);
+      state.customSettings.actualNumberPage += 1;
+    });
+
+    if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
   };
 
   return (
@@ -240,12 +279,11 @@ const MainTemplate = ({ state, libraries }) => {
         <BigNewsWrapper>
           <BigNews>
             <BigFrame>
-              <BigImage src={bigImgUrl} />
+              <BigImage src={bannerImage.url} />
             </BigFrame>
             <BigContent>
-              <Link link="#">
-                Є важливий індикатор: в Кабміні розповіли,
-                коли ЄС може знову відкрити кордони для українців
+              <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
+                {bannerMeta[state.theme.lang].title}
               </Link>
             </BigContent>
           </BigNews>
@@ -260,9 +298,9 @@ const MainTemplate = ({ state, libraries }) => {
           </Title>
           <NewsListRow>
             {
-              testArray.map((item) => (
-                <NewsListCol key={item}>
-                  <NewsCard />
+              actual.map((item) => (
+                <NewsListCol key={item.ID}>
+                  <NewsCard item={item} />
                 </NewsListCol>
               ))
             }
