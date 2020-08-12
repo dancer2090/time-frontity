@@ -287,9 +287,9 @@ const marsTheme = {
           state.router.link.includes('/') ||
           state.router.link.includes('/uk/')
         ) {
-          await actions.source.fetch('/aktualnoe-segodnya/');
-          await actions.source.fetch('/poslednie-novosti/');
-          await actions.source.fetch('/analitika/');
+          const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
+          const main = mainData.data;
+          Object.assign(state.source.data[state.router.link], main);
         }
       },
     },

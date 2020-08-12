@@ -34,7 +34,6 @@ import bigImg from '../../../../img/pic.jpg';
 import timeLogo from '../../../../img/time-logo.png';
 import people from '../../../../img/people.jpg';
 
-const testArray = [1, 2, 3, 4, 5, 6];
 const timeLineData = [
   {
     date: '17 сентября 2020, воскресенье',
@@ -142,13 +141,40 @@ const timeLineData = [
   },
 ];
 
+const testArray = [1, 2, 3, 4, 5, 6];
+
 const MainTemplate = ({ state, libraries }) => {
+  const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
-  const dataP = state.source.get(state.router.link.replace("/ru/",""));
+  const dataP = state.source.get(state.router.link);
   const post = state.source[dataP.type][dataP.id];
+
+  const {
+    actual = [],
+    analytic = [],
+    last = [],
+    banner = {},
+  } = dataP;
+  const { post : bannerPost = {} } = banner;
+  const {
+    _embedded : bannerEmbed = {},
+    link : bannerLink = "",
+    acf : bannerAcf = {},
+  } = bannerPost;
+  const {
+    featured_image : bannerImage = { url : "" }
+  } = bannerEmbed;
+  const {
+    uk : bannerUk = { title : "", content : "" },
+    ru : bannerRu = { title : "", content : "" },
+  } = bannerAcf;
+  const bannerMeta = {
+    'uk' : bannerUk,
+    'ru' : bannerRu,
+  };
 
   const { acf = {} } = post;
 
@@ -165,12 +191,11 @@ const MainTemplate = ({ state, libraries }) => {
         <BigNewsWrapper>
           <BigNews>
             <BigFrame>
-              <BigImage src={bigImgUrl} />
+              <BigImage src={bannerImage.url} />
             </BigFrame>
             <BigContent>
-              <Link link="#">
-                Є важливий індикатор: в Кабміні розповіли,
-                коли ЄС може знову відкрити кордони для українців
+              <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
+                {bannerMeta[state.theme.lang].title}
               </Link>
             </BigContent>
           </BigNews>
@@ -185,9 +210,9 @@ const MainTemplate = ({ state, libraries }) => {
           </Title>
           <NewsListRow>
             {
-              testArray.map((item) => (
-                <NewsListCol key={item}>
-                  <NewsCard />
+              actual.map((item) => (
+                <NewsListCol key={item.ID}>
+                  <NewsCard item={item}/>
                 </NewsListCol>
               ))
             }
