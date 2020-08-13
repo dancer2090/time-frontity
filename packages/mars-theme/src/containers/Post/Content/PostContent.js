@@ -11,6 +11,7 @@ const PostContent = ({ state, scrollRef = null }) => (
     <MainTemplate scrollRef={scrollRef} when={state.router.link === '/'} />
     <CategoryTemplate scrollRef={scrollRef} when={state.router.link === '/category/'} />
     <PostTemplate scrollRef={scrollRef} when={state.router.link === '/post/'} />
+    <PersonTemplate scrollRef={scrollRef} when={state.router.link === '/person/'} />
   </Switch>
 );
 
