@@ -38,9 +38,9 @@ import NewsCard from '../../../../components/NewsCard';
 import Button from '../../../../components/Button';
 import TextPost from './TextPost';
 import TimeLine from '../../../../components/TimeLine';
-import bigImg from '../../../../img/pic.jpg';
 import Translator from '../../../../components/Translator/Translator';
-import { formatDate } from '../../../../utils/formatDate';
+// eslint-disable-next-line import/named
+import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 
 const MainTemplate = ({ state, libraries, actions }) => {
   const [page, setPage] = useState(1);
@@ -50,9 +50,6 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
   const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
-  const { imageUrlCheck } = libraries.func;
-  const { urlsWithLocal = {} } = state.customSettings;
-  const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
   // link pdf file download
   const {
@@ -64,6 +61,8 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
   //  load page data
   const dataP = state.source.get(state.router.link);
+  const totalPages = Math.floor(dataP.countActual / 6);
+  const totalPagesLastPost = Math.floor(dataP.countLast / 10);
   const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
 
   const {
@@ -116,50 +115,8 @@ const MainTemplate = ({ state, libraries, actions }) => {
     if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
   };
 
-  const { acf = {} } = post;
-  const formatTime = (valueDate) => {
-    const date = new Date(valueDate);
-    const minute = date.getMinutes();
-    return `${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
-  };
-
   const loadData = () => {
-    const allPosts = [...last];
-    const data = allPosts;
-    const resultsData = [];
-    allPosts.forEach((item) => {
-      const date = formatDate(lang, item.date);
-      const result = [];
-      data.forEach((element) => {
-        if (formatDate(lang, element.date) === date) {
-          result.push({
-            time: formatTime(element.date),
-            date: formatDate(lang, element.date),
-            post: {
-              ...element,
-            },
-          });
-        }
-      });
-      if (resultsData.length === 0) {
-        resultsData.push(result);
-      } else {
-        const filterArray = resultsData.filter((el) => {
-          if (JSON.stringify(el) === JSON.stringify(result)) {
-            return true;
-          }
-        });
-
-        if (filterArray.length === 0) {
-          resultsData.push(result);
-        }
-      }
-    });
-    const dataArray = resultsData.map((item) => ({
-      date: item[0].date,
-      posts: item,
-    }));
-
+    const dataArray = filterNewsTimeLine(lang, last);
     setLastPost(dataArray);
     setPage(page + 1);
   };

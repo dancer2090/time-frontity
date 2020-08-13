@@ -14,7 +14,7 @@ import Link from '../link';
 import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
 
-const NewsCard = ({ className, state, libraries, item={} }) => {
+const NewsCard = ({ className, state, libraries, item = {} }) => {
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
