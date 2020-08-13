@@ -4,6 +4,7 @@ import Switch from '@frontity/components/switch';
 import MainTemplate from '../Templates/MainTemplate';
 import CategoryTemplate from '../Templates/CategoryTemplate';
 import PostTemplate from '../Templates/PostTemplate';
+import PersonTemplate from '../Templates/PersonTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => (
   <Switch>
