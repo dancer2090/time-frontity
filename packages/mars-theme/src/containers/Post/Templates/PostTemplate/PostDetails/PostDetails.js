@@ -17,7 +17,13 @@ import Shared from '../../../../../components/Shared';
 import urk from '../../../../../img/urk-net.png';
 
 const PostDetails = ({
-  className, showShared = true, showResources = true, date = '', category = '', state,
+  className,
+  showShared = true,
+  showResources = true,
+  date = '',
+  category = '',
+  state,
+  eyeCount = '0',
 }) => {
   const fullPostUrl = `${state.frontity.url}${state.router.link}`;
 
@@ -32,7 +38,7 @@ const PostDetails = ({
         </DateValue>
         <FlexCenter>
           <IconEye name="eye" />
-          <Counter>999</Counter>
+          <Counter>{ eyeCount }</Counter>
         </FlexCenter>
         <FlexCenter>
           <IconComments name="comments" />

@@ -24,7 +24,7 @@ const HeaderNews = ({
   // data
   const { acf = {} } = data;
   const { title = '' } = acf[lang];
-
+  const { views = '0' } = acf;
   const date = formatDatePost(lang, data.date);
 
   return (
@@ -32,7 +32,12 @@ const HeaderNews = ({
       <Title>
         <Html2React html={title} />
       </Title>
-      <GPostDetails date={date} category={category} showResources={false} />
+      <GPostDetails
+        date={date}
+        category={category}
+        showResources={false}
+        eyeCount={views}
+      />
       <BigPhotoBlock>
         <BigPhoto>
           <BigPhotoImage src={frameUrl} />

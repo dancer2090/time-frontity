@@ -17,8 +17,6 @@ import SocialList from '../../../../components/SocialList';
 import Title from '../../../../components/Title';
 import NewsCardPreview from '../../../../components/NewsCardPreview';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
-import timeLogo from '../../../../img/time-logo.png';
-import people from '../../../../img/people.jpg';
 import Translator from '../../../../components/Translator/Translator';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 import { Loading, NotLoadPost } from '../MainTemplate/styles';

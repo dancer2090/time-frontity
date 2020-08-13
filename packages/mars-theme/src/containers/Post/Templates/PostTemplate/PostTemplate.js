@@ -50,7 +50,6 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
   const { content = '' } = acf[lang];
-
   // category post
   const linksCategory = state.router.link.split('/');
   let categoryPost = linksCategory[1];
@@ -115,7 +114,6 @@ const PostTemplate = ({ state, libraries, actions }) => {
         );
     }
   };
-  console.log(state);
 
   return (
     <Wrapper>
