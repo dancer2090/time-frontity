@@ -4,4 +4,5 @@ export default {
   followUs: 'Стежте за нами в соц. мережах',
   noComments: 'Коментарів не додано',
   sendCommentsMessage: 'Коментар відправлено на перевірку',
+  actualToday: 'Актуальне сьогодні',
 };

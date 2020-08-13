@@ -270,8 +270,11 @@ const marsTheme = {
         }
 
         const linksCategory = state.router.link.split('/');
-        if (linksCategory.length === 4) {
-          const categoryPost = linksCategory[1];
+        if (linksCategory.length === 4 || linksCategory.length === 5) {
+          let categoryPost = linksCategory[1];
+          if (state.theme.lang === 'uk') {
+            categoryPost = linksCategory[2];
+          }
           await actions.source.fetch(`/${categoryPost}/`);
         }
       },
