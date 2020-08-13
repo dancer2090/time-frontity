@@ -49,6 +49,7 @@ const PostTemplate = ({ state, libraries }) => {
   const post = state.source[data.type][data.id];
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
+  console.log(post);
   const { content = '' } = acf[lang];
 
   // category post
