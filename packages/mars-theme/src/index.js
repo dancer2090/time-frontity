@@ -264,9 +264,12 @@ const marsTheme = {
           state.router.link.includes('/')
           || state.router.link.includes('/uk/')
         ) {
+          actions.theme.getMain();
+          /*
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+          */
         }
 
         const linksCategory = state.router.link.split('/');
