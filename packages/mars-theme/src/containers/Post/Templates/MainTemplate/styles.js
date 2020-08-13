@@ -12,6 +12,10 @@ export const Wrapper = styled.div`
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding: 24px 0;
   }
+  
+  .infinite-scroll-component  {
+    overflow: hidden !important;
+  }
 `;
 
 export const SocialsWrapper = styled.div`
@@ -41,6 +45,8 @@ export const RightTopWrapper = styled.div`
 export const PdfWrapper = styled.div`
   position: relative;
 `;
+
+export const PdfLink = styled.a``;
 
 export const PdfIcon = styled(SvgSprite)`
   cursor: pointer;
@@ -187,6 +193,10 @@ export const NewsListRow = styled.div`
   flex-wrap: wrap;
   margin-right: -33px;
   
+  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+    margin-right: -10px;
+  }
+
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-right: 0;
   }
@@ -197,6 +207,11 @@ export const NewsListCol = styled.div`
   margin-right: 33px;
   margin-bottom: 33px;
   
+  @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+    width: calc((100% / 3) - 10px);
+    margin-right: 10px;
+  }
+
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     width: calc((100% / 2) - 33px);
   }
@@ -204,9 +219,6 @@ export const NewsListCol = styled.div`
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     width: 100%;
     margin-right: 0;
-  }
-  
-  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-bottom: 14px;
   }
 `;
@@ -270,4 +282,18 @@ export const RightBanner = styled.div`
   height: auto;
   min-height: 350px;
   background: silver;
+`;
+
+export const Loading = styled.span`
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+`;
+
+export const NotLoadPost = styled.span`
+  text-align: center;
+  display: block;
+  font-weight: bold;
+  margin: 10px 0;
 `;

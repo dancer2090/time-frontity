@@ -4,7 +4,7 @@ import {
   Text,
 } from './styled';
 
-const Title = ({ children, size = 'default', className }) => (
+const Title = ({ className, children, size = 'default' }) => (
   <TitleBlock className={className} size={size}>
     <Text>{ children }</Text>
   </TitleBlock>

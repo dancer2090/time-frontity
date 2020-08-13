@@ -9,27 +9,36 @@ import {
   BigPhotoDescription,
   BigPhotoImage,
 } from './styles';
-import post from '../../../../../img/post.jpg';
+import { formatDatePost } from '../../../../../utils/formatDate';
 
-const HeaderNews = ({ state, libraries }) => {
+const HeaderNews = ({
+  data, category, state, libraries, image, caption,
+}) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  const { lang = 'ru' } = state.theme;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const postUrl = imageUrlCheck(post, urlsWithLocal);
+  const frameUrl = imageUrlCheck(image, urlsWithLocal);
+
+  // data
+  const { acf = {} } = data;
+  const { title = '' } = acf[lang];
+
+  const date = formatDatePost(lang, data.date);
 
   return (
     <Wrapper>
       <Title>
-        В Хабаровске десятки тысяч человек вышли на
-        <br />
-        акцию в поддержку Сергея Фургала. Главное
+        <Html2React html={title} />
       </Title>
-      <GPostDetails />
+      <GPostDetails date={date} category={category} showResources={false} />
       <BigPhotoBlock>
         <BigPhoto>
-          <BigPhotoImage src={postUrl} />
+          <BigPhotoImage src={frameUrl} />
         </BigPhoto>
         <BigPhotoDescription>
-          Фото: Пресс-служба
+          <Html2React html={caption.rendered} />
         </BigPhotoDescription>
       </BigPhotoBlock>
     </Wrapper>

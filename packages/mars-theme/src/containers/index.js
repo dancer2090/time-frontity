@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
+import Header from '../components/Header';
 import Loader from '../components/Loader';
 import Title from '../components/title';
 import Modal from '../components/Modal';
@@ -36,6 +37,12 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
+  const checkFetch = () => {
+    let fetch = false;
+    if(state.customSettings.doLoader && data.isFetching) fetch = true;
+    return fetch;
+  }
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -51,17 +58,17 @@ const Theme = ({ state, actions }) => {
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
         {/* Header components */}
-
+        <Header />
 
         {/* Add the main section. It renders a different component depending
         on the type of URL we are in. */}
 
         <Main>
           <Switch>
-            <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Loader when={checkFetch()} />
+            <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
             <Post scrollRef={formRef} when={state.router.link === '/category/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/post/'} />
+            <Post scrollRef={formRef} when={data.isPostType} />
             <PageError when={data.isError} />
           </Switch>
         </Main>
