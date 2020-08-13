@@ -6,6 +6,10 @@ import {
   Wrapper,
   SocialsWrapper,
   SocialLabel,
+  RightTopWrapper,
+  PdfWrapper,
+  PdfIcon,
+  PdfShow,
   BigNewsWrapper,
   BigNews,
   BigBanner,
@@ -24,6 +28,7 @@ import {
   RightBanner,
   Loading,
   NotLoadPost,
+  PdfLink,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
@@ -49,6 +54,15 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const { urlsWithLocal = {} } = state.customSettings;
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
+  // link pdf file download
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    pdf = '',
+  } = acfOptions[lang];
+
+  //  load page data
   const dataP = state.source.get(state.router.link);
   const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
 
@@ -182,7 +196,15 @@ const MainTemplate = ({ state, libraries, actions }) => {
           <SocialLabel>
             <Translator id="homePageLabelTime" />
           </SocialLabel>
-          <SocialList />
+          <RightTopWrapper>
+            <PdfWrapper>
+              <PdfLink href={pdf} download>
+                <PdfIcon name="pdf-icon" />
+              </PdfLink>
+              <PdfShow>Печатный вариант “Время”</PdfShow>
+            </PdfWrapper>
+            <SocialList />
+          </RightTopWrapper>
         </SocialsWrapper>
 
         <BigNewsWrapper>

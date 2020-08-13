@@ -11,4 +11,5 @@ export default {
   lastNewsTitle: 'Последние новости',
   analiticTitle: 'Аналитика',
   homePageLabelTime: 'Информационное агенство Время',
+  pdfLabelTime: 'Печатный вариант “Время”',
 };

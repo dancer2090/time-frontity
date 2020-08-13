@@ -23,12 +23,20 @@ import {
 } from './styles';
 import Link from '../../link';
 import SocialList from '../../SocialList';
+import Translator from '../../Translator/Translator';
 
 const MobileMenu = ({
   state, actions, libraries, isOpen, closeModal, menu,
 }) => {
   const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
+  // link pdf file download
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    pdf = '',
+  } = acfOptions[lang];
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(menu);
   const toggleItem = (event, index) => {
@@ -147,10 +155,10 @@ const MobileMenu = ({
             <SubcribeBlock>
               <GSubscribe />
             </SubcribeBlock>
-            <DownloadPdf href="file.pdf">
+            <DownloadPdf href={pdf} download target="__blank">
               <DownloadPdfIcon name="pdf" />
               <DownloadPdfLabel>
-                Печатный вариант “Время”
+                <Translator id="pdfLabelTime" />
               </DownloadPdfLabel>
             </DownloadPdf>
             <SocialListBlock>
