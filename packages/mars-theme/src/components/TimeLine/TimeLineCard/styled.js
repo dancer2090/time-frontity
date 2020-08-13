@@ -3,6 +3,12 @@ import SvgSprite from '../../SvgSprite';
 import { SIZE_LAPTOP_SMALL } from '../../../const/responsive';
 
 export const Card = styled.div`
+  ${({ type }) => (
+    type !== 'post'
+      ? 'margin-bottom: 10px;'
+      : null
+  )};
+  
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-bottom: 7px;
   }

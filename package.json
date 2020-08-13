@@ -28,6 +28,7 @@
     "frontity": "^1.6.0",
     "react-google-recaptcha-v3": "^1.5.2",
     "react-id-swiper": "^3.0.0",
+    "react-infinite-scroll-component": "^5.0.5",
     "react-modal": "^3.11.2",
     "react-resize-detector": "^4.2.3",
     "react-spinners": "^0.8.3",

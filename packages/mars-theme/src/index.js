@@ -153,8 +153,8 @@ const marsTheme = {
      * relevant state. It is scoped to the `theme` namespace.
      */
     customSettings: {
-      actualNumberPage : 2,
-      lastNumberPage : 2,
+      actualNumberPage: 2,
+      lastNumberPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
