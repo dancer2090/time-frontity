@@ -203,7 +203,16 @@ const Header = ({ state, libraries, actions }) => {
               linksSubMenu.map((item, index) => {
                 const { link = {} } = item;
                 return (
-                  <Link key={index} link={lang === 'ru' ? link.url : `/uk${link.url}`}>{ link.title }</Link>
+                  <Link
+                    key={index}
+                    link={
+                      lang === 'ru'
+                        ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
+                        : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
+                    }
+                  >
+                    { link.title }
+                  </Link>
                 );
               })
             }
