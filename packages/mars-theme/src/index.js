@@ -164,6 +164,7 @@ const marsTheme = {
       isThanksOpen: true,
       actualLoadMore: false,
       lastLoadMore: false,
+      doLoader: false,
     },
     theme: {
       menu: {},
@@ -184,10 +185,11 @@ const marsTheme = {
   actions: {
     theme: {
       getMain: ({ state }) => async () => {
+        state.customSettings.doLoader = true;
         const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
         const main = mainData.data;
-        console.log(main);
         Object.assign(state.source.data[state.router.link], main);
+        state.customSettings.doLoader = false;
       },
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);

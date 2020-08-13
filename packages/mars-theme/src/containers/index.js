@@ -37,6 +37,12 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
+  const checkFetch = () => {
+    let fetch = false;
+    if(state.customSettings.doLoader && data.isFetching) fetch = true;
+    return fetch;
+  }
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -59,11 +65,10 @@ const Theme = ({ state, actions }) => {
 
         <Main>
           <Switch>
-            <Loader when={data.isFetching} />
+            <Loader when={checkFetch()} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
             <Post scrollRef={formRef} when={state.router.link === '/category/'} />
             <Post scrollRef={formRef} when={data.isPostType} />
-            <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>
