@@ -9,4 +9,5 @@ export default {
   lastNewsTitle: 'Останні новини',
   analiticTitle: 'Аналітика',
   homePageLabelTime: 'Інформаційне агенство "Время"',
+  notNews: 'Новин не додано',
 };

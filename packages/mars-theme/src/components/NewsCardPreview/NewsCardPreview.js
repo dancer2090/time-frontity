@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'frontity';
 import {
   Card,
   FrameBlock,
@@ -6,20 +7,36 @@ import {
   Content,
 } from './styles';
 import Link from '../link';
-import preview from '../../img/card-preview.jpg';
 
-const NewsCardPreview = ({ size }) => (
-  <Card>
-    <FrameBlock size={size}>
-      <FrameImage src={preview} />
-    </FrameBlock>
-    <Content size={size}>
-      <Link link="#">
-        В Хабаровске десятки тысяч человек вышли на
-        акцию в поддержку Сергея Фургала
-      </Link>
-    </Content>
-  </Card>
-);
+const NewsCardPreview = ({
+  state, libraries, data, size,
+}) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  const { urlCheck } = libraries.func;
+  const { imageUrlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
+  const { lang = 'ru' } = state.theme;
+  const {
+    acf = {},
+    link = '',
+  } = data;
+  const { featured_image: imageUrl = '' } = data._embedded;
+  const { url = '' } = imageUrl;
+  const resultImageUrl = imageUrlCheck(url, urlsWithLocal);
+  const { title = '' } = acf[lang];
+  return (
+    <Card>
+      <FrameBlock size={size}>
+        <FrameImage src={resultImageUrl} />
+      </FrameBlock>
+      <Content size={size}>
+        <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
+          <Html2React html={title} />
+        </Link>
+      </Content>
+    </Card>
+  );
+};
 
-export default NewsCardPreview;
+export default connect(NewsCardPreview);

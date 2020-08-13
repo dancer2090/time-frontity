@@ -186,8 +186,11 @@ const marsTheme = {
       getMain: ({ state }) => async () => {
         const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
         const main = mainData.data;
-        console.log(main);
         Object.assign(state.source.data[state.router.link], main);
+      },
+      getCategory: ({ state }) => async (id) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
+        Object.assign(state.source.data[state.router.link], data);
       },
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);

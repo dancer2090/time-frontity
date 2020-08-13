@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'frontity';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   Wrapper,
   TopContainer,
@@ -6,6 +8,7 @@ import {
   TimeLineContainer,
   TimeLineWrapper,
   ItemCard,
+  NotNews,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
@@ -15,6 +18,7 @@ import NewsCardPreview from '../../../../components/NewsCardPreview';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
 import timeLogo from '../../../../img/time-logo.png';
 import people from '../../../../img/people.jpg';
+import Translator from '../../../../components/Translator/Translator';
 
 const timeLineData = [
   {
@@ -123,45 +127,87 @@ const timeLineData = [
   },
 ];
 
-const CategoryTemplate = () => (
-  <Wrapper>
-    <Container>
-      <TopContainer>
-        <Breadcrumbs links={[
-          { name: 'Харків', link: '#' },
-        ]}
-        />
-        <SocialList />
-      </TopContainer>
-      <Title>
-        новости харькова
-      </Title>
-      <ContentWrapper>
-        {
-          [1, 2, 3, 4, 5].map((item, index) => (
-            <ItemCard key={index} index={index}>
-              <NewsCardPreview size={index > 1 ? 'medium' : ''} />
-            </ItemCard>
-          ))
-        }
-      </ContentWrapper>
-      <TimeLineContainer>
-        <Title size="small">
-          Последние новости
-        </Title>
-        <TimeLineWrapper>
-          {
-            timeLineData.map((item, index) => (
-              <TimeLine
-                key={index}
-                data={item}
-              />
-            ))
-          }
-        </TimeLineWrapper>
-      </TimeLineContainer>
-    </Container>
-  </Wrapper>
-);
+const CategoryTemplate = ({ state, actions, libraries }) => {
+  // components state
+  const [lastPost, setLastPost] = useState([]);
+  const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
 
-export default CategoryTemplate;
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  const { lang = 'ru' } = state.theme;
+  const dataCategory = state.source.get(state.router.link);
+  const categoryData = state.source.category[dataCategory.id];
+  const {
+    acf = {
+      uk: { title: '', content: '' },
+      ru: { title: '', content: '' },
+    },
+  } = categoryData;
+  const acfData = Array.isArray(acf) ? {
+    uk: { title: '', content: '' },
+    ru: { title: '', content: '' },
+  } : acf;
+
+  const {
+    title = '',
+  } = acfData[lang];
+  const {
+    timeLine = [],
+    topItems = [],
+  } = dataCategory;
+
+  useEffect(() => {
+    actions.theme.getCategory(dataCategory.id);
+  }, []);
+
+  return (
+    <Wrapper>
+      <Container>
+        <TopContainer>
+          <Breadcrumbs links={[
+            { name: <Html2React html={title} />, link: '#' },
+          ]}
+          />
+          <SocialList />
+        </TopContainer>
+        <Title>
+          <Html2React html={title} />
+        </Title>
+        <ContentWrapper>
+          {
+            topItems.length === 0
+              ? (
+                <NotNews>
+                  <Translator id="notNews" />
+                </NotNews>
+              )
+              : (
+                topItems.map((item, index) => (
+                  <ItemCard key={index} index={index}>
+                    <NewsCardPreview data={item} size={index > 1 ? 'medium' : ''} />
+                  </ItemCard>
+                ))
+              )
+          }
+        </ContentWrapper>
+        <TimeLineContainer>
+          <Title size="small">
+            <Translator id="lastNewsTitle" />
+          </Title>
+          <TimeLineWrapper>
+            {
+              timeLineData.map((item, index) => (
+                <TimeLine
+                  key={index}
+                  data={item}
+                />
+              ))
+            }
+          </TimeLineWrapper>
+        </TimeLineContainer>
+      </Container>
+    </Wrapper>
+  );
+};
+
+export default connect(CategoryTemplate);
