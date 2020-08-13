@@ -61,6 +61,7 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
   useEffect(() => {
     actions.theme.getCategory(dataCategory.id);
     loadTimeLineData();
+    if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
   }, []);
 
   const fetchMoreData = () => {

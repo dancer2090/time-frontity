@@ -18,41 +18,45 @@ import urk from '../../../../../img/urk-net.png';
 
 const PostDetails = ({
   className, showShared = true, showResources = true, date = '', category = '', state,
-}) => (
-  <Wrapper className={className}>
-    <FlexContainer showShared={showShared}>
-      <Category>
-        { category }
-      </Category>
-      <DateValue>
-        { date }
-      </DateValue>
-      <FlexCenter>
-        <IconEye name="eye" />
-        <Counter>999</Counter>
-      </FlexCenter>
-      <FlexCenter>
-        <IconComments name="comments" />
-        <Counter>
-          { state.theme.commentsLength }
-        </Counter>
-      </FlexCenter>
-      {
-        showResources && (
-          <Resources>
-            <ResourcesImage src={urk} />
-          </Resources>
-        )
-      }
-      {
-        showShared && (
-          <SharedBlock>
-            <Shared />
-          </SharedBlock>
-        )
-      }
-    </FlexContainer>
-  </Wrapper>
-);
+}) => {
+  const fullPostUrl = `${state.frontity.url}${state.router.link}`;
+
+  return (
+    <Wrapper className={className}>
+      <FlexContainer showShared={showShared}>
+        <Category>
+          { category }
+        </Category>
+        <DateValue>
+          { date }
+        </DateValue>
+        <FlexCenter>
+          <IconEye name="eye" />
+          <Counter>999</Counter>
+        </FlexCenter>
+        <FlexCenter>
+          <IconComments name="comments" />
+          <Counter>
+            { state.theme.commentsLength }
+          </Counter>
+        </FlexCenter>
+        {
+          showResources && (
+            <Resources>
+              <ResourcesImage src={urk} />
+            </Resources>
+          )
+        }
+        {
+          showShared && (
+            <SharedBlock>
+              <Shared link={fullPostUrl} />
+            </SharedBlock>
+          )
+        }
+      </FlexContainer>
+    </Wrapper>
+  );
+};
 
 export default connect(PostDetails);
