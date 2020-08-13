@@ -34,6 +34,7 @@ import bigImg from '../../../../img/pic.jpg';
 
 import timeLogo from '../../../../img/time-logo.png';
 import people from '../../../../img/people.jpg';
+import Translator from "../../../../components/Translator/Translator";
 
 const timeLineData = [
   {
@@ -212,7 +213,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
       <Container>
         <SocialsWrapper>
           <SocialLabel>
-            Информационное агенство Время
+            <Translator id="homePageLabelTime" />
           </SocialLabel>
           <SocialList />
         </SocialsWrapper>
@@ -235,7 +236,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
         <NewsListContainer>
           <Title size="small">
-            актуальное сегодня
+            <Translator id="actualToday" />
           </Title>
           <NewsListRow>
             {
@@ -248,7 +249,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
           </NewsListRow>
           <NewsLoad>
             <Button hidden={loadMoreHidden} onClick={() => loadMore1()}>
-              загрузить еще новости
+              <Translator id="loadNewsMore" />
             </Button>
           </NewsLoad>
         </NewsListContainer>
@@ -256,7 +257,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
         <FlexBlock>
           <LastNews>
             <Title size="small">
-              последние новости
+              <Translator id="lastNewsTitle" />
             </Title>
             {
               timeLineData.map((item, index) => (
@@ -269,7 +270,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
           </LastNews>
           <AnalyticNews>
             <Title size="small">
-              Аналитика
+              <Translator id="analiticTitle" />
             </Title>
             <TextPostList>
               {
