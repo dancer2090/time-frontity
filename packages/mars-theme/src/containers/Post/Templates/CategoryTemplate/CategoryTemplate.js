@@ -59,10 +59,12 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
   };
 
   useEffect(() => {
+    console.log('mount');
+    state.customSettings.categoryPage = 2;
     actions.theme.getCategory(dataCategory.id);
     loadTimeLineData();
     if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
-  }, []);
+  }, [state.router.link]);
 
   const fetchMoreData = () => {
     state.customSettings.categoryLoadMore = true;

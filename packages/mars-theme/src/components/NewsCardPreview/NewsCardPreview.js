@@ -7,6 +7,7 @@ import {
   Content,
 } from './styles';
 import Link from '../link';
+import logoImage from '../../img/logo.svg';
 
 const NewsCardPreview = ({
   state, libraries, data, size,
@@ -28,7 +29,7 @@ const NewsCardPreview = ({
   return (
     <Card>
       <FrameBlock size={size}>
-        <FrameImage src={resultImageUrl} />
+        <FrameImage src={resultImageUrl || imageUrlCheck(logoImage, urlsWithLocal)} style={{ objectFit: !resultImageUrl ? 'contain' : null }} />
       </FrameBlock>
       <Content size={size}>
         <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
