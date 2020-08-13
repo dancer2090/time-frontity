@@ -7,7 +7,7 @@ import PostTemplate from '../Templates/PostTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => (
   <Switch>
-    <MainTemplate scrollRef={scrollRef} when={state.router.link === '/'} />
+    <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
     <CategoryTemplate scrollRef={scrollRef} when={state.router.link === '/category/'} />
     <PostTemplate scrollRef={scrollRef} when={state.router.link === '/post/'} />
   </Switch>

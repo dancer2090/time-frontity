@@ -17,7 +17,7 @@ export const TitleBlock = styled.h2`
         font-size: 18px;
         line-height: 22px;`
       : null
-  )}
+  )};
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     font-size: 16px;

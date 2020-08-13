@@ -15,7 +15,7 @@ import twitter from '../../img/svg/twitter-shared.svg';
 import gmail from '../../img/svg/gmail-shared.svg';
 import shapchat from '../../img/svg/shapchat-shared.svg';
 
-const Shared = () => {
+const Shared = ({ link }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -31,53 +31,41 @@ const Shared = () => {
       >
         <Wrapper>
           <SocialLink
-            href="https://t.me/share/url?url="
+            href={`https://t.me/share/url?url=${link}`}
             target="__blank"
           >
             <SocialIcon src={telegram} />
           </SocialLink>
           <SocialLink
-            href="https://www.facebook.com/sharer/sharer.php?u="
+            href={`https://www.facebook.com/sharer/sharer.php?u=${link}`}
             target="__blank"
           >
             <SocialIcon src={facebook} />
           </SocialLink>
           <SocialLink
-            href="http://m.me/"
+            href={`fb-messenger://share/?link=${link}`}
             target="__blank"
           >
             <SocialIcon src={messenger} />
           </SocialLink>
           <SocialLink
-            href="viber://forward?text="
+            href={`viber://forward?text=${link}`}
             target="__blank"
           >
             <SocialIcon src={viber} />
           </SocialLink>
 
           <SocialLink
-            href="https://www.linkedin.com/cws/share?url="
+            href={`https://www.linkedin.com/cws/share?url=${link}`}
             target="__blank"
           >
             <SocialIcon src={linkedin} />
           </SocialLink>
           <SocialLink
-            href="https://twitter.com/share?text=&amp;url="
+            href={`https://twitter.com/share?text=&amp;url=${link}`}
             target="__blank"
           >
             <SocialIcon src={twitter} />
-          </SocialLink>
-          <SocialLink
-            href="https://mail.google.com/mail/?view=cm&"
-            target="__blank"
-          >
-            <SocialIcon src={gmail} />
-          </SocialLink>
-          <SocialLink
-            href="https://www.snapchat.com/add/joshconstine"
-            target="__blank"
-          >
-            <SocialIcon src={shapchat} />
           </SocialLink>
         </Wrapper>
       </Modal>

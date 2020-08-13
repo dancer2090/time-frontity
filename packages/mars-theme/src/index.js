@@ -221,47 +221,9 @@ const marsTheme = {
       changeSubscribeSend: ({ state }) => {
         state.customSettings.isSubscribeSend = !state.customSettings.isSubscribeSend;
       },
-      changeFormGuide: ({ state }) => {
-        state.customSettings.sendFormGuide = !state.customSettings.sendFormGuide;
-      },
-      sendForm: ({ state }) => async (data) => {
-        const dataForm = data.formData;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
-          `${state.source.api}/frontity-api/send-form`,
-          dataForm,
-          { headers: { 'content-type': 'application/json' } },
-        ).then((response) => {
-          state.customSettings.isFormSend = true;
-          gtag('event', 'Send Email from footer form', {
-            'event_category': 'Send Email from footer form',
-          });
-          if (__insp) {
-            __insp.push(['identify', dataForm.get('email')]);
-            __insp.push(['tagSession', {
-              email: dataForm.get('email'),
-              name: dataForm.get('name'),
-              company: dataForm.get('company'),
-            }]);
-          }
-        });
-      },
-      sendFormGuide: ({ state }) => async (data) => {
-        const dataForm = data;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
-          `${state.source.api}/frontity-api/sendbookdata`,
-          dataForm,
-          { headers: { 'content-type': 'application/json' } },
-        ).then((response) => {
-
-        });
-
-        state.customSettings.sendFormGuide = true;
-      },
       sendComment: ({ state }) => async (data) => {
         const dataForm = data.formData;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
+        // dataForm.append('recaptchaToken', state.theme.recaptchaToken);
         state.customSettings.isCommentSend = true;
         await axios.post(
           `${state.source.api}/frontity-api/send-comment`,
@@ -271,6 +233,8 @@ const marsTheme = {
           if (response.status === 200) {
             state.customSettings.isCommentSend = false;
           }
+
+          return response;
         });
       },
 
@@ -288,6 +252,10 @@ const marsTheme = {
         });
       },
       beforeSSR: async ({ state, actions, libraries }) => {
+        const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
+        const optionPage = globalOptions.data || {};
+
+        state.theme.options = optionPage;
         actions.theme.alternativeUrlForImage();
         if (
           state.router.link.includes('/')
@@ -296,6 +264,12 @@ const marsTheme = {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+        }
+
+        const linksCategory = state.router.link.split('/');
+        if (linksCategory.length === 4) {
+          const categoryPost = linksCategory[1];
+          await actions.source.fetch(`/${categoryPost}/`);
         }
       },
     },
