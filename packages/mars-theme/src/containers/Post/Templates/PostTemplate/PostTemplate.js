@@ -39,6 +39,7 @@ import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
 import Link from '../../../../components/link';
 import Translator from '../../../../components/Translator/Translator';
+import defaultImage from '../../../../img/post.jpg';
 
 const PostTemplate = ({ state, libraries, actions }) => {
   // Get the html2react component.
@@ -70,10 +71,14 @@ const PostTemplate = ({ state, libraries, actions }) => {
 
   // big photo
   const { featured_media: frameId = '' } = post;
-  const {
-    source_url: urlBigImage = '',
-    caption: captionImage = '',
-  } = state.source.attachment[frameId];
+  let urlBigImage = defaultImage;
+  let captionImage = {
+    rendered: '',
+  };
+  if (state.source.attachment[frameId]) {
+    urlBigImage = state.source.attachment[frameId].source_url;
+    captionImage = state.source.attachment[frameId].caption;
+  }
   // related posts
   const relatedNews = [];
   const { items: categoryItems = [] } = categoryData;
