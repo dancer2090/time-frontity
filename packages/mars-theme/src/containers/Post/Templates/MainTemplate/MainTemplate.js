@@ -6,6 +6,10 @@ import {
   Wrapper,
   SocialsWrapper,
   SocialLabel,
+  RightTopWrapper,
+  PdfWrapper,
+  PdfIcon,
+  PdfShow,
   BigNewsWrapper,
   BigNews,
   BigBanner,
@@ -24,6 +28,7 @@ import {
   RightBanner,
   Loading,
   NotLoadPost,
+  PdfLink,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
@@ -46,16 +51,32 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
 
+  // link pdf file download
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    pdf = '',
+  } = acfOptions[lang];
+
+  //  load page data
   const dataP = state.source.get(state.router.link);
   const totalPages = Math.floor(dataP.countActual / 6);
   const totalPagesLastPost = Math.floor(dataP.countLast / 10);
+  const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
 
   const {
     actual = [],
     analytic = [],
     last = [],
     banner = {},
+    countActual = 0,
+    countLast = 0,
   } = dataP;
+
+  const totalPages = Math.floor(countActual / 6);
+  const totalPagesLastPost = Math.floor(countLast / 10);
+
   const { post: bannerPost = {} } = banner;
   const {
     _embedded: bannerEmbed = {},
@@ -132,7 +153,15 @@ const MainTemplate = ({ state, libraries, actions }) => {
           <SocialLabel>
             <Translator id="homePageLabelTime" />
           </SocialLabel>
-          <SocialList />
+          <RightTopWrapper>
+            <PdfWrapper>
+              <PdfLink href={pdf} download>
+                <PdfIcon name="pdf-icon" />
+              </PdfLink>
+              <PdfShow>Печатный вариант “Время”</PdfShow>
+            </PdfWrapper>
+            <SocialList />
+          </RightTopWrapper>
         </SocialsWrapper>
 
         <BigNewsWrapper>

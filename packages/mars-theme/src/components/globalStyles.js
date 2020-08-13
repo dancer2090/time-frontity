@@ -77,6 +77,7 @@ export const globalStyles = css`
   #rc-anchor-container {
     display: none !important;
   }
+  .grecaptcha-badge { visibility: hidden; }
 `;
 
 export const Main = styled.div`

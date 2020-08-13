@@ -166,6 +166,7 @@ const marsTheme = {
       actualLoadMore: false,
       lastLoadMore: false,
       categoryLoadMore: false,
+      doLoader: false,
     },
     theme: {
       menu: {},
@@ -186,9 +187,12 @@ const marsTheme = {
   actions: {
     theme: {
       getMain: ({ state }) => async () => {
-        const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
-        const main = mainData.data;
-        Object.assign(state.source.data[state.router.link], main);
+        state.customSettings.doLoader = true;
+        await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
+          const main = response.data;
+          Object.assign(state.source.data[state.router.link], main);
+          state.customSettings.doLoader = false;
+        });
       },
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
@@ -272,12 +276,9 @@ const marsTheme = {
           state.router.link.includes('/')
           || state.router.link.includes('/uk/')
         ) {
-          actions.theme.getMain();
-          /*
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
-          */
         }
 
         const linksCategory = state.router.link.split('/');

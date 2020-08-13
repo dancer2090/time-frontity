@@ -12,4 +12,5 @@ export default {
   analiticTitle: 'Аналитика',
   homePageLabelTime: 'Информационное агенство Время',
   notNews: 'Новостей не добавлено',
+  pdfLabelTime: 'Печатный вариант “Время”',
 };

@@ -23,14 +23,23 @@ import {
 } from './styles';
 import Link from '../../link';
 import SocialList from '../../SocialList';
+import Translator from '../../Translator/Translator';
 
 const MobileMenu = ({
   state, actions, libraries, isOpen, closeModal, menu,
 }) => {
   const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
+  // link pdf file download
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    pdf = '',
+  } = acfOptions[lang];
   const subContent = useRef(null);
   const [navigation, setNavigation] = useState(menu);
+
   const toggleItem = (event, index) => {
     event.preventDefault();
 
@@ -60,8 +69,13 @@ const MobileMenu = ({
       const url = state.router.link.replace('/uk', '');
       actions.router.set(url);
     }
-    setNavigation(menu);
     closeModal();
+    const { header_menu = [] } = acfOptions[state.theme.lang];
+    const filterMenu = header_menu.map((item) => ({
+      ...item,
+      active: false,
+    }));
+    setNavigation(filterMenu);
   };
 
   return (
@@ -94,11 +108,7 @@ const MobileMenu = ({
                         )
                         : (
                           <Link
-                            link={
-                              lang === 'ru'
-                                ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
-                                : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
-                            }
+                            link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
                           >
                             { link.title }
                           </Link>
@@ -119,14 +129,11 @@ const MobileMenu = ({
                               {
                                 item.subMenu.map((subItem, subIndex) => {
                                   const { link: linkItem = {} } = subItem;
+                                  console.log(subItem);
                                   return (
                                     <Link
                                       key={subIndex}
-                                      link={
-                                        lang === 'ru'
-                                          ? urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])
-                                          : `/uk${urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])}`
-                                      }
+                                      link={urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])}
                                     >
                                       { linkItem.title }
                                     </Link>
@@ -147,10 +154,10 @@ const MobileMenu = ({
             <SubcribeBlock>
               <GSubscribe />
             </SubcribeBlock>
-            <DownloadPdf href="file.pdf">
+            <DownloadPdf href={pdf} download target="__blank">
               <DownloadPdfIcon name="pdf" />
               <DownloadPdfLabel>
-                Печатный вариант “Время”
+                <Translator id="pdfLabelTime" />
               </DownloadPdfLabel>
             </DownloadPdf>
             <SocialListBlock>
