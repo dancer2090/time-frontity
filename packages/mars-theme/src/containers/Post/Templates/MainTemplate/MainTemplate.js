@@ -50,16 +50,20 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const bigImgUrl = imageUrlCheck(bigImg, urlsWithLocal);
 
   const dataP = state.source.get(state.router.link);
-  const post = state.source[dataP.type][dataP.id];
-  const totalPages = Math.floor(dataP.countActual / 6);
-  const totalPagesLastPost = Math.floor(dataP.countLast / 10);
+  const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
 
   const {
     actual = [],
     analytic = [],
     last = [],
     banner = {},
+    countActual = 0,
+    countLast = 0,
   } = dataP;
+
+  const totalPages = Math.floor(countActual / 6);
+  const totalPagesLastPost = Math.floor(countLast / 10);
+
   const { post: bannerPost = {} } = banner;
   const {
     _embedded: bannerEmbed = {},

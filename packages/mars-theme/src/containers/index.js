@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Global, connect, Head,
 } from 'frontity';
@@ -37,12 +37,6 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
-  const checkFetch = () => {
-    let fetch = false;
-    if(state.customSettings.doLoader && data.isFetching) fetch = true;
-    return fetch;
-  }
-
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -65,7 +59,7 @@ const Theme = ({ state, actions }) => {
 
         <Main>
           <Switch>
-            <Loader when={checkFetch()} />
+            <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
             <Post scrollRef={formRef} when={state.router.link === '/category/'} />
             <Post scrollRef={formRef} when={data.isPostType} />
