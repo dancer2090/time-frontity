@@ -59,7 +59,6 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
   };
 
   useEffect(() => {
-    console.log('mount');
     state.customSettings.categoryPage = 2;
     actions.theme.getCategory(dataCategory.id);
     loadTimeLineData();
