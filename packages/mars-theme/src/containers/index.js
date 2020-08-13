@@ -36,7 +36,6 @@ const Theme = ({ state, actions }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-  console.log(state);
 
   return (
     <>
@@ -61,8 +60,9 @@ const Theme = ({ state, actions }) => {
         <Main>
           <Switch>
             <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
             <Post scrollRef={formRef} when={state.router.link === '/category/'} />
+            <Post scrollRef={formRef} when={data.isPostType} />
             <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>

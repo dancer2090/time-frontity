@@ -63,7 +63,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
   return (
     <Card className={className}>
       <FrameBlock>
-        <Frame src={itemImage.url} />
+        {itemImage.url!=="" && <Frame src={itemImage.url} />}
       </FrameBlock>
       <Content>
         <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>

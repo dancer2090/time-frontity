@@ -33,7 +33,12 @@ const TimeLine = ({
           {
             data.posts.map((item, index) => {
               const { post = {} } = item;
-              const { type = 'default' } = post;
+              let type = 'post';
+              const { featured_image: featuteImage = {} } = post._embedded;
+              const { url = false } = featuteImage;
+              if (url !== false) {
+                type = 'default';
+              }
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <Row key={index} type={type}>
@@ -54,7 +59,7 @@ const TimeLine = ({
                     {
                       customsContent
                         ? customRender()
-                        : <TimeLineCard type={type} postContent={post} />
+                        : <TimeLineCard type={type} postContent={post} imageUrl={url} />
                     }
                   </BlockContent>
                 </Row>

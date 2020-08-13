@@ -1,6 +1,9 @@
 import { styled } from 'frontity';
 
 export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  
   ul { 
     li {
       a {

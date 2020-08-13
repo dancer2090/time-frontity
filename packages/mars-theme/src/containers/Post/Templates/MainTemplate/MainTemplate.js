@@ -35,14 +35,16 @@ import TextPost from './TextPost';
 import TimeLine from '../../../../components/TimeLine';
 import bigImg from '../../../../img/pic.jpg';
 import Translator from '../../../../components/Translator/Translator';
+import { formatDate } from '../../../../utils/formatDate';
 
-const MainTemplate = ({ state, libraries }) => {
+const MainTemplate = ({ state, libraries, actions }) => {
   console.log(state);
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreHidden, setLoadMoreHidden] = useState(false);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
 
+  const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -104,32 +106,18 @@ const MainTemplate = ({ state, libraries }) => {
     return `${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
   };
 
-  const formatDate = (valueDate) => {
-    const date = new Date(valueDate);
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-    };
-    // uk-UA
-    const resultDate = `${date.toLocaleDateString('ru-RU', options)} ${date.toLocaleDateString('ru-RU', {
-      weekday: 'long',
-    })}`;
-    return resultDate.replace(' г.', ',');
-  };
-
   const loadData = () => {
     const allPosts = [...last];
     const data = allPosts;
     const resultsData = [];
     allPosts.forEach((item) => {
-      const date = formatDate(item.date);
+      const date = formatDate(lang, item.date);
       const result = [];
       data.forEach((element) => {
-        if (formatDate(element.date) === date) {
+        if (formatDate(lang, element.date) === date) {
           result.push({
             time: formatTime(element.date),
-            date: formatDate(element.date),
+            date: formatDate(lang, element.date),
             post: {
               ...element,
             },
@@ -160,11 +148,8 @@ const MainTemplate = ({ state, libraries }) => {
   };
 
   useEffect(() => {
-    const mainData = axios.get(`${state.source.api}/frontity-api/get-main`);
-    const main = mainData.data;
-    Object.assign(state.source.data[state.router.link], main);
-
     loadData();
+    actions.theme.getMain();
   }, []);
 
   const fetchMoreData = () => {
@@ -192,7 +177,7 @@ const MainTemplate = ({ state, libraries }) => {
       <Container>
         <SocialsWrapper>
           <SocialLabel>
-            Информационное агенство Время
+            <Translator id="homePageLabelTime" />
           </SocialLabel>
           <SocialList />
         </SocialsWrapper>
@@ -200,7 +185,7 @@ const MainTemplate = ({ state, libraries }) => {
         <BigNewsWrapper>
           <BigNews>
             <BigFrame>
-              <BigImage src={bannerImage.url} />
+              {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
             </BigFrame>
             <BigContent>
               <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
@@ -215,7 +200,7 @@ const MainTemplate = ({ state, libraries }) => {
 
         <NewsListContainer>
           <Title size="small">
-            актуальное сегодня
+            <Translator id="actualToday" />
           </Title>
           <NewsListRow>
             {
@@ -228,7 +213,7 @@ const MainTemplate = ({ state, libraries }) => {
           </NewsListRow>
           <NewsLoad>
             <Button hidden={loadMoreHidden} onClick={() => loadMore1()}>
-              загрузить еще новости
+              <Translator id="loadNewsMore" />
             </Button>
           </NewsLoad>
         </NewsListContainer>
@@ -236,7 +221,7 @@ const MainTemplate = ({ state, libraries }) => {
         <FlexBlock>
           <LastNews>
             <Title size="small">
-              последние новости
+              <Translator id="lastNewsTitle" />
             </Title>
             <InfiniteScroll
               dataLength={last.length}
@@ -260,7 +245,7 @@ const MainTemplate = ({ state, libraries }) => {
           </LastNews>
           <AnalyticNews>
             <Title size="small">
-              Аналитика
+              <Translator id="analiticTitle" />
             </Title>
             <TextPostList>
               {

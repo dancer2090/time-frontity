@@ -11,18 +11,17 @@ import {
   Video,
   VideoIcon,
 } from './styled';
-import people from '../../../img/people.jpg';
 import TimeLinePost from '../TimeLinePost';
 
 const TimeLineCard = ({
-  type = 'default', state, libraries, onClick, postContent,
+  type = 'default', state, libraries, onClick, postContent, imageUrl = false,
 }) => {
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const urlImage = imageUrlCheck(people, urlsWithLocal);
+  const urlImage = imageUrlCheck(imageUrl, urlsWithLocal);
 
   return (
-    <Card>
+    <Card type={type}>
       {
         type !== 'post'
         && (

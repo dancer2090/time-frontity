@@ -12,15 +12,24 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
   const Html2React = libraries.html2react.Component;
   const { urlCheck } = libraries.func;
   const { lang = 'ru' } = state.theme;
-  const { acf = {} } = postContent;
+  const {
+    acf = {},
+    link = '',
+  } = postContent;
   const { title = '' } = acf[lang];
-  const { link = '' } = postContent;
+  const { category = {} } = postContent._embedded;
+  const { acf: acfCategory = {} } = category;
+  let titleCategory = '';
+  if (acfCategory) {
+    titleCategory = acfCategory[lang].title;
+  }
   const linkValue = urlCheck(link, [state.frontity.url, state.frontity.adminUrl]);
+
   return (
     <Post>
-      <Link link={lang === 'ru' ? linkValue : `/ua${linkValue}`}>
+      <Link link={linkValue}>
         <Category>
-          { postContent.category }
+          { titleCategory }
         </Category>
         <Text>
           <Html2React html={title} />
