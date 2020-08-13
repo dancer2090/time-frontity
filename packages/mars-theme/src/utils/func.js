@@ -10,8 +10,10 @@ export const linkReplace = (url, replaces = []) => {
 
 export const linkImageReplace = (url = '', replaces = { urlFrom: '', urlTo: '', isLocal: true }) => {
   let newLink = url;
+  /*
   if (!replaces.isLocal && url.length > 0) {
     newLink = url.replace(replaces.urlFrom, replaces.urlTo);
   }
+  */
   return newLink;
 };
