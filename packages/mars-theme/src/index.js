@@ -155,6 +155,7 @@ const marsTheme = {
     customSettings: {
       actualNumberPage: 2,
       lastNumberPage: 2,
+      categoryPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -164,6 +165,7 @@ const marsTheme = {
       isThanksOpen: true,
       actualLoadMore: false,
       lastLoadMore: false,
+      categoryLoadMore: false,
     },
     theme: {
       menu: {},
@@ -191,6 +193,9 @@ const marsTheme = {
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
         Object.assign(state.source.data[state.router.link], data);
+      },
+      addViewPost: ({ state }) => async (id) => {
+        await axios.get(`${state.source.api}/frontity-api/add-view/${id}`);
       },
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);

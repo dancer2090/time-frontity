@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'frontity';
 import {
   Wrapper,
@@ -40,7 +40,7 @@ import authorLogo from '../../../../img/author-logo.jpg';
 import Link from '../../../../components/link';
 import Translator from '../../../../components/Translator/Translator';
 
-const PostTemplate = ({ state, libraries }) => {
+const PostTemplate = ({ state, libraries, actions }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
   const fullPostUrl = `${state.frontity.url}${state.router.link}`;
@@ -49,12 +49,21 @@ const PostTemplate = ({ state, libraries }) => {
   const post = state.source[data.type][data.id];
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
-  console.log(post);
   const { content = '' } = acf[lang];
 
   // category post
   const linksCategory = state.router.link.split('/');
-  const categoryPost = linksCategory[1];
+  let categoryPost = linksCategory[1];
+  if (linksCategory.length === 4 || linksCategory.length === 5) {
+    if (state.theme.lang === 'uk') {
+      categoryPost = linksCategory[2];
+    }
+  }
+
+  useEffect(() => {
+    actions.theme.addViewPost(post.id);
+  }, []);
+
   const categoryData = state.source.get(`/${categoryPost}/`);
   const category = state.source.category[categoryData.id];
   const { acf: acfCategory = {} } = category;

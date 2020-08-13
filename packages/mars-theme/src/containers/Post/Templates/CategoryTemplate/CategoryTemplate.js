@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'frontity';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from 'axios';
 import {
   Wrapper,
   TopContainer,
@@ -19,113 +20,8 @@ import TimeLine from '../../../../components/TimeLine/TimeLine';
 import timeLogo from '../../../../img/time-logo.png';
 import people from '../../../../img/people.jpg';
 import Translator from '../../../../components/Translator/Translator';
-
-const timeLineData = [
-  {
-    date: '17 сентября 2020, воскресенье',
-    posts: [
-      {
-        time: '12:00',
-        resourceImage: timeLogo,
-        post: {
-          image: people,
-          category: 'Культура',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'photo',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'video',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-  {
-    date: '18 декабря 2021, воскресенье',
-    posts: [
-      {
-        time: '12:00',
-        resourceImage: timeLogo,
-        post: {
-          image: people,
-          category: 'Культура',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'photo',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        resourceImage: timeLogo,
-        post: {
-          type: 'video',
-          image: people,
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-];
+import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
+import { Loading, NotLoadPost } from '../MainTemplate/styles';
 
 const CategoryTemplate = ({ state, actions, libraries }) => {
   // components state
@@ -152,13 +48,41 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
     title = '',
   } = acfData[lang];
   const {
-    timeLine = [],
+    timeline = [],
     topItems = [],
+    totalPages = 0,
   } = dataCategory;
+
+  const loadTimeLineData = () => {
+    const dataTimeLine = filterNewsTimeLine(lang, timeline);
+    setLastPost(dataTimeLine);
+  };
 
   useEffect(() => {
     actions.theme.getCategory(dataCategory.id);
+    loadTimeLineData();
   }, []);
+
+  const fetchMoreData = () => {
+    state.customSettings.categoryLoadMore = true;
+
+    const config = {
+      cat_minus: '-28, -14',
+      post_minus: topItems,
+    };
+    axios.get(
+      `${state.source.api}/frontity-api/get-category/${dataCategory.id}/page/${state.customSettings.categoryPage}`,
+      config,
+    ).then((response) => {
+      const items = response.data;
+      state.source.data[state.router.link].timeline.push(...items);
+      state.customSettings.categoryPage += 1;
+      loadTimeLineData();
+    }).finally(() => {
+      state.customSettings.categoryLoadMore = false;
+      if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
+    });
+  };
 
   return (
     <Wrapper>
@@ -190,21 +114,36 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
               )
           }
         </ContentWrapper>
-        <TimeLineContainer>
-          <Title size="small">
-            <Translator id="lastNewsTitle" />
-          </Title>
-          <TimeLineWrapper>
-            {
-              timeLineData.map((item, index) => (
-                <TimeLine
-                  key={index}
-                  data={item}
-                />
-              ))
-            }
-          </TimeLineWrapper>
-        </TimeLineContainer>
+        {
+          timeline.length > 0 && (
+            <TimeLineContainer>
+              <Title size="small">
+                <Translator id="lastNewsTitle" />
+              </Title>
+              <TimeLineWrapper>
+                <InfiniteScroll
+                  dataLength={timeline.length}
+                  next={fetchMoreData}
+                  hasMore={!loadMoreTimeLine}
+                  scrollThreshold={0.5}
+                  loader={<Loading><Translator id="loading" /></Loading>}
+                  endMessage={(
+                    <NotLoadPost><Translator id="notPost" /></NotLoadPost>
+                  )}
+                >
+                  {
+                    lastPost.map((item, index) => (
+                      <TimeLine
+                        key={index}
+                        data={item}
+                      />
+                    ))
+                  }
+                </InfiniteScroll>
+              </TimeLineWrapper>
+            </TimeLineContainer>
+          )
+        }
       </Container>
     </Wrapper>
   );
