@@ -105,6 +105,7 @@ const PostTemplate = ({ state, libraries }) => {
         );
     }
   };
+  console.log(state);
 
   return (
     <Wrapper>
