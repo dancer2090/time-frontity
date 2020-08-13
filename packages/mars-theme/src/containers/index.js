@@ -62,7 +62,7 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/category/'} />
+            <Post scrollRef={formRef} when={data.isPostType} />
             <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <PageError when={data.isError} />
           </Switch>

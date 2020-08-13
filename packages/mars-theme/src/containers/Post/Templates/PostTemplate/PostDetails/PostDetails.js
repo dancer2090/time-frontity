@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   FlexContainer,
@@ -15,14 +16,16 @@ import {
 import Shared from '../../../../../components/Shared';
 import urk from '../../../../../img/urk-net.png';
 
-const PostDetails = ({ className, showShared = true, showResources = true }) => (
+const PostDetails = ({
+  className, showShared = true, showResources = true, date = '', category = '', state,
+}) => (
   <Wrapper className={className}>
     <FlexContainer showShared={showShared}>
       <Category>
-        КУЛЬТУРА
+        { category }
       </Category>
       <DateValue>
-        10 сентября 2020 | 12:33
+        { date }
       </DateValue>
       <FlexCenter>
         <IconEye name="eye" />
@@ -30,7 +33,9 @@ const PostDetails = ({ className, showShared = true, showResources = true }) => 
       </FlexCenter>
       <FlexCenter>
         <IconComments name="comments" />
-        <Counter>999</Counter>
+        <Counter>
+          { state.theme.commentsLength }
+        </Counter>
       </FlexCenter>
       {
         showResources && (
@@ -50,4 +55,4 @@ const PostDetails = ({ className, showShared = true, showResources = true }) => 
   </Wrapper>
 );
 
-export default PostDetails;
+export default connect(PostDetails);

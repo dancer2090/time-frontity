@@ -37,13 +37,56 @@ import InterviewHeader from './InterviewHeader';
 import PublicationHeader from './PublicationHeader';
 import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
-import postMedium from '../../../../img/post-medium.jpg';
-import girlImage from '../../../../img/gir-image.jpg';
+import Link from '../../../../components/link';
+import Translator from '../../../../components/Translator/Translator';
 
-const PostTemplate = ({ state }) => {
-  console.log(state);
+const PostTemplate = ({ state, libraries }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  const fullPostUrl = `${state.frontity.url}${state.router.link}`;
+  // get Data
+  const data = state.source.get(state.router.link);
+  const post = state.source[data.type][data.id];
+  const { lang = 'ru' } = state.theme;
+  const { acf = {} } = post;
+  const { content = '' } = acf[lang];
+
+  // category post
+  const linksCategory = state.router.link.split('/');
+  const categoryPost = linksCategory[1];
+  const categoryData = state.source.get(`/${categoryPost}/`);
+  const category = state.source.category[categoryData.id];
+  const { acf: acfCategory = {} } = category;
+  const { title: categoryName = '' } = acfCategory[lang];
+
+  // big photo
+  const { featured_media: frameId = '' } = post;
+  const {
+    source_url: urlBigImage = '',
+    caption: captionImage = '',
+  } = state.source.attachment[frameId];
+  // related posts
+  const relatedNews = [];
+  const { items: categoryItems = [] } = categoryData;
+  categoryItems.forEach((item) => {
+    const result = state.source.get(item.link);
+    relatedNews.push({
+      ...state.source[result.type][result.id],
+    });
+  });
+  // tags post
+  const { tags = [] } = post;
+  const tagsArray = tags.map((item) => state.source.tag[item]);
+  // author data
+  const { author = 0 } = post;
+  const authorData = state.source.author[author];
+  const {
+    name: authorName = '',
+    link: authorLink = '#',
+  } = authorData;
+  // state
   const [showComments, setShowComments] = useState(false);
-  const type = 'interview';
+  const type = '';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
@@ -52,7 +95,14 @@ const PostTemplate = ({ state }) => {
       case 'publication':
         return <PublicationHeader />;
       default:
-        return <HeaderNews />;
+        return (
+          <HeaderNews
+            data={post}
+            category={categoryName}
+            image={urlBigImage}
+            caption={captionImage}
+          />
+        );
     }
   };
 
@@ -61,8 +111,8 @@ const PostTemplate = ({ state }) => {
       <Container>
         <TopNavigation type={type}>
           <Breadcrumbs links={[
-            { name: 'Харків', link: '/' },
-            { name: 'В хабаровске десятки тысяч человек...', link: '#' },
+            { name: categoryName, link: `/${categoryPost}/` },
+            { name: <Html2React html={acf[lang].title} />, link: '#' },
           ]}
           />
           <SocialList />
@@ -73,138 +123,27 @@ const PostTemplate = ({ state }) => {
         <ContentContainer>
           <CenterContent>
             <Content>
-              <p>
-                В Хабаровске десятки тысяч человек вышли на акцию в поддержку
-                Сергея Фургала. Главное. В цьому випадку точно не зможу сказати,
-                бо не була там. Але масову загибель риби можуть викликати кілька
-                причин. По-перше, цвітіння  водоростей, переважно синьо-зелених,
-                які наче плівкою вкривають водойми, створюючи дефіцит кисню. Через це
-                риба змінює свою поведінку і може задихатися, адже вона дихає
-                озчиненим у воді киснем. Цвітіння водоростей поширене в водоймах
-                зі стоячою водою. Вони
-                <strong> активно розмножуються та гинуть</strong>
-                у спекотну
-                погоду, виділяючи, до того ж, токсичні речовини. Також масове цвітіння
-                спричиняють синтетичні миючі засоби, які  потрапляють в водойми, органічні
-                відходи та змиті дощем добрива (поля часто розбивають впритул до річок).
-                Іншою можливою причиною масової загибелі риби може бути випадковий або
-                цілеспрямований виток у водойму якоїсь речовини з підприємства.
-              </p>
-
-              <blockquote>
-                <p>
-                  В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
-                  Главное. В цьому випадку точно не зможу сказати, бо не була там.
-                  Але масову загибель риби можуть викликати кілька причин.
-                </p>
-              </blockquote>
-              <figure
-                id="attachment_7"
-                aria-describedby="caption-attachment-7"
-                style={{ width: '203px' }}
-                className="wp-caption aligncenter"
-              >
-                <img
-                  className="size-medium wp-image-7"
-                  src={postMedium}
-                  alt=""
-                  width="203"
-                  height="300"
-                  sizes="(max-width: 203px) 100vw, 203px"
-                />
-                <figcaption id="caption-attachment-7" className="wp-caption-text">
-                  Фото: Пресс-служба
-                </figcaption>
-              </figure>
-              <iframe
-                title="COSTA RICA IN 4K 60fps HDR (ULTRA HD)"
-                width="640"
-                height="360"
-                src="https://www.youtube.com/embed/LXb3EKWsInQ?feature=oembed"
-                frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen=""
-              />
-              <p>
-                {/* eslint-disable-next-line max-len */}
-                Здесь ваш текст.. Здесь ваш текст..» Многие программы электронной вёрстки и редакторы HTML используют
-                Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам «lorem ipsum» сразу
-                показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст
-                Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые — намеренно (например,
-                юмористические варианты).
-              </p>
-              <p>Здесь ваш текст.. Здесь ваш текст..» Многие программы электронной</p>
-              <figure
-                id="attachment_7"
-                aria-describedby="caption-attachment-7"
-                style={{ width: '203px' }}
-                className="wp-caption alignleft"
-              >
-                <img
-                  className="size-medium wp-image-7"
-                  src={girlImage}
-                  alt=""
-                  width="203"
-                  height="300"
-                  sizes="(max-width: 203px) 100vw, 203px"
-                />
-                <figcaption id="caption-attachment-7" className="wp-caption-text">
-                  Фото: Пресс-служба
-                </figcaption>
-              </figure>
-              <p>
-                В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
-                Главное. В цьому випадку точно не зможу сказати, бо не була там. Але масову
-                загибель риби можуть викликати кілька причин. По-перше, цвітіння  водоростей,
-                переважно синьо-зелених, які наче плівкою вкривають водойми, створюючи дефіцит кисню.
-                Через це риба змінює свою поведінку і мо. ибель риби можуть викликати кілька причин.
-                По-перше, цвітіння  водоростей, переважно синьо-зелених, які наче плівкою вкривають водойми,
-                створюючи дефіцит кисню. Через це риба змінює свою поведінку і мо.
-                Через це риба змінює свою поведінку і мо
-              </p>
-              <ul>
-                <li>
-                  В Хабаровске десятки тысяч человек вышли на акцию в поддержку
-                  Сергея Фургала. Главное. В цьому випадку точно не зможу сказати,
-                  бо не була там. Але масову загибель риби можуть викликати кілька причин.
-                </li>
-                <li>
-                  В Хабаровске десятки тысяч человек вышли на акцию в поддержку
-                  Сергея Фургала. Главное. В цьому випадку точно не зможу сказати,
-                  бо не була там. Але масову загибель риби можуть викликати кілька причин.
-                </li>
-                <li>
-                  В Хабаровске десятки тысяч человек вышли на акцию в поддержку
-                  Сергея Фургала. Главное. В цьому випадку точно не зможу сказати,
-                  бо не була там. Але масову загибель риби можуть викликати кілька причин.
-                </li>
-              </ul>
-              <h2>Подзаголовок в публикации 2</h2>
-              <p>
-                В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
-                Главное. В цьому випадку точно не зможу сказати, бо не була там. Але масову загибель
-                риби можуть викликати кілька причин. По-перше, цвітіння  водоростей, переважно
-                синьо-зелених, які наче плівкою вкривають водойми, створюючи дефіцит кисню.
-                Через це риба змінює свою поведінку і мо
-              </p>
+              <Html2React html={content} />
             </Content>
 
             <TabsWrapper>
               <TabsPost />
-              <Shared />
+              <Shared link={fullPostUrl} />
             </TabsWrapper>
             <AuthorInformation>
-              <AuthorImage src={authorLogo} />
-              <AuthorName>
-                Александр Герасименко
-              </AuthorName>
+              <Link link={authorLink}>
+                <AuthorImage src={authorLogo} />
+                <AuthorName>
+                  {authorName}
+                </AuthorName>
+              </Link>
             </AuthorInformation>
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
                 <MobileCommentCount>999</MobileCommentCount>
               </MobileComments>
-              <Shared />
+              <Shared link={fullPostUrl} />
             </MobileEvents>
 
             {/* mobile comments modal */}
@@ -224,19 +163,25 @@ const PostTemplate = ({ state }) => {
 
           <RightNavigation>
             <RightBanner />
-            <GMobileTitle size="small">
-              новости харькова
-            </GMobileTitle>
             {
-              [1, 2, 3, 4, 5].map((item) => (
-                <RelatedNewsCard key={item} />
+              relatedNews.length > 0 && (
+                <GMobileTitle size="small">
+                  { categoryName }
+                </GMobileTitle>
+              )
+            }
+            {
+              relatedNews.splice(0, 4).map((item, index) => (
+                <RelatedNewsCard key={index} data={item} />
               ))
             }
           </RightNavigation>
         </ContentContainer>
 
         <SocialBlock>
-          <SocialLabel>следите за нами в соцсетях</SocialLabel>
+          <SocialLabel>
+            <Translator id="followUs" />
+          </SocialLabel>
           <SocialFlex>
             <SocialList />
           </SocialFlex>
