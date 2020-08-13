@@ -115,7 +115,7 @@ const Header = ({ state, libraries, actions }) => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Link link={lang === 'ru' ? '/' : '/uk'}>
+            <Link link='/'>
               <Logo src={urlImage} />
             </Link>
             <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
@@ -143,11 +143,7 @@ const Header = ({ state, libraries, actions }) => {
                         ? (
                           <Link
                             key={index}
-                            link={
-                              lang === 'ru'
-                                ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
-                                : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
-                            }
+                            link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
                           >
                             { link.title }
                           </Link>
@@ -205,10 +201,7 @@ const Header = ({ state, libraries, actions }) => {
                 return (
                   <Link
                     key={index}
-                    link={
-                      lang === 'ru'
-                        ? urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
-                        : `/uk${urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}`
+                    link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
                     }
                   >
                     { link.title }

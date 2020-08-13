@@ -29,6 +29,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
   const {
     featured_image : itemImage = { url : "" }
   } = itemEmbed;
+  const newsImage = (itemImage.url ? itemImage.url : cardImg);
   const {
     uk : itemUk = { title : "", content : "" },
     ru : itemRu = { title : "", content : "" },
@@ -63,7 +64,7 @@ const NewsCard = ({ className, state, libraries, item={} }) => {
   return (
     <Card className={className}>
       <FrameBlock>
-        {itemImage.url!=="" && <Frame src={itemImage.url} />}
+        <Frame src={newsImage} />
       </FrameBlock>
       <Content>
         <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
