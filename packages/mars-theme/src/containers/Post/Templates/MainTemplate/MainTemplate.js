@@ -220,7 +220,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
         <BigNewsWrapper>
           <BigNews>
             <BigFrame>
-              <BigImage src={bannerImage.url} />
+              {bannerImage.url!=="" && <BigImage src={bannerImage.url} />}
             </BigFrame>
             <BigContent>
               <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
