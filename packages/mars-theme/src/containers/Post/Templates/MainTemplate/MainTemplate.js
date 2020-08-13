@@ -144,7 +144,7 @@ const timeLineData = [
 
 const testArray = [1, 2, 3, 4, 5, 6];
 
-const MainTemplate = ({ state, libraries }) => {
+const MainTemplate = ({ state, libraries, actions }) => {
 
   const [loadMoreHidden, setLoadMoreHidden] = useState(false);
 
@@ -204,9 +204,7 @@ const MainTemplate = ({ state, libraries }) => {
   const { acf = {} } = post;
 
   useEffect(() => {
-    const mainData = axios.get(`${state.source.api}/frontity-api/get-main`);
-    const main = mainData.data;
-    Object.assign(state.source.data[state.router.link], main);
+    actions.theme.getMain();
   }, []);
 
   return (
