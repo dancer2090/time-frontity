@@ -201,6 +201,16 @@ const marsTheme = {
       addViewPost: ({ state }) => async (id) => {
         await axios.get(`${state.source.api}/frontity-api/add-view/${id}`);
       },
+      loadCategoryPost: ({ state, actions }) => async () => {
+        const linksCategory = state.router.link.split('/');
+        if (linksCategory.length === 4 || linksCategory.length === 5) {
+          let categoryPost = linksCategory[1];
+          if (state.theme.lang === 'uk') {
+            categoryPost = linksCategory[2];
+          }
+          await actions.source.fetch(`/${categoryPost}/`);
+        }
+      },
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);
         if (res.data) {
@@ -281,14 +291,7 @@ const marsTheme = {
           Object.assign(state.source.data[state.router.link], main);
         }
 
-        const linksCategory = state.router.link.split('/');
-        if (linksCategory.length === 4 || linksCategory.length === 5) {
-          let categoryPost = linksCategory[1];
-          if (state.theme.lang === 'uk') {
-            categoryPost = linksCategory[2];
-          }
-          await actions.source.fetch(`/${categoryPost}/`);
-        }
+        await actions.theme.loadCategoryPost();
       },
     },
   },

@@ -82,6 +82,11 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // related posts
   const relatedNews = [];
   const { items: categoryItems = [] } = categoryData;
+
+  if (categoryItems.length === 0) {
+    actions.theme.loadCategoryPost();
+  }
+
   categoryItems.forEach((item) => {
     const result = state.source.get(item.link);
     relatedNews.push({
