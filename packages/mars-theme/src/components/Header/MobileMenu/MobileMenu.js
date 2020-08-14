@@ -130,7 +130,6 @@ const MobileMenu = ({
                               {
                                 item.subMenu.map((subItem, subIndex) => {
                                   const { link: linkItem = {} } = subItem;
-                                  console.log(subItem);
                                   return (
                                     <Link
                                       key={subIndex}
