@@ -153,7 +153,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
           </SocialLabel>
           <RightTopWrapper>
             <PdfWrapper>
-              <PdfLink href={pdf} download>
+              <PdfLink href={pdf} download target="__blank">
                 <PdfIcon name="pdf-icon" />
               </PdfLink>
               <PdfShow>Печатный вариант “Время”</PdfShow>
