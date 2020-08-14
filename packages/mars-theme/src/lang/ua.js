@@ -13,4 +13,5 @@ export default {
   homePageLabelTime: 'Інформаційне агенство "Время"',
   notNews: 'Новин не додано',
   pdfLabelTime: 'Друкований варіант "Время"',
+  sharedTitle: 'Поділитись',
 };

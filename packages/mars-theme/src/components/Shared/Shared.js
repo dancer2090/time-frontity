@@ -12,10 +12,10 @@ import messenger from '../../img/svg/messager-shared.svg';
 import viber from '../../img/svg/viber-shared.svg';
 import linkedin from '../../img/svg/linkedin-shader.svg';
 import twitter from '../../img/svg/twitter-shared.svg';
+import Translator from '../Translator/Translator';
 
 const Shared = ({ link }) => {
   const [showModal, setShowModal] = useState(false);
-  console.log(link);
   return (
     <>
       <Icon
@@ -25,7 +25,7 @@ const Shared = ({ link }) => {
       <Modal
         isOpen={showModal}
         handleClose={() => setShowModal(false)}
-        title="Поделиться"
+        renderTitle={() => <Translator id="sharedTitle" />}
       >
         <Wrapper>
           <SocialLink

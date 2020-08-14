@@ -31,6 +31,15 @@ export const SocialLink = styled.a`
   margin-right: 33px;
   margin-bottom: 25px;
   
+  img {
+    transform: none;
+    transition: all .3s;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  
   &:nth-child(4n) {
     margin-right: 0;
   }
