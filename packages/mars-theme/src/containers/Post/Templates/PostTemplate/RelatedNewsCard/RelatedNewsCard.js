@@ -7,12 +7,14 @@ import {
   Content,
 } from './styles';
 import Link from '../../../../../components/link';
+import logoTime from '../../../../../img/logo.svg';
 
 const RelatedNewsCard = ({ data, state, libraries }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
   // state variables
   const { imageUrlCheck } = libraries.func;
+  const { urlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const { lang = 'ru' } = state.theme;
 
@@ -21,7 +23,7 @@ const RelatedNewsCard = ({ data, state, libraries }) => {
   const { title = '' } = acf[lang];
   const { featured_media: frameId = '' } = data;
 
-  let urlImage = '';
+  let urlImage = logoTime;
   if (state.source.attachment[frameId]) {
     urlImage = state.source.attachment[frameId].source_url;
   }
@@ -30,10 +32,10 @@ const RelatedNewsCard = ({ data, state, libraries }) => {
   return (
     <Card>
       <Frame>
-        <FrameImage src={postUrl} />
+        <FrameImage src={postUrl} style={{ objectFit: postUrl === imageUrlCheck(logoTime, urlsWithLocal) ? 'contain' : null }} />
       </Frame>
       <Content>
-        <Link link={lang === 'ru' ? data.link : `/uk/${data.link}`}>
+        <Link link={urlCheck(data.link, [state.frontity.url, state.frontity.adminUrl])}>
           <Html2React html={title} />
         </Link>
       </Content>
