@@ -109,6 +109,7 @@ const MobileMenu = ({
                         : (
                           <Link
                             link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
+                            afterClick={() => closeModal()}
                           >
                             { link.title }
                           </Link>
@@ -134,6 +135,7 @@ const MobileMenu = ({
                                     <Link
                                       key={subIndex}
                                       link={urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])}
+                                      afterClick={() => closeModal()}
                                     >
                                       { linkItem.title }
                                     </Link>
