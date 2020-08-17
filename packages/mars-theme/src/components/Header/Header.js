@@ -65,6 +65,7 @@ const Header = ({ state, libraries, actions }) => {
   const [search, setSearch] = useState('');
   const [mobileSearch, setMobileSearch] = useState(false);
   const [linksSubMenu, setLinksSubMenu] = useState([]);
+  const [changeSubLink, setChangeSubLink] = useState(false);
   const filterLanguage = languageOptions.filter((item) => item !== languageValue);
 
   useEffect(() => {
@@ -78,7 +79,12 @@ const Header = ({ state, libraries, actions }) => {
         }
       }
     });
-  }, []);
+
+    if (changeSubLink) {
+      setShowNavigation(false);
+      setChangeSubLink(false);
+    }
+  }, [state.router.link]);
 
   const setLanguage = (e, index) => {
     e.preventDefault();
@@ -115,7 +121,7 @@ const Header = ({ state, libraries, actions }) => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Link link='/'>
+            <Link link="/">
               <Logo src={urlImage} />
             </Link>
             <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
@@ -144,6 +150,7 @@ const Header = ({ state, libraries, actions }) => {
                           <Link
                             key={index}
                             link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
+                            afterClick={() => setChangeSubLink(true)}
                           >
                             { link.title }
                           </Link>
@@ -201,8 +208,7 @@ const Header = ({ state, libraries, actions }) => {
                 return (
                   <Link
                     key={index}
-                    link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
-                    }
+                    link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
                   >
                     { link.title }
                   </Link>
