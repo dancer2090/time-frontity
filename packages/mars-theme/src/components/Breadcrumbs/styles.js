@@ -34,6 +34,7 @@ export const Wrapper = styled.div`
       font-size: 12px;
       line-height: 15px;
       color: #969696;
+      pointer-events: none;
       
       &:before {
         color: #969696;
@@ -48,7 +49,7 @@ export const Wrapper = styled.div`
     li {
       display: inline;
     
-      &:nth-child(3) {
+      &:nth-of-type(3) {
         display: inline-flex;
         
         a {
@@ -63,7 +64,7 @@ export const Wrapper = styled.div`
         }
       }
       
-      &:first-child {
+      &:first-of-type {
         a {
           &:before {
             display: none;
