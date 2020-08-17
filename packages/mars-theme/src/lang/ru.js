@@ -15,4 +15,11 @@ export default {
   pdfLabelTime: 'Печатный вариант “Время”',
   sharedTitle: 'Поделиться',
   sendContacts: 'Сообщение отправлено',
+  contactsTitle: 'Контакты',
+  addressLabel: 'Адрес:',
+  telephoneLabel: 'Тел:',
+  emailLabel: 'E-mail:',
+  contactsDepartmentTitle: 'Отдел рекламы',
+  contactsFormTitle: 'Форма обратной связи',
+  sendButtonTitle: 'Отправить',
 };

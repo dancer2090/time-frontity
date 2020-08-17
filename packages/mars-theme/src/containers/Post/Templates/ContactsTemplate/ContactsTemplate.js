@@ -91,12 +91,14 @@ const ContactsTemplate = () => {
           />
           <SocialList />
         </TopNavigation>
-        <Title>Контакты</Title>
+        <Title>
+          <Translator id="contactsTitle" />
+        </Title>
         <ContactsWrapper>
           <Information>
             <InformationRow>
               <InformationName>
-                Адрес:
+                <Translator id="addressLabel" />
               </InformationName>
               <InformationValue>
                 Харьков, ул....
@@ -104,7 +106,7 @@ const ContactsTemplate = () => {
             </InformationRow>
             <InformationRow>
               <InformationName>
-                Тел:
+                <Translator id="telephoneLabel" />
               </InformationName>
               <InformationLink href="tel:+3800000000">
                 +3800000000
@@ -112,7 +114,7 @@ const ContactsTemplate = () => {
             </InformationRow>
             <InformationRow>
               <InformationName>
-                E-mail:
+                <Translator id="emailLabel" />
               </InformationName>
               <InformationLink href="mailto:test@test.com">
                 test@test.com
@@ -120,11 +122,11 @@ const ContactsTemplate = () => {
             </InformationRow>
             <DepartmentAdvertising>
               <InformationTitle>
-                Отдел рекламы
+                <Translator id="contactsDepartmentTitle" />
               </InformationTitle>
               <InformationRow>
                 <InformationName>
-                  Тел:
+                  <Translator id="telephoneLabel" />
                 </InformationName>
                 <InformationLink href="tel:+3800000000">
                   +3800000000
@@ -132,7 +134,7 @@ const ContactsTemplate = () => {
               </InformationRow>
               <InformationRow>
                 <InformationName>
-                  E-mail:
+                  <Translator id="emailLabel" />
                 </InformationName>
                 <InformationLink href="mailto:test@test.com">
                   test@test.com
@@ -142,7 +144,7 @@ const ContactsTemplate = () => {
           </Information>
           <FormSubmit onSubmit={sendForm}>
             <FormTitle>
-              Форма обратной связи
+              <Translator id="contactsFormTitle" />
             </FormTitle>
             <FormInput>
               <Input
@@ -182,7 +184,7 @@ const ContactsTemplate = () => {
               {
                 showSendButton && (
                   <FormButton type="submit">
-                    Отправить
+                    <Translator id="sendButtonTitle" />
                   </FormButton>
                 )
               }

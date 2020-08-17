@@ -15,4 +15,11 @@ export default {
   pdfLabelTime: 'Друкований варіант "Время"',
   sharedTitle: 'Поділитись',
   sendContacts: 'Повідомлення надіслано',
+  contactsTitle: 'Контакти',
+  addressLabel: 'Адреса:',
+  telephoneLabel: 'Тел:',
+  emailLabel: 'E-mail:',
+  contactsDepartmentTitle: 'Відділ реклами',
+  contactsFormTitle: "Форма зворотнього зв'язку",
+  sendButtonTitle: 'Відправити',
 };
