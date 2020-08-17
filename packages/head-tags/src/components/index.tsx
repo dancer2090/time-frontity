@@ -6,11 +6,9 @@ import { createMetaTag } from '../utils/createMetaTag';
 
 // Render all head tags from the current entity.
 const Root: React.FC<Connect<HeadTagsPackage>> = ({ state }) => {
-  console.log('tags', state);
-  console.log('end console state');
   // Get current link.
   const { link } = state.router;
-  const { lang = 'ru' } = state.theme;
+  let { lang = 'ru' } = state.theme;
   const { transformLinks } = state.headTags;
 
   // Get the head tags for that link.
@@ -19,6 +17,10 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state }) => {
 
   if (state.headTags.get(link).length > 0) {
     const data = state.source.get(link);
+    if (state.router.link.includes('uk')) {
+      lang = 'uk';
+    }
+
     if (data.isPostType) {
       const post = state.source[data.type][data.id];
       const {
