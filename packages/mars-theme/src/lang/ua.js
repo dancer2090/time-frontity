@@ -14,4 +14,7 @@ export default {
   notNews: 'Новин не додано',
   pdfLabelTime: 'Друкований варіант "Время"',
   sharedTitle: 'Поділитись',
+  titleErrorPage: 'На жаль, ця сторінка не існує',
+  titleErrorDescription: 'Ви можете відвідати',
+  homeError: 'Головна сторінка',
 };

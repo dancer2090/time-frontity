@@ -14,4 +14,7 @@ export default {
   notNews: 'Новостей не добавлено',
   pdfLabelTime: 'Печатный вариант “Время”',
   sharedTitle: 'Поделиться',
+  titleErrorPage: 'К сожалению, эта страница не существует',
+  titleErrorDescription: 'Вы можете посетить',
+  homeError: 'Главная страница',
 };
