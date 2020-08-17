@@ -1,35 +1,9 @@
 import { styled, css } from 'frontity';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../const/responsive';
 
-export const Card = styled.div`
-  display: flex;
-  width: 100%;
-   
-  ${({ direction }) => (
-    direction === 'column'
-      ? css`
-          flex-direction: column;
-          min-height: 389px;
-          
-        `
-      : null
-  )};
-  
-  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    flex-direction: column;
-    width: 100%;
-  }
-`;
-
 export const FrameBlock = styled.div`
   width: 50%;
   height: 370px;
-  
-  ${({ direction }) => (
-    direction === 'column'
-      ? 'width: 100%; height: 218px;'
-      : null
-  )};
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     height: 300px;
@@ -44,24 +18,12 @@ export const FrameBlock = styled.div`
   }
 `;
 
-export const Frame = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 export const Content = styled.div`
   width: 50%;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 19px 49px;
-  
-  ${({ direction }) => (
-    direction === 'column'
-      ? 'width: 100%'
-      : null
-  )};
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     padding: 19px 29px;
@@ -73,12 +35,6 @@ export const Content = styled.div`
   }
 `;
 
-export const ContentBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  flex-grow: 2;
-`;
 
 export const Title = styled.h2`
   font-weight: bold;
@@ -169,4 +125,82 @@ export const DateBlock = styled.div`
     line-height: 15px;
     text-align: center;
   }
+`;
+
+export const Card = styled.div`
+  display: flex;
+  width: 100%;
+   
+  ${({ direction }) => (
+    direction === 'column'
+      ? css`
+          flex-direction: column;
+          min-height: 389px;
+          
+          ${FrameBlock} {
+            width: 100%;
+            height: 218px;
+          }
+          ${Content} {
+            width: 100%;
+            padding: 19px 25px;
+          }
+        `
+      : null
+  )};
+  
+  ${({ verticalSmall }) => (
+    verticalSmall
+      ? css`
+          ${FrameBlock} {
+            min-height: 227px;
+          }
+          
+          ${Content} {
+            padding: 19px 35px;
+            text-align: left;
+          }
+          
+          ${Title} {
+            text-align: left;
+            margin-bottom: 14px;
+          }
+          
+          ${Text} {
+            text-align: left;
+            margin-bottom: 10px;
+          }
+          
+          ${DateBlock} {
+            text-align: left;
+          }
+          
+          @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+            ${Title},
+            ${Text},
+            ${DateBlock} {
+              text-align: center;
+            }
+          }
+        `
+      : null
+  )};
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+export const Frame = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const ContentBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 2;
 `;

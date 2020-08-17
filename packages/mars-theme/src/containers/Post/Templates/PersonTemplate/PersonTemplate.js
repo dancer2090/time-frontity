@@ -5,6 +5,12 @@ import {
   BigPerson,
   Row,
   Col,
+  InfinityBlock,
+  InfinityRow,
+  InfinityList,
+  InfinityListItem,
+  Banner,
+  BannerContent,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
@@ -39,6 +45,27 @@ const PersonTemplate = () => (
           <PersonCard direction="column" sizeText="small" />
         </Col>
       </Row>
+      <InfinityBlock>
+        <InfinityRow>
+          <InfinityList>
+            <InfinityListItem>
+              <PersonCard verticalSmall sizeText="small" />
+            </InfinityListItem>
+            <InfinityListItem>
+              <PersonCard verticalSmall sizeText="small" />
+            </InfinityListItem>
+            <InfinityListItem>
+              <PersonCard verticalSmall sizeText="small" />
+            </InfinityListItem>
+            <InfinityListItem>
+              <PersonCard verticalSmall sizeText="small" />
+            </InfinityListItem>
+          </InfinityList>
+          <Banner>
+            <BannerContent />
+          </Banner>
+        </InfinityRow>
+      </InfinityBlock>
     </Container>
   </Wrapper>
 );

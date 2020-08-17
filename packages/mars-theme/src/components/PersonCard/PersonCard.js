@@ -11,21 +11,18 @@ import {
 } from './styles';
 import pic from '../../img/pic.jpg';
 
-const PersonCard = ({ direction = 'row', sizeText = 'medium' }) => (
-  <Card direction={direction}>
-    <FrameBlock direction={direction}>
+const PersonCard = ({ direction = 'row', sizeText = 'medium', verticalSmall = false }) => (
+  <Card direction={direction} verticalSmall={verticalSmall}>
+    <FrameBlock>
       <Frame src={pic} />
     </FrameBlock>
-    <Content direction={direction}>
+    <Content>
       <ContentBlock>
         <Title sizeText={sizeText}>
           Наталья Фролова
         </Title>
         <Text sizeText={sizeText}>
-          «Вызовы могут стать возможностями,
-          вызовы могут стать возможностями. Вызовы могут стать возможностями.
-          Вызовы могут стать возможностями.
-          Вызовы могут стать возможностями.  Вызовы могут стать возможностями.
+          Вызовы могут стать возможностями. «Вызовы могут стать возможностями»
         </Text>
       </ContentBlock>
       <DateBlock sizeText={sizeText}>10 сентября 2020 </DateBlock>

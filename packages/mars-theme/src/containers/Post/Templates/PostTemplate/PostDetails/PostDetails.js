@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   FlexContainer,
@@ -15,39 +16,53 @@ import {
 import Shared from '../../../../../components/Shared';
 import urk from '../../../../../img/urk-net.png';
 
-const PostDetails = ({ className, showShared = true, showResources = true }) => (
-  <Wrapper className={className}>
-    <FlexContainer showShared={showShared}>
-      <Category>
-        КУЛЬТУРА
-      </Category>
-      <DateValue>
-        10 сентября 2020 | 12:33
-      </DateValue>
-      <FlexCenter>
-        <IconEye name="eye" />
-        <Counter>999</Counter>
-      </FlexCenter>
-      <FlexCenter>
-        <IconComments name="comments" />
-        <Counter>999</Counter>
-      </FlexCenter>
-      {
-        showResources && (
-          <Resources>
-            <ResourcesImage src={urk} />
-          </Resources>
-        )
-      }
-      {
-        showShared && (
-          <SharedBlock>
-            <Shared />
-          </SharedBlock>
-        )
-      }
-    </FlexContainer>
-  </Wrapper>
-);
+const PostDetails = ({
+  className,
+  showShared = true,
+  showResources = true,
+  date = '',
+  category = '',
+  state,
+  eyeCount = '0',
+}) => {
+  const fullPostUrl = `${state.frontity.url}${state.router.link}`;
 
-export default PostDetails;
+  return (
+    <Wrapper className={className}>
+      <FlexContainer showShared={showShared}>
+        <Category>
+          { category }
+        </Category>
+        <DateValue>
+          { date }
+        </DateValue>
+        <FlexCenter>
+          <IconEye name="eye" />
+          <Counter>{ eyeCount }</Counter>
+        </FlexCenter>
+        <FlexCenter>
+          <IconComments name="comments" />
+          <Counter>
+            { state.theme.commentsLength }
+          </Counter>
+        </FlexCenter>
+        {
+          showResources && (
+            <Resources>
+              <ResourcesImage src={urk} />
+            </Resources>
+          )
+        }
+        {
+          showShared && (
+            <SharedBlock>
+              <Shared link={fullPostUrl} />
+            </SharedBlock>
+          )
+        }
+      </FlexContainer>
+    </Wrapper>
+  );
+};
+
+export default connect(PostDetails);

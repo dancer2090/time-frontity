@@ -120,6 +120,7 @@ export const IconArrow = styled(SvgSprite)`
 
 export const NavigationSubContent = styled.div`
   padding-left: 33px;
+  width: 100%;
   height: ${({ height }) => height}px;
   overflow: hidden;
   transition: all .3s ease-in-out;
@@ -174,10 +175,11 @@ export const GSubscribe = styled(SubscribeNews)`
   }
 `;
 
-export const DownloadPdf = styled.div`
+export const DownloadPdf = styled.a`
   display: flex;
   align-items: center;
   margin-bottom: 32px;
+  text-decoration: none;
 `;
 
 export const DownloadPdfIcon = styled(SvgSprite)`

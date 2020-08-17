@@ -1,6 +1,10 @@
 import { styled } from 'frontity';
+import { SIZE_MOBILE } from '../../const/responsive';
 
 export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  
   ul { 
     li {
       a {
@@ -44,6 +48,21 @@ export const Wrapper = styled.div`
     li {
       display: inline;
     
+      &:nth-child(3) {
+        display: inline-flex;
+        
+        a {
+          max-width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          
+          @media screen and (max-width: ${SIZE_MOBILE}px) {
+            max-width: 150px;
+          }
+        }
+      }
+      
       &:first-child {
         a {
           &:before {

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { connect } from 'frontity';
 import {
   MobileMenuWrapper,
   MenuWrapper,
@@ -22,55 +23,25 @@ import {
 } from './styles';
 import Link from '../../link';
 import SocialList from '../../SocialList';
+import Translator from '../../Translator/Translator';
 
-const navigationOption = [
-  {
-    name: 'Главная',
-  },
-  {
-    name: 'Украина',
-  },
-  {
-    name: 'Аналитика',
-  },
-  {
-    name: 'Аналитика',
-    active: false,
-    subMenu: [
-      {
-        name: 'Культурные обзоры',
-      },
-      {
-        name: 'Рынок недвижимости',
-      },
-      {
-        name: 'Медицина',
-      },
-    ],
-  },
-  {
-    name: 'Украина',
-    active: false,
-    subMenu: [
-      {
-        name: 'Культурные обзоры',
-      },
-      {
-        name: 'Рынок недвижимости',
-      },
-    ],
-  },
-  {
-    name: 'Аналитика',
-  },
-];
-
-const MobileMenu = ({ isOpen, closeModal }) => {
+const MobileMenu = ({
+  state, actions, libraries, isOpen, closeModal, menu,
+}) => {
+  const { lang = 'ru' } = state.theme;
+  const { urlCheck } = libraries.func;
+  // link pdf file download
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    pdf = '',
+  } = acfOptions[lang];
   const subContent = useRef(null);
-  const [navigation, setNavigation] = useState(navigationOption);
+  const [navigation, setNavigation] = useState(menu);
+
   const toggleItem = (event, index) => {
     event.preventDefault();
-    console.log('click');
 
     const result = navigation.map((item, indexEl) => {
       if (index === indexEl) {
@@ -89,32 +60,58 @@ const MobileMenu = ({ isOpen, closeModal }) => {
     setNavigation(result);
   };
 
+  const changeLang = () => {
+    if (lang !== 'uk') {
+      state.theme.lang = 'uk';
+      actions.router.set(`/uk${state.router.link}`);
+    } else {
+      state.theme.lang = 'ru';
+      const url = state.router.link.replace('/uk', '');
+      actions.router.set(url);
+    }
+    closeModal();
+    const { header_menu = [] } = acfOptions[state.theme.lang];
+    const filterMenu = header_menu.map((item) => ({
+      ...item,
+      active: false,
+    }));
+    setNavigation(filterMenu);
+  };
+
   return (
     <MobileMenuWrapper isOpen={isOpen}>
       <Overflow onClick={() => closeModal()} />
       <MenuWrapper isOpen={isOpen}>
         <MenuHeader>
           <MenuClose name="close" onClick={() => closeModal()} />
-          <MobileLanguage>
-            Ru / ukr
+          <MobileLanguage onClick={() => changeLang()}>
+            {
+              lang === 'ru'
+                ? <span>Ru / uk</span>
+                : <span>Uk / ru</span>
+            }
           </MobileLanguage>
         </MenuHeader>
         <MenuBody>
           <Navigation>
             {
               navigation.map((item, index) => {
+                const { link = {} } = item;
                 return (
                   <NavigationItem key={index}>
                     {
                       item.subMenu
                         ? (
                           <span onClick={(e) => toggleItem(e, index)}>
-                            { item.name }
+                            { link.title }
                           </span>
                         )
                         : (
-                          <Link link="#">
-                            { item.name }
+                          <Link
+                            link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
+                            afterClick={() => closeModal()}
+                          >
+                            { link.title }
                           </Link>
                         )
                     }
@@ -131,11 +128,18 @@ const MobileMenu = ({ isOpen, closeModal }) => {
                           >
                             <NavigationContent>
                               {
-                                item.subMenu.map((subItem, subIndex) => (
-                                  <Link link="#" key={subIndex}>
-                                    { subItem.name }
-                                  </Link>
-                                ))
+                                item.subMenu.map((subItem, subIndex) => {
+                                  const { link: linkItem = {} } = subItem;
+                                  return (
+                                    <Link
+                                      key={subIndex}
+                                      link={urlCheck(linkItem.url, [state.frontity.url, state.frontity.adminUrl])}
+                                      afterClick={() => closeModal()}
+                                    >
+                                      { linkItem.title }
+                                    </Link>
+                                  );
+                                })
                               }
                             </NavigationContent>
                           </NavigationSubContent>
@@ -151,10 +155,10 @@ const MobileMenu = ({ isOpen, closeModal }) => {
             <SubcribeBlock>
               <GSubscribe />
             </SubcribeBlock>
-            <DownloadPdf>
+            <DownloadPdf href={pdf} download target="__blank">
               <DownloadPdfIcon name="pdf" />
               <DownloadPdfLabel>
-                Печатный вариант “Время”
+                <Translator id="pdfLabelTime" />
               </DownloadPdfLabel>
             </DownloadPdf>
             <SocialListBlock>
@@ -167,4 +171,4 @@ const MobileMenu = ({ isOpen, closeModal }) => {
   );
 };
 
-export default MobileMenu;
+export default connect(MobileMenu);

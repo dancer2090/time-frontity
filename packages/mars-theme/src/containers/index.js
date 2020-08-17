@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Global, connect, Head,
 } from 'frontity';
@@ -37,7 +37,6 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
   console.log(state);
-
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -61,9 +60,8 @@ const Theme = ({ state, actions }) => {
         <Main>
           <Switch>
             <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={state.router.link === '/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/category/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/post/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <PageError when={data.isError} />
           </Switch>
