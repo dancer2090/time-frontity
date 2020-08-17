@@ -14,4 +14,5 @@ export default {
   notNews: 'Новин не додано',
   pdfLabelTime: 'Друкований варіант "Время"',
   sharedTitle: 'Поділитись',
+  sendContacts: 'Повідомлення надіслано',
 };

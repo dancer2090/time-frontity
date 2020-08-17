@@ -14,4 +14,5 @@ export default {
   notNews: 'Новостей не добавлено',
   pdfLabelTime: 'Печатный вариант “Время”',
   sharedTitle: 'Поделиться',
+  sendContacts: 'Сообщение отправлено',
 };
