@@ -5,7 +5,7 @@ import { SIZE_LAPTOP_SMALL } from '../../../const/responsive';
 export const Wrapper = styled.div`
   margin-bottom: 41px;
   
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
   

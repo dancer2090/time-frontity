@@ -24,7 +24,7 @@ export const Label = styled.span`
 export const GInput = styled(Input)`
   margin-bottom: 9px;
   
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
 `;

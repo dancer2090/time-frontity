@@ -68,7 +68,7 @@ export const FlexCenter = styled.div`
   align-items: center;
   margin-right: 20px;
   
-  &:last-child {
+  &:last-of-type {
     margin-right: 0;
   }
 `;

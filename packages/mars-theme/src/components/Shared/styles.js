@@ -40,7 +40,7 @@ export const SocialLink = styled.a`
     }
   }
   
-  &:nth-child(4n) {
+  &:nth-of-type(4n) {
     margin-right: 0;
   }
 `;

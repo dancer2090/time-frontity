@@ -1,4 +1,4 @@
-import { styled } from 'frontity';
+import { styled, css } from 'frontity';
 import { SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL } from '../../const/responsive';
 import SvgSprite from '../SvgSprite';
 
@@ -237,10 +237,28 @@ export const Language = styled.div`
   position: relative;
 `;
 
+
+export const LanguageIcon = styled(SvgSprite)`
+  width: 9px;
+  height: 9px;
+  fill: #282828;
+  transition: all .3s;
+`;
+
 export const LanguageValueBlock = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  
+  ${({ active }) => (
+    active
+      ? css`
+          ${LanguageIcon} {
+            transform: rotate(180deg);
+          }
+        `
+      : null
+  )};
 `;
 
 export const LanguageValue = styled.span`
@@ -251,19 +269,6 @@ export const LanguageValue = styled.span`
   text-transform: uppercase;
   color: #282828;
   margin-right: 3px;
-`;
-
-export const LanguageIcon = styled(SvgSprite)`
-  width: 9px;
-  height: 9px;
-  fill: #282828;
-  transition: all .3s;
-
-  ${({ active }) => (
-    active
-      ? 'transform: rotate(180deg);'
-      : null
-  )};
 `;
 
 export const LanguageShow = styled.div`
@@ -298,7 +303,7 @@ export const LanguageSpan = styled.span`
     color: #000;
   }
 
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
 `;
@@ -335,7 +340,7 @@ export const Links = styled.div`
       color: #000;
     }
 
-    &:last-child {
+    &:last-of-type {
       margin-right: 0;
     }
   }

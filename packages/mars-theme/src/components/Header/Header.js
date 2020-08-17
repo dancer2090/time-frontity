@@ -179,11 +179,14 @@ const Header = ({ state, libraries, actions }) => {
               </Search>
             </BottomRelative>
             <Language>
-              <LanguageValueBlock onClick={() => setShowLanguage(!showLanguage)}>
+              <LanguageValueBlock
+                onClick={() => setShowLanguage(!showLanguage)}
+                active={showLanguage}
+              >
                 <LanguageValue>
                   {languageValue}
                 </LanguageValue>
-                <LanguageIcon name="arrow-lang" active={showLanguage} />
+                <LanguageIcon name="arrow-lang" />
               </LanguageValueBlock>
               <LanguageShow show={showLanguage}>
                 {
@@ -219,11 +222,13 @@ const Header = ({ state, libraries, actions }) => {
         </HeaderContent>
       </WrapperContainer>
 
-      <MobileMenu
+      {/*
+       <MobileMenu
         isOpen={showMobileModal}
         closeModal={() => setShowMobileModal(false)}
         menu={filterMenu}
       />
+      */}
     </Wrapper>
   );
 };
