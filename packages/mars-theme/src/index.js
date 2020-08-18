@@ -211,6 +211,7 @@ const marsTheme = {
           await actions.source.fetch(`/${categoryPost}/`);
         }
       },
+      subscribeNews: ({ state }) => async () => axios.post(`${state.source.api}/frontity-api/send-subscribe/`),
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);
         if (res.data) {

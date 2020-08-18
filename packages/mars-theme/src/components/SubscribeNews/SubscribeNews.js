@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   GIconMessage,
@@ -13,26 +14,33 @@ import { validateFieldEmail } from '../../utils/validation/validation';
 import Translator from '../Translator/Translator';
 import { translator } from '../../utils/translator';
 
-const SubscribeNews = ({ className, lang = 'ru' }) => {
+const SubscribeNews = ({ className, lang = 'ru', actions }) => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [showConfirmMessage, setShowConfirmMessage] = useState(false);
 
-  const subscribeNews = () => {
+  const subscribeNewsValidation = () => {
     const getEmailError = validateFieldEmail(email);
 
     setEmailError(getEmailError);
 
-    if (getEmailError.length === 0) {
-      setShowConfirmMessage(true);
-    }
+    return getEmailError.length === 0;
   };
 
   const closeModal = () => {
     setEmail('');
     setShowModal(false);
     setShowConfirmMessage(false);
+  };
+
+  const formSubmit = () => {
+    if (subscribeNewsValidation()) {
+      actions.theme.subscribeNews()
+        .then(() => {
+          setShowConfirmMessage(true);
+        });
+    }
   };
 
   return (
@@ -60,7 +68,7 @@ const SubscribeNews = ({ className, lang = 'ru' }) => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <ButtonWrapper>
-                  <Button onClick={subscribeNews}>
+                  <Button onClick={formSubmit}>
                     <Translator id="subscribeLabelButton" />
                   </Button>
                 </ButtonWrapper>
@@ -74,4 +82,4 @@ const SubscribeNews = ({ className, lang = 'ru' }) => {
   );
 };
 
-export default SubscribeNews;
+export default connect(SubscribeNews);
