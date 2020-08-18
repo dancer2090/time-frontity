@@ -7,7 +7,7 @@ import axios from 'axios';
 import Theme from './containers';
 import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
-import { linkReplace, linkImageReplace } from './utils/func';
+import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
 
 const newHandler = {
   name: 'categoryOrPostType',
@@ -295,6 +295,7 @@ const marsTheme = {
     func: {
       urlCheck: linkReplace,
       imageUrlCheck: linkImageReplace,
+      urlSeoCheck: linkSeoReplacer,
     },
     source: {
       handlers: [UkMainHandler, UkMainHandler2, newHandler],
