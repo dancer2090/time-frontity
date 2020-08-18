@@ -6,6 +6,7 @@ import { createMetaTag } from '../utils/createMetaTag';
 
 // Render all head tags from the current entity.
 const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
+  console.log(state);
   const [headTagsData, setHeadTagsData] = useState([]);
   const { urlSeoCheck } = libraries.func;
   const checkUrl = (url) => {
