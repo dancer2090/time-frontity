@@ -24,6 +24,7 @@ const Shared = ({ link }) => {
       />
       <Modal
         isOpen={showModal}
+        fullSize={false}
         handleClose={() => setShowModal(false)}
         renderTitle={() => <Translator id="sharedTitle" />}
       >

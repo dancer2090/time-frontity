@@ -8,10 +8,11 @@ export const formatDatePost = (lang, valueDate) => {
   // uk-UA
   const locales = lang === 'ru' ? 'ru' : 'uk';
   const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}`;
+  const minute = date.getMinutes();
   if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')} | ${date.getHours()}:${date.getMinutes()}`;
+    return `${resultDate.replace(' г.', '')} | ${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
   }
-  return `${resultDate.replace(' р.', '')} | ${date.getHours()}:${date.getMinutes()}`;
+  return `${resultDate.replace(' р.', '')} | ${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
 };
 
 export const formatDate = (lang, valueDate) => {

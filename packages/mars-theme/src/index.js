@@ -265,16 +265,12 @@ const marsTheme = {
 
       sendSubscribe: ({ state }) => async (data) => {
         const dataForm = data;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
+        // dataForm.append('recaptchaToken', state.theme.recaptchaToken);
+        return axios.post(
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
           { headers: { 'content-type': 'application/json' } },
-        ).then((response) => {
-          if (response.status === 200) {
-            state.customSettings.isSubscribeSend = true;
-          }
-        });
+        );
       },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
