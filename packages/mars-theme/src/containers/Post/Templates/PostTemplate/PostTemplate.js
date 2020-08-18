@@ -160,7 +160,9 @@ const PostTemplate = ({ state, libraries, actions }) => {
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
-                <MobileCommentCount>999</MobileCommentCount>
+                <MobileCommentCount>
+                  { state.theme.commentsLength }
+                </MobileCommentCount>
               </MobileComments>
               <Shared link={fullPostUrl} />
             </MobileEvents>
@@ -172,7 +174,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
             />
 
             <SubscribeBlock>
-              <SubscribeNews />
+              <SubscribeNews lang={lang} />
             </SubscribeBlock>
 
             <CommentsBlock>

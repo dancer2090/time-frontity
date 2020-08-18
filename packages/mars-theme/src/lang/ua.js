@@ -17,4 +17,12 @@ export default {
   titleErrorPage: 'На жаль, ця сторінка не існує',
   titleErrorDescription: 'Ви можете відвідати',
   homeError: 'Головна сторінка',
+  commentsLabel: 'Коментарі',
+  sendTitle: 'Надіслати',
+  namePlaceholder: "Ім'я",
+  addCommentsPlaceholder: 'Додайте коментар...',
+  subscribeNewsLabel: 'Підписатись на новини',
+  titleSubscribeModal: 'Ми можемо повідомляти вас про самі останні події',
+  subscribeMessage: 'Дякую за підписку!',
+  subscribeLabelButton: 'Підписатись',
 };

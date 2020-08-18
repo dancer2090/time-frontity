@@ -17,4 +17,12 @@ export default {
   titleErrorPage: 'К сожалению, эта страница не существует',
   titleErrorDescription: 'Вы можете посетить',
   homeError: 'Главная страница',
+  commentsLabel: 'Коментарии',
+  sendTitle: 'Отправить',
+  namePlaceholder: 'Имя',
+  addCommentsPlaceholder: 'Добавьте коментарий...',
+  subscribeNewsLabel: 'Подписаться на новости',
+  titleSubscribeModal: 'Мы можем оповещать вас о самых последних событиях',
+  subscribeMessage: 'Спасибо за подписку!',
+  subscribeLabelButton: 'Подписаться',
 };

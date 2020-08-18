@@ -10,8 +10,10 @@ import {
 import Input from '../Input';
 import Modal from '../Modal/Modal';
 import { validateFieldEmail } from '../../utils/validation/validation';
+import Translator from '../Translator/Translator';
+import { translator } from '../../utils/translator';
 
-const SubscribeNews = ({ className }) => {
+const SubscribeNews = ({ className, lang = 'ru' }) => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -38,12 +40,12 @@ const SubscribeNews = ({ className }) => {
       <Wrapper className={className} onClick={() => setShowModal(!showModal)}>
         <GIconMessage name="mail" />
         <Label>
-          Подписаться на новости
+          <Translator id="subscribeNewsLabel" />
         </Label>
       </Wrapper>
 
       <Modal
-        title={!showConfirmMessage ? 'Мы можем оповещать вас о самых последних событиях' : null}
+        title={!showConfirmMessage ? translator(lang, 'titleSubscribeModal') : null}
         isOpen={showModal}
         handleClose={closeModal}
       >
@@ -59,12 +61,12 @@ const SubscribeNews = ({ className }) => {
                 />
                 <ButtonWrapper>
                   <Button onClick={subscribeNews}>
-                    Подписаться
+                    <Translator id="subscribeLabelButton" />
                   </Button>
                 </ButtonWrapper>
               </>
             )
-            : <MessageConfirm>Спасибо за подписку!</MessageConfirm>
+            : <MessageConfirm><Translator id="subscribeMessage" /></MessageConfirm>
         }
 
       </Modal>
