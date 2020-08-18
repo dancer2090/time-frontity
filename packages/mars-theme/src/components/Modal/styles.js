@@ -21,7 +21,13 @@ export const CModal = styled.div`
   background: #F2F2F2;
   position: relative;
 
-  @media (max-width: ${SIZE_MOBILE}px) {
+  ${({ size }) => (
+    size
+      ? css``
+      : null
+  )}
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
     padding: 40px 17px;
     min-width: 320px;
     

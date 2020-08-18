@@ -36,7 +36,10 @@ const SubscribeNews = ({ className, lang = 'ru', actions }) => {
 
   const formSubmit = () => {
     if (subscribeNewsValidation()) {
-      actions.theme.subscribeNews()
+      // eslint-disable-next-line no-undef
+      const formData = new FormData();
+      formData.append('email', email);
+      actions.theme.sendSubscribe(formData)
         .then(() => {
           setShowConfirmMessage(true);
         });
