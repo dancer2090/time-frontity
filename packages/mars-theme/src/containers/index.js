@@ -33,11 +33,6 @@ const Theme = ({ state, actions }) => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
-        <Title />
-        <Head>
-          <meta name="description" content={state.frontity.description} />
-          <html lang="en" />
-        </Head>
 
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}

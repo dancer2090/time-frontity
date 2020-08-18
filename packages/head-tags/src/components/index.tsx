@@ -6,14 +6,13 @@ import { createMetaTag } from '../utils/createMetaTag';
 
 // Render all head tags from the current entity.
 const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
-  console.log(state);
-  const [headTagsData, setHeadTagsData] = useState([]);
   const { urlSeoCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
 
   const imageCheck = (url) => {
-    return imageUrlCheck(url, urlsWithLocal)  ;
+    console.log(imageUrlCheck(url, urlsWithLocal))
+    return imageUrlCheck(url, urlsWithLocal);
   };
 
   const checkUrl = (url) => {
@@ -25,33 +24,36 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
   const { transformLinks } = state.headTags;
 
   // Get the head tags for that link.
-  useEffect(() => {
+  const resultTags = React.useMemo(() => {
+    let headTagsData = []
+    console.log('load data')
     const dataId = state.source.get(link);
     if (state.source[dataId.type]) {
       const data = state.source[dataId.type][dataId.id];
-      const result = createMetaTag(data, lang, checkUrl, imageCheck, state);
-      setHeadTagsData(result);
+      headTagsData = createMetaTag(data, lang, checkUrl, imageCheck, state);
     } else {
+      console.log('else')
       if (dataId.isCategory) {
         const data = state.source.category[dataId.id];
-        const result = createMetaTag(data, lang, checkUrl, imageCheck, state);
-        setHeadTagsData(result);
+        headTagsData = createMetaTag(data, lang, checkUrl, imageCheck, state);
       }
     }
+
+    return headTagsData;
   }, [
-    state.frontity.url,
-    state.router.link,
-    state.source.api,
-    state.theme.lang,
-    transformLinks,
-    transformLinks && transformLinks.base,
-    transformLinks && transformLinks.ignore,
+      state.router.link,
+      state.theme.lang,
+      state.frontity.url,
+      state.source.api,
+      transformLinks,
+      transformLinks && transformLinks.base,
+      transformLinks && transformLinks.ignore,
   ]);
 
   // Render all tags inside <head>.
   return (
     <Head>
-      {headTagsData.map(({ tag: Tag, attributes, content }, index) => {
+      {resultTags.map(({ tag: Tag, attributes, content }, index) => {
         return (
           <Tag key={index} {...attributes}>
             {content}
