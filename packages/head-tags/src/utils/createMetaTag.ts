@@ -1,4 +1,4 @@
-export const createMetaTag = (data, lang: string, checkUrl) => {
+export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) => {
     const { head_tags: tags = [] } = data;
     const {
         acf = {},
@@ -54,6 +54,21 @@ export const createMetaTag = (data, lang: string, checkUrl) => {
                    attributes: {
                        ...item.attributes,
                        content,
+                   }
+               }
+           }
+           if (property === 'og:image') {
+               const {
+                   featured_media: media = '',
+               } = data;
+               const {
+                   source_url: urlImage = '',
+               } = state.source.attachment[media];
+               return {
+                   tag: item.tag,
+                   attributes: {
+                       ...item.attributes,
+                       content: imageCheck(urlImage),
                    }
                }
            }

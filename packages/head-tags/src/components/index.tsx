@@ -9,6 +9,13 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
   console.log(state);
   const [headTagsData, setHeadTagsData] = useState([]);
   const { urlSeoCheck } = libraries.func;
+  const { imageUrlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
+
+  const imageCheck = (url) => {
+    return imageUrlCheck(url, urlsWithLocal)  ;
+  };
+
   const checkUrl = (url) => {
     return urlSeoCheck(url, [state.frontity.url, state.frontity.adminUrl], state.frontity.url)
   };
@@ -22,12 +29,12 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
     const dataId = state.source.get(link);
     if (state.source[dataId.type]) {
       const data = state.source[dataId.type][dataId.id];
-      const result = createMetaTag(data, lang, checkUrl);
+      const result = createMetaTag(data, lang, checkUrl, imageCheck, state);
       setHeadTagsData(result);
     } else {
       if (dataId.isCategory) {
         const data = state.source.category[dataId.id];
-        const result = createMetaTag(data, lang, checkUrl);
+        const result = createMetaTag(data, lang, checkUrl, imageCheck, state);
         setHeadTagsData(result);
       }
     }
