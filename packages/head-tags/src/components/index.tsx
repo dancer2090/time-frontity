@@ -12,34 +12,13 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state }) => {
   const { transformLinks } = state.headTags;
 
   // Get the head tags for that link.
-  const templateHeadTags = state.headTags.get(link);
-  let resultArrayMeta = [...templateHeadTags];
+  console.log(state);
+  const dataId = state.source.get(link);
+  const data = state.source[dataId.type][dataId.id];
+  const { head_tags: headTagsData = [] } = data;
+  console.log(headTagsData);
 
-  if (state.headTags.get(link).length > 0) {
-    const data = state.source.get(link);
-    if (state.router.link.includes('uk')) {
-      lang = 'uk';
-    }
-
-    if (data.isPostType) {
-      const post = state.source[data.type][data.id];
-      const {
-        acf = {}
-      } = post;
-      const result = createMetaTag(acf[lang]);
-      resultArrayMeta = templateHeadTags.concat(result);
-    } else if (data.isCategory) {
-      const category = state.source.category[data.id];
-      const {
-        acf = {}
-      } = category;
-
-      const result = createMetaTag(acf[lang]);
-      resultArrayMeta = templateHeadTags.concat(result);
-    }
-  }
-
-  const headTags = React.useMemo(() => resultArrayMeta, [
+  const headTags = React.useMemo(() => headTagsData, [
     state.frontity.url,
     state.router.link,
     state.source.api,
