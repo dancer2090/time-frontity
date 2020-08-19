@@ -14,7 +14,6 @@ import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
-import Title from '../../../../components/Title';
 import Translator from '../../../../components/Translator/Translator';
 import { Loading, NotLoadPost } from '../MainTemplate/styles';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
@@ -23,7 +22,11 @@ const ResultSearchTemplate = ({ state, actions }) => {
   const { lang = 'ru' } = state.theme;
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
-
+  const urlArray = state.router.link.split('?q=');
+  let querySearch = '';
+  if (urlArray.length === 2) {
+    querySearch = urlArray[1];
+  }
   const data = state.source.get('/ukraina');
 
   const {
@@ -32,12 +35,15 @@ const ResultSearchTemplate = ({ state, actions }) => {
     totalPages = 0,
   } = data;
 
-  data.items.forEach(item => {
-    const post = state.source.get(item.link);
-    timeline.push(state.source[post.type][post.id]);
-  });
+  if (data.items) {
+    data.items.forEach((item) => {
+      const post = state.source.get(item.link);
+      timeline.push(state.source[post.type][post.id]);
+    });
+  }
 
   useEffect(() => {
+    actions.theme.loadSearch();
     state.customSettings.searchPage = 2;
     actions.theme.getCategory(data.id);
     loadTimeLineData();
@@ -82,7 +88,11 @@ const ResultSearchTemplate = ({ state, actions }) => {
         </TopNavigation>
         <Result>
           <ResultTitle>
-            По запросу "Новости харькова" найдено:
+            По запросу
+            {' '}
+            {querySearch}
+            {' '}
+            найдено:
           </ResultTitle>
         </Result>
         {

@@ -37,6 +37,7 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
   console.log(state);
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -61,7 +62,7 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/search-result/'} />
+            <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <PageError when={data.isError} />
           </Switch>

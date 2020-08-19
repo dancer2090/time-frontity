@@ -23,7 +23,8 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
   let titleCategory = '';
   if (acfCategory) {
     // eslint-disable-next-line no-prototype-builtins
-    if (acfCategory[lang] && acfCategory[lang].hasOwnProperty('title')) {
+    const copyAcfCategory = Object.assign({}, acfCategory[lang]);
+    if (acfCategory[lang] && copyAcfCategory.hasOwnProperty('title')) {
       titleCategory = acfCategory[lang].title;
     }
   }

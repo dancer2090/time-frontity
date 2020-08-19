@@ -273,6 +273,9 @@ const marsTheme = {
           { headers: { 'content-type': 'application/json' } },
         );
       },
+      loadSearch: ({ actions }) => async () => {
+        await actions.source.fetch('/ukraina');
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
@@ -289,7 +292,7 @@ const marsTheme = {
         }
 
         if (state.router.link === '/search-result/') {
-          await actions.source.fetch('/ukraina');
+          actions.theme.loadSearch();
         }
 
 

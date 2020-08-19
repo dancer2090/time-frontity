@@ -12,7 +12,7 @@ const PostContent = ({ state, scrollRef = null }) => {
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-      <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link === '/search-result/'} />
+      <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
     </Switch>
