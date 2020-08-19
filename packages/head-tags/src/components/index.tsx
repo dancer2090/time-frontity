@@ -26,13 +26,11 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
   // Get the head tags for that link.
   const resultTags = React.useMemo(() => {
     let headTagsData = []
-    console.log('load data')
     const dataId = state.source.get(link);
     if (state.source[dataId.type]) {
       const data = state.source[dataId.type][dataId.id];
       headTagsData = createMetaTag(data, lang, checkUrl, imageCheck, state);
     } else {
-      console.log('else')
       if (dataId.isCategory) {
         const data = state.source.category[dataId.id];
         headTagsData = createMetaTag(data, lang, checkUrl, imageCheck, state);
