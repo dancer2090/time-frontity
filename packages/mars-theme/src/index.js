@@ -156,6 +156,7 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      searchPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -286,6 +287,11 @@ const marsTheme = {
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
         }
+
+        if (state.router.link === '/search-result/') {
+          await actions.source.fetch('/ukraina');
+        }
+
 
         await actions.theme.loadCategoryPost();
       },
