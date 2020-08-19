@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'frontity';
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
@@ -19,16 +20,37 @@ import {
   SharedBlock,
   GShared,
   SliderPagination,
+  TagsWrapper,
+  SubscribeBlock,
+  CommentsBlock,
+  CenterContent,
+  SocialBlock,
+  SocialFlex,
+  SocialLabel,
+  FullBanner,
 } from './styles';
 import sliderImage from '../../../../img/slider.jpg';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
+import TabsPost from '../../../../components/TagsPost';
+import SubscribeNews from '../../../../components/SubscribeNews';
+import Comments from '../../../../components/Comments';
+import Translator from '../../../../components/Translator/Translator';
+import {
+  MobileCommentCount,
+  MobileComments,
+  MobileCommentsIco,
+  MobileEvents,
+} from '../PostTemplate/styles';
+import Shared from '../../../../components/Shared';
 
 // install Swiper components
 SwiperCore.use([Navigation]);
 
-const PostPhotoTemplate = () => {
+const PostPhotoTemplate = ({ state }) => {
+  const [showComments, setShowComments] = useState(false);
+  const { lang = 'ru' } = state.theme;
   const slides = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [activeIndex, setActiveIndex] = useState(1);
   const changeSlide = (swiper) => {
@@ -79,23 +101,53 @@ const PostPhotoTemplate = () => {
                     <SliderSlide>
                       <SlideImage src={sliderImage} />
                     </SliderSlide>
+                    <BottomSlider>
+                      <SliderDescription>
+                        Фото: Пресс-служба
+                      </SliderDescription>
+                      <SharedBlock>
+                        <GShared />
+                      </SharedBlock>
+                    </BottomSlider>
                   </SwiperSlide>
                 ))
               }
             </Swiper>
-            <BottomSlider>
-              <SliderDescription>
-                Фото: Пресс-служба
-              </SliderDescription>
-              <SharedBlock>
-                <GShared />
-              </SharedBlock>
-            </BottomSlider>
           </SliderWrapper>
+          <TagsWrapper>
+            <TabsPost />
+          </TagsWrapper>
+          <CenterContent>
+            <MobileEvents>
+              <MobileComments onClick={() => setShowComments(true)}>
+                <MobileCommentsIco name="comments" />
+                <MobileCommentCount>
+                  { state.theme.commentsLength }
+                </MobileCommentCount>
+              </MobileComments>
+              <Shared />
+            </MobileEvents>
+            <SubscribeBlock>
+              <SubscribeNews lang={lang} />
+            </SubscribeBlock>
+
+            <CommentsBlock>
+              <Comments />
+            </CommentsBlock>
+          </CenterContent>
+          <SocialBlock>
+            <SocialLabel>
+              <Translator id="followUs" />
+            </SocialLabel>
+            <SocialFlex>
+              <SocialList />
+            </SocialFlex>
+          </SocialBlock>
+          <FullBanner />
         </WrapperContent>
       </Container>
     </Wrapper>
   );
 };
 
-export default PostPhotoTemplate;
+export default connect(PostPhotoTemplate);
