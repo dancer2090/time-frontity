@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   Wrapper,
@@ -11,53 +12,90 @@ import {
   GPostDetails,
   PostDescription,
   SliderWrapper,
+  SliderSlide,
+  SlideImage,
+  BottomSlider,
+  SliderDescription,
+  SharedBlock,
+  GShared,
+  SliderPagination,
 } from './styles';
-import 'swiper/css/swiper.css';
+import sliderImage from '../../../../img/slider.jpg';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
 
-const PostPhotoTemplate = () => (
-  <Wrapper>
-    <Container>
-      <TopNavigation>
-        <Breadcrumbs />
-        <SocialList />
-      </TopNavigation>
-      <WrapperContent>
-        <PostInformation>
-          <PostTitleBlock>
-            <PostTitle>
-              В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное
-            </PostTitle>
-          </PostTitleBlock>
-          <PostTitleDescription>
-            <GPostDetails showResources={false} />
-          </PostTitleDescription>
-          <PostDescription>
-            В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
-            Главное. В цьому випадку точно не зможу сказати, бо не була там.
-            Але масову загибель риби можуть викликати кілька причин. По-перше, цвітіння
-            водоростей, переважно синьо-зелених,
-            які наче плівкою вкривають водойми, створюючи дефіцит кисню. Через це риба змінює свою поведінку і мо
-          </PostDescription>
-        </PostInformation>
-        <SliderWrapper>
-          <Swiper
-            spaceBetween={50}
-            slidesPerView={3}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            <SwiperSlide>Slide 1</SwiperSlide>
-            <SwiperSlide>Slide 2</SwiperSlide>
-            <SwiperSlide>Slide 3</SwiperSlide>
-            <SwiperSlide>Slide 4</SwiperSlide>
-          </Swiper>
-        </SliderWrapper>
-      </WrapperContent>
-    </Container>
-  </Wrapper>
-);
+// install Swiper components
+SwiperCore.use([Navigation]);
+
+const PostPhotoTemplate = () => {
+  const slides = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [activeIndex, setActiveIndex] = useState(1);
+  const changeSlide = (swiper) => {
+    const { activeIndex } = swiper;
+    setActiveIndex(activeIndex + 1);
+  };
+  return (
+    <Wrapper>
+      <Container>
+        <TopNavigation>
+          <Breadcrumbs />
+          <SocialList />
+        </TopNavigation>
+        <WrapperContent>
+          <PostInformation>
+            <PostTitleBlock>
+              <PostTitle>
+                В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное
+              </PostTitle>
+            </PostTitleBlock>
+            <PostTitleDescription>
+              <GPostDetails showResources={false} />
+            </PostTitleDescription>
+            <PostDescription>
+              В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
+              Главное. В цьому випадку точно не зможу сказати, бо не була там.
+              Але масову загибель риби можуть викликати кілька причин. По-перше, цвітіння
+              водоростей, переважно синьо-зелених,
+              які наче плівкою вкривають водойми, створюючи дефіцит кисню. Через це риба змінює свою поведінку і мо
+            </PostDescription>
+          </PostInformation>
+          <SliderWrapper>
+            <SliderPagination>
+              {activeIndex}
+              /
+              {slides.length}
+            </SliderPagination>
+            <Swiper
+              spaceBetween={50}
+              slidesPerView={1}
+              navigation={{ clickable: true }}
+              onSlideChange={(swiper) => changeSlide(swiper)}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {
+                slides.map((item) => (
+                  <SwiperSlide key={item}>
+                    <SliderSlide>
+                      <SlideImage src={sliderImage} />
+                    </SliderSlide>
+                  </SwiperSlide>
+                ))
+              }
+            </Swiper>
+            <BottomSlider>
+              <SliderDescription>
+                Фото: Пресс-служба
+              </SliderDescription>
+              <SharedBlock>
+                <GShared />
+              </SharedBlock>
+            </BottomSlider>
+          </SliderWrapper>
+        </WrapperContent>
+      </Container>
+    </Wrapper>
+  );
+};
 
 export default PostPhotoTemplate;
