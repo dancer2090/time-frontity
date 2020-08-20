@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'frontity';
 import Modal from '../../Modal/Modal';
 import {
   Wrapper,
@@ -8,15 +9,33 @@ import {
   FormWrapper,
   CommentsInput,
   SendButton,
+  Message,
+  NoComments,
 } from './styles';
 import CommentPost from '../CommentPost';
 import Input from '../../Input';
 import { fieldRequiredValidation } from '../../../utils/validation/validation';
+import Translator from '../../Translator/Translator';
+import { translator } from '../../../utils/translator';
 
-const CommentsModal = ({ isOpen = false, handleClose }) => {
+const CommentsModal = ({
+  isOpen = false,
+  handleClose,
+  state,
+  actions,
+  libraries,
+}) => {
+  // Post Id for single post
+  const dataP = state.source.get(state.router.link);
+  const postId = dataP.id;
+  const { lang = 'ru' } = state.theme;
+
+  // components state
   const [name, setName] = useState('');
   const [comments, setComments] = useState('');
   const [showSendButton, setShowSendButton] = useState(false);
+  const [commentsArray, setCommentsArray] = useState([]);
+  const [showSendMessage, setShowSendMessage] = useState(false);
   // errors
   const [hasNameError, setHasNameError] = useState(false);
   const [hasCommentsError, setCommentsError] = useState(false);
@@ -30,6 +49,18 @@ const CommentsModal = ({ isOpen = false, handleClose }) => {
       }
     }
   };
+
+  useEffect(() => {
+    libraries.source.api.get({
+      endpoint: 'comments',
+      params: { post: postId, _embed: false, per_page: 100 },
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          setCommentsArray(data);
+        });
+      });
+  }, []);
 
   const validateForm = () => {
     const getNameError = fieldRequiredValidation(name);
@@ -45,6 +76,20 @@ const CommentsModal = ({ isOpen = false, handleClose }) => {
     event.preventDefault();
 
     if (validateForm) {
+      // eslint-disable-next-line no-undef
+      const formData = new FormData();
+      formData.append('author_name', name);
+      formData.append('content', comments);
+      formData.append('post', postId);
+
+      actions.theme.sendComment({ formData })
+        .then(() => {
+          setShowSendMessage(true);
+
+          setTimeout(() => {
+            setShowSendMessage(false);
+          }, 2500);
+        });
       setName('');
       setComments('');
     }
@@ -54,25 +99,41 @@ const CommentsModal = ({ isOpen = false, handleClose }) => {
     <Modal isOpen={isOpen} fullSize handleClose={handleClose}>
       <Wrapper>
         <Header>
-          <Label>Коментарии: 999</Label>
+          <Label>
+            <Translator id="commentsLabel" />
+            :
+            {' '}
+            { state.theme.commentsLength }
+          </Label>
           <Content>
-            <CommentPost />
-            <CommentPost />
-            <CommentPost />
-            <CommentPost />
-            <CommentPost />
+            {
+              commentsArray.length === 0
+                ? (
+                  <NoComments><Translator id="noComments" /></NoComments>
+                )
+                : commentsArray.map((item, index) => (
+                  <CommentPost key={index} data={item} />
+                ))
+            }
           </Content>
         </Header>
+        {
+          showSendMessage && (
+            <Message>
+              <Translator id="sendCommentsMessage" />
+            </Message>
+          )
+        }
         <FormWrapper>
           <Input
-            placeholder="Имя"
+            placeholder={translator(lang, 'namePlaceholder')}
             value={name}
             error={hasNameError}
             onChange={(e) => setName(e.target.value)}
           />
           <CommentsInput>
             <Input
-              placeholder="Добавьте коментарий..."
+              placeholder={translator(lang, 'addCommentsPlaceholder')}
               textarea
               value={comments}
               error={hasCommentsError}
@@ -92,4 +153,4 @@ const CommentsModal = ({ isOpen = false, handleClose }) => {
   );
 };
 
-export default CommentsModal;
+export default connect(CommentsModal);

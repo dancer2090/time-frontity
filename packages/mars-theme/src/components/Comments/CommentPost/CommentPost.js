@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   DateValue,
@@ -7,9 +8,13 @@ import {
   ButtonBlock,
   Button,
 } from './styles';
+import { formatDatePost } from '../../../utils/formatDate';
 
-const CommentPost = () => {
+const CommentPost = ({ state, libraries, data }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
   const contentRef = useRef(null);
+  const { lang = 'ru' } = state.theme;
   const [heightValue, setHeightValue] = useState('fit-content');
   const [showCollapseButton, setShowCollapseButton] = useState(false);
 
@@ -26,20 +31,22 @@ const CommentPost = () => {
 
     setHeightValue(`${contentRef.current.scrollHeight}px`);
   };
-
+  const {
+    author_name: name = '',
+    content = '',
+    date = '',
+  } = data;
+  const dateValue = formatDatePost(lang, date);
   return (
     <Wrapper>
       <DateValue>
-        10 сентября 2020 | 12:33
+        { dateValue }
       </DateValue>
-      <NameAuthor>Андрей</NameAuthor>
+      <NameAuthor>
+        { name }
+      </NameAuthor>
       <Content ref={contentRef} style={{ height: heightValue }}>
-        В Хабаровске десятки тысяч человек вышли на
-        акцию в поддержку Сергея Фургала десятки человек в десятки
-        В Хабаровске десятки тысяч человек вышли на
-        акцию в поддержку Сергея Фургала десятки человек в десятки
-        В Хабаровске десятки тысяч человек вышли на
-        акцию в поддержку Сергея Фургала десятки человек в десятки
+        <Html2React html={content.rendered} />
         {
           showCollapseButton && (
             <ButtonBlock>
@@ -52,4 +59,4 @@ const CommentPost = () => {
   );
 };
 
-export default CommentPost;
+export default connect(CommentPost);

@@ -61,16 +61,16 @@ export const ItemCard = styled.div`
     width: 100%;
 
     ${({ index }) => (
-      index >= 3
-        ? 'display: none;'
-        : null
-    )};
+    index >= 3
+      ? 'display: none;'
+      : null
+  )};
   }
   
   @media screen and (max-width: ${SIZE_MOBILE}px) {
     margin-bottom: 15px;
     
-    &:last-child {
+    &:last-of-type {
       margin-bottom: 0;
     }
   }
@@ -113,4 +113,13 @@ export const TimeLineWrapper = styled.div`
     padding-top: 0;
     border-top: none;
   } 
+`;
+
+export const NotNews = styled.div`
+  text-align: center;
+  display: block;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: bold;
+  width: 100%;
 `;

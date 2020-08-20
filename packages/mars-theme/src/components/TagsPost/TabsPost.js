@@ -10,13 +10,13 @@ const TabsPost = () => (
   <Wrapper>
     <GIconTag name="tag" />
     <List>
-      <Link link="#">
+      <Link>
         культура
       </Link>
-      <Link link="#">
+      <Link>
         культура
       </Link>
-      <Link link="#">
+      <Link>
         культура
       </Link>
     </List>

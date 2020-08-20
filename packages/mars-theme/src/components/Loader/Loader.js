@@ -24,7 +24,7 @@ const Loading = () => (
   <Container>
     <div>
       <Loader
-        color="#F8710F"
+        color="#282828"
         radius={0}
         margin="3px"
         width={4}

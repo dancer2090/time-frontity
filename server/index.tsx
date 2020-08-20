@@ -44,7 +44,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     return mount(publicPath, serve("build/static"))(ctx, next);
   });
   // added static files for the wordpress urls
-  app.use(mount('/wp-content/uploads', serve("../admin.sirinsoftware.com/wp-content/uploads")))
+  app.use(mount('/wp-content/uploads', serve("../time-admin.webbuilder.in.ua/wp-content/uploads")))
   // Serve robots.txt from root or default if it doesn't exists.
   app.use(
     get("/robots.txt", async (ctx, next) => {
@@ -67,8 +67,6 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
   };
   app.use(get("/__webpack_hmr", return404));
   app.use(get("/static/([a-z0-9]+\\.hot-update\\.json)", return404));
-  app.use(get("/services/rd-center/", returnServices));
-  app.use(get("/services/it-staff-augmentation/", returnServices));
 
   // Return Frontity favicon for favicon.ico.
   app.use(get("/favicon.ico", serve("./")));

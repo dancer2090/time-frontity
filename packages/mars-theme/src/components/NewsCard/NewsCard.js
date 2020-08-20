@@ -20,10 +20,51 @@ import ukrNet from '../../img/urk-net.png';
 const NewsCard = ({
   type = '', showResource = true, className, state, libraries,
 }) => {
+  const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const urlImage = imageUrlCheck(cardImg, urlsWithLocal);
   const urlResourse = imageUrlCheck(ukrNet, urlsWithLocal);
+  const {
+    _embedded : itemEmbed = {},
+    link : itemLink = "",
+    acf : itemAcf = {},
+    date : itemDate = "",
+  } = item;
+  const {
+    featured_image : itemImage = { url : "" }
+  } = itemEmbed;
+  const newsImage = (itemImage.url ? itemImage.url : cardImg);
+  const {
+    uk : itemUk = { title : "", content : "" },
+    ru : itemRu = { title : "", content : "" },
+  } = itemAcf;
+  const itemMeta = {
+    'uk' : itemUk,
+    'ru' : itemRu,
+  };
+
+  const months = {
+    ru : [
+      'января', 'февраля', 'марта',
+      'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября',
+      'октября', 'ноября', 'декабря'
+    ],
+    uk : [
+      'січні', 'лютий', 'март',
+      'апрель', 'травня', 'червня',
+      'липні', 'серпня', 'вересня',
+      'жовтня', 'листопаді', 'грудня'
+    ]
+  };
+
+  const date = new Date(itemDate);
+  const monthDay = date.getDate();
+  const month = date.getMonth() + 1;
+  const mothValue = months[state.theme.lang][month - 1];
+
+  const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
 
   return (
     <Card className={className}>
@@ -38,14 +79,13 @@ const NewsCard = ({
           )
         }
       </FrameBlock>
-      <Content type={type}>
-        <Link link="#">
-          Харьковская область готова
-          к ослаблению карантина
+      <Content>
+        <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
+          {itemMeta[state.theme.lang].title}
         </Link>
         <Information>
           <DateValue>
-            10 сентября 2020 | 12:33
+            {strDate}
           </DateValue>
           {
             showResource && (

@@ -5,7 +5,7 @@ export const Post = styled.div`
   margin-bottom: 43px;
   padding: 0 6px 0 5px;
 
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   } 
   

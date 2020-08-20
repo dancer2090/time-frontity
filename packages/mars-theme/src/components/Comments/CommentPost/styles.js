@@ -5,7 +5,7 @@ import { SIZE_LAPTOP_SMALL } from '../../../const/responsive';
 export const Wrapper = styled.div`
   margin-bottom: 41px;
   
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
   
@@ -60,18 +60,19 @@ export const Content = styled.div`
 `;
 
 export const ButtonBlock = styled.div`
-  height: 10px;
-  background: #f2f2f2;
+  height: 16px;
+  background: #e5e5e5;
   z-index: 1;
   width: 107px;
   display: block;
   position: absolute;
-  bottom: 6px;
+  bottom: 4px;
   right: 0;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     bottom: 8px;
     height: 12px;
+    background-color: #f2f2f2;
   }
 `;
 
@@ -80,7 +81,8 @@ export const Button = styled(SvgSprite)`
   height: 9px;
   fill: #666666;
   position: absolute;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   left: 5px;
   cursor: pointer;
   

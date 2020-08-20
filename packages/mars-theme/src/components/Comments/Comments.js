@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   Form,
@@ -7,16 +8,28 @@ import {
   SendBlock,
   SendButton,
   CommentsList,
+  Message,
 } from './styles';
 import CommentPost from './CommentPost';
 import {
   fieldRequiredValidation,
 } from '../../utils/validation/validation';
+import Translator from '../Translator/Translator';
+import { translator } from '../../utils/translator';
 
-const Comments = () => {
+const Comments = ({ state, actions, libraries }) => {
+  // Post Id for single post
+  const dataP = state.source.get(state.router.link);
+  const postId = dataP.id;
+  const { lang = 'ru' } = state.theme;
+
+  // components state
   const [name, setName] = useState('');
   const [comments, setComments] = useState('');
   const [showSendButton, setShowSendButton] = useState(false);
+  const [commentsArray, setCommentsArray] = useState([]);
+  const [showSendMessage, setShowSendMessage] = useState(false);
+
   // errors
   const [hasNameError, setHasNameError] = useState(false);
   const [hasCommentsError, setCommentsError] = useState(false);
@@ -30,6 +43,20 @@ const Comments = () => {
       }
     }
   };
+
+  useEffect(() => {
+    libraries.source.api.get({
+      endpoint: 'comments',
+      params: { post: postId, _embed: false, per_page: 100 },
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          setCommentsArray(data);
+          state.theme.commentsLength = data.length;
+        });
+      });
+  }, []);
+
 
   const validateForm = () => {
     const getNameError = fieldRequiredValidation(name);
@@ -45,6 +72,20 @@ const Comments = () => {
     event.preventDefault();
 
     if (validateForm) {
+      // eslint-disable-next-line no-undef
+      const formData = new FormData();
+      formData.append('author_name', name);
+      formData.append('content', comments);
+      formData.append('post', postId);
+
+      actions.theme.sendComment({ formData })
+        .then(() => {
+          setShowSendMessage(true);
+
+          setTimeout(() => {
+            setShowSendMessage(false);
+          }, 2500);
+        });
       setName('');
       setComments('');
     }
@@ -54,16 +95,19 @@ const Comments = () => {
     <Wrapper>
       <Form onSubmit={sendForm}>
         <Label>
-          Коментарии:  999
+          <Translator id="commentsLabel" />
+          :
+          {' '}
+          { commentsArray.length }
         </Label>
         <GInput
-          placeholder="Имя"
+          placeholder={translator(lang, 'namePlaceholder')}
           value={name}
           error={hasNameError}
           onChange={(e) => setName(e.target.value)}
         />
         <GInput
-          placeholder="Добавьте коментарий..."
+          placeholder={translator(lang, 'addCommentsPlaceholder')}
           value={comments}
           error={hasCommentsError}
           textarea
@@ -72,22 +116,35 @@ const Comments = () => {
           onBlur={() => isShowSendButton('blur')}
         />
         {
+          showSendMessage && (
+            <Message>
+              <Translator id="sendCommentsMessage" />
+            </Message>
+          )
+        }
+        {
           showSendButton && (
             <SendBlock>
-              <SendButton type="submit">отправить</SendButton>
+              <SendButton type="submit">
+                <Translator id="sendTitle" />
+              </SendButton>
             </SendBlock>
           )
         }
       </Form>
       <CommentsList>
         {
-          [1, 2, 3, 4, 5].map((item) => (
-            <CommentPost key={item} />
-          ))
+          commentsArray.length === 0
+            ? (
+              <strong><Translator id="noComments" /></strong>
+            )
+            : commentsArray.map((item, index) => (
+              <CommentPost key={index} data={item} />
+            ))
         }
       </CommentsList>
     </Wrapper>
   );
 };
 
-export default Comments;
+export default connect(Comments);

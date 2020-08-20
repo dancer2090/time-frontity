@@ -23,10 +23,6 @@ export const Label = styled.span`
 
 export const GInput = styled(Input)`
   margin-bottom: 9px;
-  
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 export const SendBlock = styled.div`
@@ -43,6 +39,7 @@ export const SendButton = styled.button`
   text-align: center;
   text-transform: uppercase;
   color: #666666;
+  background-color: transparent;
   border: none;
   outline: none;
   
@@ -53,4 +50,10 @@ export const SendButton = styled.button`
 
 export const CommentsList = styled.div`
   margin-bottom: 45px;
+`;
+
+export const Message = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  margin: 10px 0;
 `;
