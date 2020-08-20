@@ -11,7 +11,7 @@ import {
   Quote,
 } from './styles';
 import publication from '../../../../../img/publication.jpg';
-import PostDetails from '../PostDetails';
+import PostDetails from '../../../../../components/PostDetails';
 
 const PublicationHeader = ({ state, libraries }) => {
   const { imageUrlCheck } = libraries.func;
