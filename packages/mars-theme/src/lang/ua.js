@@ -25,4 +25,5 @@ export default {
   titleSubscribeModal: 'Ми можемо повідомляти вас про самі останні події',
   subscribeMessage: 'Дякую за підписку!',
   subscribeLabelButton: 'Підписатись',
+  photoCategory: 'Фото',
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'frontity';
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,8 +28,8 @@ import {
   SocialFlex,
   SocialLabel,
   FullBanner,
+  MobileListNews,
 } from './styles';
-import sliderImage from '../../../../img/slider.jpg';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
@@ -44,73 +44,118 @@ import {
   MobileEvents,
 } from '../PostTemplate/styles';
 import Shared from '../../../../components/Shared';
+import { formatDatePost } from '../../../../utils/formatDate';
+import CommentsModal from '../../../../components/Comments/CommentsModal';
 
 // install Swiper components
 SwiperCore.use([Navigation]);
 
-const PostPhotoTemplate = ({ state }) => {
-  const [showComments, setShowComments] = useState(false);
+const PostPhotoTemplate = ({ state, libraries, actions }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
+  const fullPostUrl = `${state.frontity.url}${state.router.link}`;
+  const { imageUrlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
   const { lang = 'ru' } = state.theme;
-  const slides = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  // post data
+  const data = state.source.get(state.router.link);
+  const post = state.source[data.type][data.id];
+  const {
+    acf = {},
+    date = '',
+  } = post;
+  const dateValue = formatDatePost(lang, date);
+  const {
+    title = '',
+    description = '',
+  } = acf[lang];
+  const {
+    images = [],
+    views = '0',
+  } = acf;
+  const imagesArray = images.map((item) => ({
+    ...item,
+  }));
+
+  // state components
+  const [showComments, setShowComments] = useState(false);
   const [activeIndex, setActiveIndex] = useState(1);
   const changeSlide = (swiper) => {
-    const { activeIndex } = swiper;
-    setActiveIndex(activeIndex + 1);
+    setActiveIndex(swiper.activeIndex + 1);
   };
+
+  useEffect(() => {
+    actions.theme.addViewPost(post.id);
+  }, []);
+
   return (
     <Wrapper>
       <Container>
         <TopNavigation>
-          <Breadcrumbs />
+          <Breadcrumbs links={[
+            { name: <Translator id="photoCategory" />, link: lang === 'ru' ? '/images' : '/uk/images' },
+            { name: title, link: '#' },
+          ]}
+          />
           <SocialList />
         </TopNavigation>
         <WrapperContent>
           <PostInformation>
             <PostTitleBlock>
               <PostTitle>
-                В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное
+                <Html2React html={title} />
               </PostTitle>
             </PostTitleBlock>
             <PostTitleDescription>
-              <GPostDetails showResources={false} />
+              <GPostDetails
+                showResources={false}
+                date={dateValue}
+                category="Фото"
+                eyeCount={views}
+              />
             </PostTitleDescription>
             <PostDescription>
-              В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала.
-              Главное. В цьому випадку точно не зможу сказати, бо не була там.
-              Але масову загибель риби можуть викликати кілька причин. По-перше, цвітіння
-              водоростей, переважно синьо-зелених,
-              які наче плівкою вкривають водойми, створюючи дефіцит кисню. Через це риба змінює свою поведінку і мо
+              <Html2React html={description} />
             </PostDescription>
           </PostInformation>
           <SliderWrapper>
             <SliderPagination>
               {activeIndex}
               /
-              {slides.length}
+              {imagesArray.length}
             </SliderPagination>
             <Swiper
               spaceBetween={50}
               slidesPerView={1}
               navigation={{ clickable: true }}
               onSlideChange={(swiper) => changeSlide(swiper)}
-              onSwiper={(swiper) => console.log(swiper)}
             >
               {
-                slides.map((item) => (
-                  <SwiperSlide key={item}>
-                    <SliderSlide>
-                      <SlideImage src={sliderImage} />
-                    </SliderSlide>
-                    <BottomSlider>
-                      <SliderDescription>
-                        Фото: Пресс-служба
-                      </SliderDescription>
-                      <SharedBlock>
-                        <GShared />
-                      </SharedBlock>
-                    </BottomSlider>
-                  </SwiperSlide>
-                ))
+                imagesArray.map((item, index) => {
+                  const {
+                    image = {},
+                  } = item;
+                  const {
+                    url = '',
+                  } = image;
+                  const imageResultUrl = imageUrlCheck(url, urlsWithLocal);
+                  return (
+                    <SwiperSlide key={index}>
+                      <SliderSlide>
+                        <SlideImage src={imageResultUrl} />
+                      </SliderSlide>
+                      <BottomSlider>
+                        <SliderDescription>
+                          { item[`${lang}Text`] }
+                        </SliderDescription>
+                        <SharedBlock>
+                          <GShared link={imageResultUrl} />
+                        </SharedBlock>
+                      </BottomSlider>
+                    </SwiperSlide>
+                  );
+                })
               }
             </Swiper>
           </SliderWrapper>
@@ -125,8 +170,15 @@ const PostPhotoTemplate = ({ state }) => {
                   { state.theme.commentsLength }
                 </MobileCommentCount>
               </MobileComments>
-              <Shared />
+              <Shared link={fullPostUrl} />
             </MobileEvents>
+
+            {/* mobile comments modal */}
+            <CommentsModal
+              isOpen={showComments}
+              handleClose={() => setShowComments(false)}
+            />
+
             <SubscribeBlock>
               <SubscribeNews lang={lang} />
             </SubscribeBlock>
@@ -145,6 +197,9 @@ const PostPhotoTemplate = ({ state }) => {
           </SocialBlock>
           <FullBanner />
         </WrapperContent>
+        <MobileListNews>
+
+        </MobileListNews>
       </Container>
     </Wrapper>
   );

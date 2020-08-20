@@ -95,6 +95,7 @@ export const GPostDetails = styled(PostDetails)`
       }
       span {
         flex-grow: 1;
+        text-align: left;
       }
       
       div:nth-of-type(2) {
@@ -360,5 +361,13 @@ export const FullBanner = styled.div`
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     display: none;
+  }
+`;
+
+export const MobileListNews = styled.div`
+  display: none;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    display: block;
   }
 `;
