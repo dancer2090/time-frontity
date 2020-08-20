@@ -7,7 +7,7 @@ import PostTemplate from '../Templates/PostTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => {
   const data = state.source.get(state.router.link);
-
+  console.log(data);
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
