@@ -4,6 +4,7 @@ import Switch from '@frontity/components/switch';
 import MainTemplate from '../Templates/MainTemplate';
 import CategoryTemplate from '../Templates/CategoryTemplate';
 import PostTemplate from '../Templates/PostTemplate';
+import PhotoListTemplate from '../Templates/PhotoListTemplate';
 import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => {
@@ -15,6 +16,7 @@ const PostContent = ({ state, scrollRef = null }) => {
       <PostPhotoTemplate scrollRef={scrollRef} when={state.router.link === '/post-photo/'} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
+      <PhotoListTemplate scrollRef={scrollRef} when={state.router.link === '/photo/'} />
     </Switch>
   );
 };
