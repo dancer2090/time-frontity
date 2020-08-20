@@ -9,62 +9,90 @@ import {
   Content,
   Resources,
   ResourcesImage,
+  PhotoCounter,
+  PhotoIcon,
+  PhotoCounterValue,
 } from './styled';
 import Link from '../link';
 import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
 
-const NewsCard = ({ className, state, libraries, item = {} }) => {
+const NewsCard = ({
+  type = '', showResource = true, className, state, libraries, item = {},
+}) => {
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const urlImage = imageUrlCheck(cardImg, urlsWithLocal);
   const urlResourse = imageUrlCheck(ukrNet, urlsWithLocal);
   const {
-    _embedded : itemEmbed = {},
-    link : itemLink = "",
-    acf : itemAcf = {},
-    date : itemDate = "",
+    _embedded: itemEmbed = {},
+    link: itemLink = '',
+    acf: itemAcf = {},
+    date: itemDate = '',
   } = item;
   const {
-    featured_image : itemImage = { url : "" }
+    featured_image: itemImage = { url: '' },
   } = itemEmbed;
   const newsImage = (itemImage.url ? itemImage.url : cardImg);
   const {
-    uk : itemUk = { title : "", content : "" },
-    ru : itemRu = { title : "", content : "" },
+    uk: itemUk = { title: '', content: '' },
+    ru: itemRu = { title: '', content: '' },
   } = itemAcf;
   const itemMeta = {
-    'uk' : itemUk,
-    'ru' : itemRu,
+    uk: itemUk,
+    ru: itemRu,
   };
 
   const months = {
-    ru : [
+    ru: [
       'января', 'февраля', 'марта',
       'апреля', 'мая', 'июня',
       'июля', 'августа', 'сентября',
-      'октября', 'ноября', 'декабря'
+      'октября', 'ноября', 'декабря',
     ],
-    uk : [
+    uk: [
       'січні', 'лютий', 'март',
       'апрель', 'травня', 'червня',
       'липні', 'серпня', 'вересня',
-      'жовтня', 'листопаді', 'грудня'
-    ]
+      'жовтня', 'листопаді', 'грудня',
+    ],
   };
 
   const date = new Date(itemDate);
   const monthDay = date.getDate();
   const month = date.getMonth() + 1;
   const mothValue = months[state.theme.lang][month - 1];
-
   const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
+
+  let counterImages = 0;
+  if (type === 'photo') {
+    const { images = [] } = itemAcf;
+    counterImages = images.length;
+  }
 
   return (
     <Card className={className}>
       <FrameBlock>
-        <Frame src={newsImage} />
+        {
+          type === 'photo' && (
+            <>
+              <Frame
+                src={counterImages > 0
+                  ? imageUrlCheck(itemAcf.images[0].image.url, urlsWithLocal)
+                  : cardImg}
+              />
+              <PhotoCounter>
+                <PhotoIcon name="photo" />
+                <PhotoCounterValue>
+                  { counterImages }
+                </PhotoCounterValue>
+              </PhotoCounter>
+            </>
+          )
+        }
+        {
+          type === '' && <Frame src={newsImage} />
+        }
       </FrameBlock>
       <Content>
         <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
@@ -74,9 +102,13 @@ const NewsCard = ({ className, state, libraries, item = {} }) => {
           <DateValue>
             {strDate}
           </DateValue>
-          <Resources href="#" target="__blank">
-            <ResourcesImage src={urlResourse} />
-          </Resources>
+          {
+            showResource && (
+              <Resources href="#" target="__blank">
+                <ResourcesImage src={urlResourse} />
+              </Resources>
+            )
+          }
         </Information>
       </Content>
     </Card>
