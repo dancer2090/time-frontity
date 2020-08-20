@@ -13,8 +13,8 @@ import {
   Resources,
   ResourcesImage,
 } from './styles';
-import Shared from '../../../../../components/Shared';
-import urk from '../../../../../img/urk-net.png';
+import Shared from '../Shared';
+import urk from '../../img/urk-net.png';
 
 const PostDetails = ({
   className,
