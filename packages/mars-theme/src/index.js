@@ -158,6 +158,7 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      searchPage: 1,
       photoPage: 1,
       urlsWithLocal: {},
       categories: {},
@@ -170,6 +171,8 @@ const marsTheme = {
       lastLoadMore: false,
       categoryLoadMore: false,
       loadMorePhoto: false,
+      searchLoadMore: false,
+      searchInitialLoader: 0,
       doLoader: false,
     },
     theme: {
@@ -182,6 +185,7 @@ const marsTheme = {
         showOnList: false,
         showOnPost: false,
       },
+      searchResult: {},
     },
   },
   /**
@@ -282,6 +286,15 @@ const marsTheme = {
           return response;
         });
       },
+      loadSearch: ({ state }) => async (searchValue) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-search/page/${state.customSettings.searchPage}`, {
+          params: {
+            s: searchValue,
+          },
+        });
+        state.theme.searchResult = data;
+        state.customSettings.searchInitialLoader = data.search.length;
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
@@ -296,6 +309,11 @@ const marsTheme = {
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
         }
+
+        if (state.router.link === '/search-result/') {
+          actions.theme.loadSearch();
+        }
+
 
         await actions.theme.loadCategoryPost();
       },

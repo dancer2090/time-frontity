@@ -29,7 +29,6 @@ const Theme = ({ state, actions }) => {
     actions.theme.ipDetect();
   }, []);
 
-  console.log(data);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -52,6 +51,7 @@ const Theme = ({ state, actions }) => {
               scrollRef={formRef}
               when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
             />
+            <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <Post scrollRef={formRef} when={state.router.link === '/video/'} />
             <PageError when={data.isError} />
