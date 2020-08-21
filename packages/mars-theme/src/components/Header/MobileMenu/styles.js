@@ -15,7 +15,7 @@ export const MobileMenuWrapper = styled.div`
 
   ${({ isOpen }) => (
     isOpen
-      ? 'z-index: 2; opacity: 1;'
+      ? 'z-index: 20; opacity: 1;'
       : null
   )}
 `;

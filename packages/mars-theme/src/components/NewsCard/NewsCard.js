@@ -74,11 +74,16 @@ const NewsCard = ({
   const monthDay = date.getDate();
   const month = date.getMonth() + 1;
   const mothValue = months[state.theme.lang][month - 1];
-
   const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
   getTimeVideo(time).then((data) => {
     setTimeValue(data);
   });
+
+  let counterImages = 0;
+  if (type === 'photo') {
+    const { images = [] } = itemAcf;
+    counterImages = images.length;
+  }
 
   return (
     <Card className={className}>
@@ -97,10 +102,16 @@ const NewsCard = ({
         {
           type === 'photo' && (
             <>
-              <Frame src={newsImage} />
+              <Frame
+                src={counterImages > 0
+                  ? imageUrlCheck(itemAcf.images[0].image.url, urlsWithLocal)
+                  : cardImg}
+              />
               <PhotoCounter>
                 <PhotoIcon name="photo" />
-                <PhotoCounterValue>10</PhotoCounterValue>
+                <PhotoCounterValue>
+                  { counterImages }
+                </PhotoCounterValue>
               </PhotoCounter>
             </>
           )
