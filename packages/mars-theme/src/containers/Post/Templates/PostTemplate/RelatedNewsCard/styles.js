@@ -5,7 +5,7 @@ export const Card = styled.div`
   background: white;
   margin-bottom: 15px;
   
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
 `;

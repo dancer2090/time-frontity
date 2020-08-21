@@ -10,11 +10,13 @@ import {
   CommentsInput,
   SendButton,
   Message,
+  NoComments,
 } from './styles';
 import CommentPost from '../CommentPost';
 import Input from '../../Input';
 import { fieldRequiredValidation } from '../../../utils/validation/validation';
 import Translator from '../../Translator/Translator';
+import { translator } from '../../../utils/translator';
 
 const CommentsModal = ({
   isOpen = false,
@@ -26,6 +28,7 @@ const CommentsModal = ({
   // Post Id for single post
   const dataP = state.source.get(state.router.link);
   const postId = dataP.id;
+  const { lang = 'ru' } = state.theme;
 
   // components state
   const [name, setName] = useState('');
@@ -96,12 +99,17 @@ const CommentsModal = ({
     <Modal isOpen={isOpen} fullSize handleClose={handleClose}>
       <Wrapper>
         <Header>
-          <Label>Коментарии: 999</Label>
+          <Label>
+            <Translator id="commentsLabel" />
+            :
+            {' '}
+            { state.theme.commentsLength }
+          </Label>
           <Content>
             {
               commentsArray.length === 0
                 ? (
-                  <strong><Translator id="noComments" /></strong>
+                  <NoComments><Translator id="noComments" /></NoComments>
                 )
                 : commentsArray.map((item, index) => (
                   <CommentPost key={index} data={item} />
@@ -118,14 +126,14 @@ const CommentsModal = ({
         }
         <FormWrapper>
           <Input
-            placeholder="Имя"
+            placeholder={translator(lang, 'namePlaceholder')}
             value={name}
             error={hasNameError}
             onChange={(e) => setName(e.target.value)}
           />
           <CommentsInput>
             <Input
-              placeholder="Добавьте коментарий..."
+              placeholder={translator(lang, 'addCommentsPlaceholder')}
               textarea
               value={comments}
               error={hasCommentsError}

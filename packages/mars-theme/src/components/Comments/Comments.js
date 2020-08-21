@@ -15,11 +15,13 @@ import {
   fieldRequiredValidation,
 } from '../../utils/validation/validation';
 import Translator from '../Translator/Translator';
+import { translator } from '../../utils/translator';
 
 const Comments = ({ state, actions, libraries }) => {
   // Post Id for single post
   const dataP = state.source.get(state.router.link);
   const postId = dataP.id;
+  const { lang = 'ru' } = state.theme;
 
   // components state
   const [name, setName] = useState('');
@@ -93,18 +95,19 @@ const Comments = ({ state, actions, libraries }) => {
     <Wrapper>
       <Form onSubmit={sendForm}>
         <Label>
-          Коментарии:
+          <Translator id="commentsLabel" />
+          :
           {' '}
           { commentsArray.length }
         </Label>
         <GInput
-          placeholder="Имя"
+          placeholder={translator(lang, 'namePlaceholder')}
           value={name}
           error={hasNameError}
           onChange={(e) => setName(e.target.value)}
         />
         <GInput
-          placeholder="Добавьте коментарий..."
+          placeholder={translator(lang, 'addCommentsPlaceholder')}
           value={comments}
           error={hasCommentsError}
           textarea
@@ -122,7 +125,9 @@ const Comments = ({ state, actions, libraries }) => {
         {
           showSendButton && (
             <SendBlock>
-              <SendButton type="submit">отправить</SendButton>
+              <SendButton type="submit">
+                <Translator id="sendTitle" />
+              </SendButton>
             </SendBlock>
           )
         }

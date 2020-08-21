@@ -232,7 +232,7 @@ export const Content = styled.div`
       color: #000000;
       margin-bottom: 33px;
       
-      &:last-child {
+      &:last-of-type {
         margin-bottom: 0;
       }
       

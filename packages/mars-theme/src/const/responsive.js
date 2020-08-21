@@ -5,7 +5,6 @@ export const SIZE_DESCTOP_SMALL = 1200;
 export const SIZE_LAPTOP = 992;
 export const SIZE_LAPTOP_SMALL = 768;
 export const SIZE_MOBILE = 600;
- 
 
 export const PADDING_DESCTOP_LARGE = 150;
 export const PADDING_DESCTOP_MEDIUM_2 = 150;

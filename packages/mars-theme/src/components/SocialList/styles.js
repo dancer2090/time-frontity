@@ -6,7 +6,7 @@ export const List = styled.div``;
 export const Link = styled.a`
   margin-right: 16px;
   
-  &:last-child {
+  &:last-of-type {
     margin-right: 0;
   }
 `;

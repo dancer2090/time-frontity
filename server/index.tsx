@@ -67,8 +67,6 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
   };
   app.use(get("/__webpack_hmr", return404));
   app.use(get("/static/([a-z0-9]+\\.hot-update\\.json)", return404));
-  app.use(get("/services/rd-center/", returnServices));
-  app.use(get("/services/it-staff-augmentation/", returnServices));
 
   // Return Frontity favicon for favicon.ico.
   app.use(get("/favicon.ico", serve("./")));

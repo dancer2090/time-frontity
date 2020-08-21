@@ -9,12 +9,20 @@ import {
   Content,
   Resources,
   ResourcesImage,
+  VideoButton,
+  TimeVideo,
+  PhotoCounter,
+  PhotoIcon,
+  PhotoCounterValue,
 } from './styled';
 import Link from '../link';
 import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
+import videoPlay from '../../img/svg/play-btn.svg';
 
-const NewsCard = ({ className, state, libraries, item = {} }) => {
+const NewsCard = ({
+  type = '', showResource = true, className, state, libraries, item = {},
+}) => {
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -64,7 +72,23 @@ const NewsCard = ({ className, state, libraries, item = {} }) => {
   return (
     <Card className={className}>
       <FrameBlock>
-        <Frame src={newsImage} />
+        <Frame src={urlImage} />
+        {
+          type === 'video' && (
+            <>
+              <VideoButton src={videoPlay} />
+              <TimeVideo>10:30</TimeVideo>
+            </>
+          )
+        }
+        {
+          type === 'photo' && (
+            <PhotoCounter>
+              <PhotoIcon name="photo" />
+              <PhotoCounterValue>10</PhotoCounterValue>
+            </PhotoCounter>
+          )
+        }
       </FrameBlock>
       <Content>
         <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
@@ -74,9 +98,13 @@ const NewsCard = ({ className, state, libraries, item = {} }) => {
           <DateValue>
             {strDate}
           </DateValue>
-          <Resources href="#" target="__blank">
-            <ResourcesImage src={urlResourse} />
-          </Resources>
+          {
+            showResource && (
+              <Resources href="#" target="__blank">
+                <ResourcesImage src={urlResourse} />
+              </Resources>
+            )
+          }
         </Information>
       </Content>
     </Card>

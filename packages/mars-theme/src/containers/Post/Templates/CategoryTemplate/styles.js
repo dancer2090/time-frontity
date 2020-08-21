@@ -70,7 +70,7 @@ export const ItemCard = styled.div`
   @media screen and (max-width: ${SIZE_MOBILE}px) {
     margin-bottom: 15px;
     
-    &:last-child {
+    &:last-of-type {
       margin-bottom: 0;
     }
   }
