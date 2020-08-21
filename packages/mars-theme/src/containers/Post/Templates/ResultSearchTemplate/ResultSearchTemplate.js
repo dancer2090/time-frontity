@@ -22,57 +22,47 @@ const ResultSearchTemplate = ({ state, actions }) => {
   const { lang = 'ru' } = state.theme;
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
-  const urlArray = state.router.link.split('?q=');
+  const urlArray = state.router.link.split('?s=');
   let querySearch = '';
   if (urlArray.length === 2) {
     querySearch = urlArray[1];
   }
-  const data = state.source.get('/ukraina');
 
   const {
-    topItems = [],
-    timeline = [],
-    totalPages = 0,
-  } = data;
-
-  if (data.items) {
-    data.items.forEach((item) => {
-      const post = state.source.get(item.link);
-      timeline.push(state.source[post.type][post.id]);
-    });
-  }
-
-  useEffect(() => {
-    actions.theme.loadSearch();
-    state.customSettings.searchPage = 2;
-    actions.theme.getCategory(data.id);
-    loadTimeLineData();
-    if (state.customSettings.searchPage - 1 === totalPages) setLoadMoreTimeLine(true);
-  }, [state.router.link]);
+    search = [],
+  } = state.theme.searchResult;
 
   const loadTimeLineData = () => {
-    const dataTimeLine = filterNewsTimeLine(lang, timeline);
+    const dataTimeLine = filterNewsTimeLine(lang, search);
     setLastPost(dataTimeLine);
   };
 
-  const fetchMoreData = () => {
-    state.customSettings.categoryLoadMore = true;
+  useEffect(() => {
+    actions.theme.loadSearch(querySearch);
+    state.customSettings.searchPage = 2;
 
-    const config = {
-      cat_minus: '-28, -14',
-      post_minus: topItems,
-    };
-    axios.get(
-      `${state.source.api}/frontity-api/get-category/${data.id}/page/${state.customSettings.searchPage}`,
-      config,
-    ).then((response) => {
+    loadTimeLineData();
+  }, [state.router.link], () => {
+    console.log('destroy');
+  });
+
+  const fetchMoreData = () => {
+    state.customSettings.searchLoadMore = true;
+
+    axios.get(`${state.source.api}/frontity-api/get-search/page/${state.customSettings.searchPage}`, {
+      params: {
+        s: querySearch,
+      },
+    }).then((response) => {
       const items = response.data;
-      state.source.data[state.router.link].timeline.push(...items);
+      state.theme.searchResult = {
+        search: state.theme.searchResult.search.concat(items.search),
+      };
       state.customSettings.searchPage += 1;
       loadTimeLineData();
-    }).finally(() => {
-      state.customSettings.categoryLoadMore = false;
-      if (state.customSettings.searchPage - 1 === totalPages) setLoadMoreTimeLine(true);
+      if (state.customSettings.searchInitialLoader > items.search.length) {
+        setLoadMoreTimeLine(true);
+      }
     });
   };
 
@@ -96,11 +86,11 @@ const ResultSearchTemplate = ({ state, actions }) => {
           </ResultTitle>
         </Result>
         {
-          timeline.length > 0 && (
+          search.length > 0 && (
             <TimeLineContainer>
               <TimeLineWrapper>
                 <InfiniteScroll
-                  dataLength={timeline.length}
+                  dataLength={search.length}
                   next={fetchMoreData}
                   hasMore={!loadMoreTimeLine}
                   scrollThreshold={0.5}
