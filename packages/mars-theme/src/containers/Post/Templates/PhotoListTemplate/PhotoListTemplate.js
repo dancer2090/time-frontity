@@ -22,21 +22,8 @@ const PhotoListTemplate = ({ state }) => {
   const [postsArray, setPostsArray] = useState([]);
   const dataPhoto = state.source.get(state.router.link);
   const {
-    items = [],
     totalPages = 1,
   } = dataPhoto;
-
-  const resultPostData = items.map((item) => {
-    const data = state.source.get(item.link);
-    return state.source[data.type][data.id];
-  });
-
-  useEffect(() => {
-    setPostsArray(resultPostData);
-    if (state.customSettings.photoPage - 1 === totalPages) setLoadMore(true);
-  }, [], () => {
-    state.customSettings.photoPage = 2;
-  });
 
   const fetchMoreData = () => {
     axios.get(`${state.source.api}/frontity-api/get-images/page/${state.customSettings.photoPage}`)
@@ -48,6 +35,14 @@ const PhotoListTemplate = ({ state }) => {
         if (state.customSettings.photoPage - 1 === totalPages) setLoadMore(true);
       });
   };
+
+  useEffect(() => {
+    fetchMoreData();
+    // setPostsArray(resultPostData);
+    if (state.customSettings.photoPage - 1 === totalPages) setLoadMore(true);
+  }, [], () => {
+    state.customSettings.photoPage = 2;
+  });
 
   return (
     <Wrapper>
@@ -71,7 +66,7 @@ const PhotoListTemplate = ({ state }) => {
             endMessage={(
               <SpanLoading><Translator id="notPost" /></SpanLoading>
             )}
-            dataLength={resultPostData.length}
+            dataLength={postsArray.length}
           >
             <Row>
               {
