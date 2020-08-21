@@ -24,6 +24,10 @@ export const TopNavigation = styled.div`
 export const BigPerson = styled.div`
   width: 100%;
   margin-bottom: 33px;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    margin-bottom: 15px;
+  }
 `;
 
 export const Row = styled.div`

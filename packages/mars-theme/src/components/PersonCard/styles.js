@@ -44,6 +44,7 @@ export const Title = styled.h2`
   text-transform: uppercase;
   color: #000000;
   margin-bottom: 26px;
+  padding-right: 10px;
   
   ${({ sizeText }) => (
     sizeText === 'small'
@@ -52,6 +53,8 @@ export const Title = styled.h2`
             line-height: 20px;
             text-align: center;
             letter-spacing: 0.03em;
+            padding-right: 0;
+            text-transform: initial;
             margin-bottom:  17px;
           `
       : null
@@ -142,8 +145,12 @@ export const Card = styled.div`
             height: 218px;
           }
           ${Content} {
+            flex-grow: 2;
             width: 100%;
             padding: 19px 25px;
+          }
+          ${Text} {
+            margin-bottom: 22px;
           }
         `
       : null
@@ -154,6 +161,7 @@ export const Card = styled.div`
       ? css`
           ${FrameBlock} {
             min-height: 227px;
+            height: 227px;
           }
           
           ${Content} {
