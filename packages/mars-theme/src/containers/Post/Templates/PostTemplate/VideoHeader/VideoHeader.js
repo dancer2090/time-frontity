@@ -11,14 +11,16 @@ import {
 } from './styles';
 import { generatePreviewYoutubeLink, getIdVideo } from '../../../../../utils/youtubeFormated';
 import Title from '../../../../../components/Title';
-import Translator from '../../../../../components/Translator/Translator';
 import { formatDatePost } from '../../../../../utils/formatDate';
 
 const VideoHeader = ({
   state,
   data = [],
   category = '',
+  libraries,
 }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
   const { lang = '' } = state.theme;
   const [showFrame, setShowFrame] = useState(false);
   const {
@@ -27,6 +29,9 @@ const VideoHeader = ({
   const {
     video = '',
   } = acf;
+  const {
+    title = '',
+  } = acf[lang];
   const id = getIdVideo(video);
   const imageUrl = generatePreviewYoutubeLink(video);
   const { views = '0' } = acf;
@@ -35,7 +40,7 @@ const VideoHeader = ({
   return (
     <Wrapper>
       <Title>
-        <Translator id="videoTitle" />
+        <Html2React html={title} />
       </Title>
       <GPostDetails
         date={date}
