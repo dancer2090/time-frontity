@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Global, connect, Head,
 } from 'frontity';
@@ -23,31 +23,16 @@ const Theme = ({ state, actions }) => {
   // Get information about the current URL.
   const { recaptchaKey } = state.frontity;
   const data = state.source.get(state.router.link);
-
-  const formHandleClose = () => {
-    actions.theme.changeFormSend();
-  };
-  const subscribeHandleClose = () => {
-    actions.theme.changeSubscribeSend();
-  };
-
   const formRef = useRef(null);
 
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-  console.log(state);
 
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
-        <Title />
-        <Head>
-          <meta name="description" content={state.frontity.description} />
-          <html lang="en" />
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        </Head>
 
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
@@ -62,8 +47,13 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+            <Post
+              scrollRef={formRef}
+              when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
+            />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
-            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
+            <Post scrollRef={formRef} when={state.router.link === '/person/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/video/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>

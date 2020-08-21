@@ -7,12 +7,12 @@ import axios from 'axios';
 import Theme from './containers';
 import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
-import { linkReplace, linkImageReplace } from './utils/func';
+import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
 
 const newHandler = {
   name: 'categoryOrPostType',
   priority: 19,
-  pattern: '/(.*)?/:slug',
+  pattern: '/:type/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
@@ -21,13 +21,15 @@ const newHandler = {
       const category = libraries.source.handlers.find(
         (handler) => handler.name == 'category',
       );
-      await category.func({
+      await category.func({ 
         route, params, state, libraries,
       });
     } catch (e) {
       // It's not a category
+      let hand_name = 'post type';
+      if(params.type==="video") hand_name = 'video';
       const postType = libraries.source.handlers.find(
-        (handler) => handler.name == 'post type',
+        (handler) => handler.name == hand_name,
       );
       await postType.func({
         link: route, params, state, libraries,
@@ -157,6 +159,7 @@ const marsTheme = {
       lastNumberPage: 2,
       categoryPage: 2,
       searchPage: 2,
+      photoPage: 1,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -167,6 +170,7 @@ const marsTheme = {
       actualLoadMore: false,
       lastLoadMore: false,
       categoryLoadMore: false,
+      loadMorePhoto: false,
       doLoader: false,
     },
     theme: {
@@ -271,7 +275,13 @@ const marsTheme = {
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
           { headers: { 'content-type': 'application/json' } },
-        );
+        ).then((response) => {
+          if (response.status === 200) {
+            state.customSettings.isCommentSend = false;
+          }
+
+          return response;
+        });
       },
       loadSearch: ({ actions }) => async () => {
         await actions.source.fetch('/ukraina');
@@ -304,6 +314,7 @@ const marsTheme = {
     func: {
       urlCheck: linkReplace,
       imageUrlCheck: linkImageReplace,
+      urlSeoCheck: linkSeoReplacer,
     },
     source: {
       handlers: [UkMainHandler, UkMainHandler2, newHandler],
