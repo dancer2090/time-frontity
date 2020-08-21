@@ -25,4 +25,6 @@ export default {
   titleSubscribeModal: 'Мы можем оповещать вас о самых последних событиях',
   subscribeMessage: 'Спасибо за подписку!',
   subscribeLabelButton: 'Подписаться',
+  photoCategory: 'Фото',
+  newsPhoto: 'Новости Фото',
 };

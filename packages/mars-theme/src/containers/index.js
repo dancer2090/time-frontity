@@ -36,7 +36,8 @@ const Theme = ({ state, actions }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-  console.log(state);
+
+  console.log(data);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -61,7 +62,10 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
+            <Post
+              scrollRef={formRef}
+              when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
+            />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <Post scrollRef={formRef} when={state.router.link === '/video/'} />
             <PageError when={data.isError} />

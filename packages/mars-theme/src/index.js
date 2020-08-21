@@ -158,6 +158,7 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      photoPage: 1,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -168,6 +169,7 @@ const marsTheme = {
       actualLoadMore: false,
       lastLoadMore: false,
       categoryLoadMore: false,
+      loadMorePhoto: false,
       doLoader: false,
     },
     theme: {

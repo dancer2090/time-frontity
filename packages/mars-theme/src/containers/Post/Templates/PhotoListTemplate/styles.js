@@ -28,7 +28,19 @@ export const TopContainer = styled.div`
   }
 `;
 
-export const Content = styled.div``;
+export const Content = styled.div`
+  .infinite-scroll-component {
+    overflow: hidden !important;
+  }
+`;
+
+export const SpanLoading = styled.strong`
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 10px;
+`;
 
 export const Row = styled.div`
   display: flex;
