@@ -36,7 +36,7 @@ const Theme = ({ state, actions }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-  console.log(state);
+  console.log(data);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
