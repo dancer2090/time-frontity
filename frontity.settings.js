@@ -46,10 +46,26 @@ const settings = [
           },
           postTypes: [
             {
-              type: "teammembers", // type slug
-              endpoint: "teammembers", // REST API endpoint
-              archive: "/teammembers" // link where this custom posts are listed
+              type: "video", // type slug
+              endpoint: "video", // REST API endpoint
+              archive: "/video" // link where this custom posts are listed
+            },
+            {
+              type: "images", // type slug
+              endpoint: "images", // REST API endpoint
+              archive: "/images" // link where this custom posts are listed
             }
+          ],
+          taxonomies: [
+            {
+              taxonomy: "post_tag",
+              endpoint: "post_tag",
+              postTypeEndpoint: "post",
+              params: {
+                per_page: 10,
+                _embed: true,
+              },
+            },
           ],
         }
       }

@@ -12,7 +12,7 @@ import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
 const newHandler = {
   name: 'categoryOrPostType',
   priority: 19,
-  pattern: '/(.*)?/:slug',
+  pattern: '/:type/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
@@ -21,13 +21,15 @@ const newHandler = {
       const category = libraries.source.handlers.find(
         (handler) => handler.name == 'category',
       );
-      await category.func({
+      await category.func({ 
         route, params, state, libraries,
       });
     } catch (e) {
       // It's not a category
+      let hand_name = 'post type';
+      if(params.type==="video") hand_name = 'video';
       const postType = libraries.source.handlers.find(
-        (handler) => handler.name == 'post type',
+        (handler) => handler.name == hand_name,
       );
       await postType.func({
         link: route, params, state, libraries,
@@ -156,6 +158,7 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      photoPage: 1,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -166,6 +169,7 @@ const marsTheme = {
       actualLoadMore: false,
       lastLoadMore: false,
       categoryLoadMore: false,
+      loadMorePhoto: false,
       doLoader: false,
     },
     theme: {
@@ -270,7 +274,13 @@ const marsTheme = {
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
           { headers: { 'content-type': 'application/json' } },
-        );
+        ).then((response) => {
+          if (response.status === 200) {
+            state.customSettings.isCommentSend = false;
+          }
+
+          return response;
+        });
       },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);

@@ -1,6 +1,6 @@
 import { styled, css } from 'frontity';
-import SvgSprite from '../../../../../components/SvgSprite';
-import { SIZE_MOBILE } from '../../../../../const/responsive';
+import SvgSprite from '../SvgSprite';
+import { SIZE_MOBILE } from '../../const/responsive';
 
 export const Wrapper = styled.div``;
 
