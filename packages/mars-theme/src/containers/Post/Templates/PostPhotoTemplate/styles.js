@@ -371,3 +371,11 @@ export const MobileListNews = styled.div`
     display: block;
   }
 `;
+
+export const MobileNewsWrapper = styled.div`
+  margin-bottom: 30px;
+`;
+
+export const MobileNewsItem = styled.div`
+  margin-bottom: 15px;
+`;

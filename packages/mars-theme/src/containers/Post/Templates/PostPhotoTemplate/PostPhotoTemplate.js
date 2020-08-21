@@ -29,6 +29,8 @@ import {
   SocialLabel,
   FullBanner,
   MobileListNews,
+  MobileNewsWrapper,
+  MobileNewsItem,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
@@ -46,6 +48,9 @@ import {
 import Shared from '../../../../components/Shared';
 import { formatDatePost } from '../../../../utils/formatDate';
 import CommentsModal from '../../../../components/Comments/CommentsModal';
+import Title from '../../../../components/Title';
+import NewsCardPreview from '../../../../components/NewsCardPreview/NewsCardPreview';
+import {translator} from "../../../../utils/translator";
 
 // install Swiper components
 SwiperCore.use([Navigation]);
@@ -85,6 +90,15 @@ const PostPhotoTemplate = ({ state, libraries, actions }) => {
     setActiveIndex(swiper.activeIndex + 1);
   };
 
+  const imagesPosts = state.source.get('/images');
+  const {
+    items = [],
+  } = imagesPosts;
+  const categoryPost = items.map((item) => {
+    const postData = state.source.get(item.link);
+    return state.source[postData.type][postData.id];
+  });
+
   useEffect(() => {
     actions.theme.addViewPost(post.id);
   }, []);
@@ -111,7 +125,7 @@ const PostPhotoTemplate = ({ state, libraries, actions }) => {
               <GPostDetails
                 showResources={false}
                 date={dateValue}
-                category="Фото"
+                category={translator(lang, 'photoCategory')}
                 eyeCount={views}
               />
             </PostTitleDescription>
@@ -198,7 +212,18 @@ const PostPhotoTemplate = ({ state, libraries, actions }) => {
           <FullBanner />
         </WrapperContent>
         <MobileListNews>
-
+          <Title>
+            <Translator id="newsPhoto" />
+          </Title>
+          <MobileNewsWrapper>
+            {
+              categoryPost.map((item, index) => (
+                <MobileNewsItem key={index}>
+                  <NewsCardPreview data={item} />
+                </MobileNewsItem>
+              ))
+            }
+          </MobileNewsWrapper>
         </MobileListNews>
       </Container>
     </Wrapper>

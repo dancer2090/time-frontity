@@ -26,4 +26,5 @@ export default {
   subscribeMessage: 'Дякую за підписку!',
   subscribeLabelButton: 'Підписатись',
   photoCategory: 'Фото',
+  newsPhoto: 'Новини Фото',
 };

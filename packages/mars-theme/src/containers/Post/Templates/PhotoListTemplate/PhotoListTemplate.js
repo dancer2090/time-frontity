@@ -54,14 +54,14 @@ const PhotoListTemplate = ({ state }) => {
       <Container>
         <TopContainer>
           <Breadcrumbs links={[
-            { name: 'Фото', link: '#' },
+            { name: <Translator id="photoCategory" />, link: '#' },
           ]}
           />
           <SocialList />
         </TopContainer>
         <Content>
           <Title>
-            Фото
+            <Translator id="photoCategory" />
           </Title>
           <InfiniteScroll
             next={fetchMoreData}
