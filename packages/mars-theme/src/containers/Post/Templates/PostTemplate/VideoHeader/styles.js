@@ -1,7 +1,7 @@
 import { styled } from 'frontity';
 import play from '../../../../../img/svg/play-btn.svg';
 import PostDetails from '../../../../../components/PostDetails';
-import { SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
+import {SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../../../../const/responsive';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -12,6 +12,14 @@ export const PreviewBlock = styled.div`
   height: 500px;
   width: 100%;
   position: relative;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    height: 350px;
+  }
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    height: 270px;
+  }
 `;
 
 export const PreviewImage = styled.img`
