@@ -4,6 +4,10 @@ import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../const/r
 export const Wrapper = styled.div`
   width: 100%;
   padding: 26px 0;
+  
+  .infinite-scroll-component {
+    overflow: hidden !important;
+  }
 `;
 
 export const TopContainer = styled.div`
@@ -61,4 +65,11 @@ export const Col = styled.div`
     margin-right: 0;
     margin-bottom: 15px;
   }
+`;
+
+export const SpanLoading = styled.div`
+  margin: 0 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
 `;

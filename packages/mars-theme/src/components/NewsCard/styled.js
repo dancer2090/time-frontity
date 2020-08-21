@@ -115,6 +115,7 @@ export const TimeVideo = styled.span`
   font-size: 14px;
   line-height: 19px;
   text-align: center;
+  color: #FFFFFF;
 `;
 
 export const PhotoCounter = styled.div`
