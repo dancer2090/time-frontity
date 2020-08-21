@@ -63,6 +63,7 @@ const Theme = ({ state, actions }) => {
             <Post scrollRef={formRef} when={state.router.link === '/'} />
             <Post scrollRef={formRef} when={state.router.link === '/category/'} />
             <Post scrollRef={formRef} when={state.router.link === '/post/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/video/'} />
             <Post scrollRef={formRef} when={state.router.link === '/photo/'} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
             <Post scrollRef={formRef} when={state.router.link === '/post-photo/'} />

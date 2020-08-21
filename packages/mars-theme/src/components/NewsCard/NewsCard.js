@@ -9,6 +9,8 @@ import {
   Content,
   Resources,
   ResourcesImage,
+  VideoButton,
+  TimeVideo,
   PhotoCounter,
   PhotoIcon,
   PhotoCounterValue,
@@ -16,6 +18,7 @@ import {
 import Link from '../link';
 import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
+import videoPlay from '../../img/svg/play-btn.svg';
 
 const NewsCard = ({
   type = '', showResource = true, className, state, libraries,
@@ -70,6 +73,14 @@ const NewsCard = ({
     <Card className={className}>
       <FrameBlock>
         <Frame src={urlImage} />
+        {
+          type === 'video' && (
+            <>
+              <VideoButton src={videoPlay} />
+              <TimeVideo>10:30</TimeVideo>
+            </>
+          )
+        }
         {
           type === 'photo' && (
             <PhotoCounter>
