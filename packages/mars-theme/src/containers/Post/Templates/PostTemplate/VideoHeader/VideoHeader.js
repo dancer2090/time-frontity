@@ -18,7 +18,6 @@ const VideoHeader = ({
   state,
   data = [],
   category = '',
-  views = '0',
 }) => {
   const { lang = '' } = state.theme;
   const [showFrame, setShowFrame] = useState(false);
@@ -30,6 +29,7 @@ const VideoHeader = ({
   } = acf;
   const id = getIdVideo(video);
   const imageUrl = generatePreviewYoutubeLink(video);
+  const { views = '0' } = acf;
   const date = formatDatePost(lang, data.date);
 
   return (
