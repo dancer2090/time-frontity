@@ -5,7 +5,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
         acf = {},
     } = data;
 
-    return tags.map(item => {
+    return tags.filter(item => {
        if (item.tag === 'title') {
            const {
                title = '',
@@ -16,6 +16,8 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
            }
        } else if (item.attributes) {
            const { property = '' } = item.attributes;
+           const { rel = '' } = item.attributes;
+
            if (property === 'og:locale') {
                return {
                    tag: item.tag,
@@ -42,7 +44,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
-                       content: checkUrl(item.attributes.content)
+                       content: checkUrl(lang === 'ru' ? item.attributes.content : `/uk/${item.attributes.content}`)
                    }
                }
            }
@@ -72,6 +74,10 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                        content: imageCheck(urlImage),
                    }
                }
+           }
+           if (rel === 'shortlink') {
+               console.log(';askd;laks;dlka;skd;laksl;d');
+               return false;
            }
        }
        return item
