@@ -21,7 +21,7 @@ import ukrNet from '../../img/urk-net.png';
 import videoPlay from '../../img/svg/play-btn.svg';
 
 const NewsCard = ({
-  type = '', showResource = true, className, state, libraries,
+  type = '', showResource = true, className, state, libraries, item = {},
 }) => {
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
