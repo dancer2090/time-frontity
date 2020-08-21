@@ -18,7 +18,6 @@ const PostContent = ({ state, scrollRef = null }) => {
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
-      <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />
