@@ -10,15 +10,14 @@ import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => {
   const data = state.source.get(state.router.link);
+  console.log('post content data ', data);
 
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-      <PostPhotoTemplate scrollRef={scrollRef} when={state.router.link === '/post-photo/'} />
+      <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
-      <PhotoListTemplate scrollRef={scrollRef} when={state.router.link === '/photo/'} />
-    <VideoTemplate scrollRef={scrollRef} when={state.router.link === '/video/'} />
     </Switch>
   );
 };

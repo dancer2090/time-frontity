@@ -158,6 +158,7 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      videoPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,

@@ -21,45 +21,50 @@ import ukrNet from '../../img/urk-net.png';
 import videoPlay from '../../img/svg/play-btn.svg';
 
 const NewsCard = ({
-  type = '', showResource = true, className, state, libraries, item = {},
+  type = '',
+  showResource = true,
+  className,
+  state,
+  libraries,
+  item = {},
+  linkVideo = '',
 }) => {
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const urlImage = imageUrlCheck(cardImg, urlsWithLocal);
   const urlResourse = imageUrlCheck(ukrNet, urlsWithLocal);
   const {
-    _embedded : itemEmbed = {},
-    link : itemLink = "",
-    acf : itemAcf = {},
-    date : itemDate = "",
+    _embedded: itemEmbed = {},
+    link: itemLink = '',
+    acf: itemAcf = {},
+    date: itemDate = '',
   } = item;
   const {
-    featured_image : itemImage = { url : "" }
+    featured_image: itemImage = { url: '' },
   } = itemEmbed;
   const newsImage = (itemImage.url ? itemImage.url : cardImg);
   const {
-    uk : itemUk = { title : "", content : "" },
-    ru : itemRu = { title : "", content : "" },
+    uk: itemUk = { title: '', content: '' },
+    ru: itemRu = { title: '', content: '' },
   } = itemAcf;
   const itemMeta = {
-    'uk' : itemUk,
-    'ru' : itemRu,
+    uk: itemUk,
+    ru: itemRu,
   };
 
   const months = {
-    ru : [
+    ru: [
       'января', 'февраля', 'марта',
       'апреля', 'мая', 'июня',
       'июля', 'августа', 'сентября',
-      'октября', 'ноября', 'декабря'
+      'октября', 'ноября', 'декабря',
     ],
-    uk : [
+    uk: [
       'січні', 'лютий', 'март',
       'апрель', 'травня', 'червня',
       'липні', 'серпня', 'вересня',
-      'жовтня', 'листопаді', 'грудня'
-    ]
+      'жовтня', 'листопаді', 'грудня',
+    ],
   };
 
   const date = new Date(itemDate);
@@ -72,10 +77,10 @@ const NewsCard = ({
   return (
     <Card className={className}>
       <FrameBlock>
-        <Frame src={urlImage} />
         {
           type === 'video' && (
             <>
+              <Frame src={linkVideo} />
               <VideoButton src={videoPlay} />
               <TimeVideo>10:30</TimeVideo>
             </>
@@ -83,11 +88,17 @@ const NewsCard = ({
         }
         {
           type === 'photo' && (
-            <PhotoCounter>
-              <PhotoIcon name="photo" />
-              <PhotoCounterValue>10</PhotoCounterValue>
-            </PhotoCounter>
+            <>
+              <Frame src={newsImage} />
+              <PhotoCounter>
+                <PhotoIcon name="photo" />
+                <PhotoCounterValue>10</PhotoCounterValue>
+              </PhotoCounter>
+            </>
           )
+        }
+        {
+          type === '' && <Frame src={newsImage} />
         }
       </FrameBlock>
       <Content>
