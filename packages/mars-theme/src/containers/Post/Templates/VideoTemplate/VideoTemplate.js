@@ -16,7 +16,7 @@ import SocialList from '../../../../components/SocialList';
 import Title from '../../../../components/Title';
 import NewsCard from '../../../../components/NewsCard';
 import Translator from '../../../../components/Translator/Translator';
-import { generatePreviewYoutubeLink } from '../../../../utils/youtubePreviewLink';
+import { generatePreviewYoutubeLink, getTimeVideo } from '../../../../utils/youtubeFormated';
 
 const VideoTemplate = ({ state }) => {
   const [loadMore, setLoadMore] = useState(false);
@@ -26,6 +26,15 @@ const VideoTemplate = ({ state }) => {
     items = [],
     totalPages = 1,
   } = dataPost;
+
+  const getTime = (video) => {
+    let result = '';
+    getTimeVideo(video)
+      .then((data) => {
+        result = data;
+      });
+    return result;
+  };
 
   const resultPostData = items.map((item) => {
     const data = state.source.get(item.link);
@@ -55,14 +64,14 @@ const VideoTemplate = ({ state }) => {
       <Container>
         <TopContainer>
           <Breadcrumbs links={[
-            { name: 'Видео', link: '#' },
+            { name: <Translator id="videoTitle" />, link: '#' },
           ]}
           />
           <SocialList />
         </TopContainer>
         <Content>
           <Title>
-            время
+            <Translator id="videoTitle" />
           </Title>
           <InfiniteScroll
             next={fetchMoreData}
@@ -88,6 +97,7 @@ const VideoTemplate = ({ state }) => {
                         type="video"
                         item={item}
                         linkVideo={linkVideo}
+                        time={video}
                         showResource={false}
                       />
                     </Col>
