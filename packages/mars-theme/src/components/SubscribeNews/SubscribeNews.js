@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   GIconMessage,
@@ -7,24 +8,26 @@ import {
   Button,
   MessageConfirm,
 } from './styles';
+import Loader from '../Loader';
 import Input from '../Input';
 import Modal from '../Modal/Modal';
 import { validateFieldEmail } from '../../utils/validation/validation';
+import Translator from '../Translator/Translator';
+import { translator } from '../../utils/translator';
 
-const SubscribeNews = () => {
+const SubscribeNews = ({ className, lang = 'ru', actions }) => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [showConfirmMessage, setShowConfirmMessage] = useState(false);
 
-  const subscribeNews = () => {
+  const subscribeNewsValidation = () => {
     const getEmailError = validateFieldEmail(email);
 
     setEmailError(getEmailError);
 
-    if (getEmailError.length === 0) {
-      setShowConfirmMessage(true);
-    }
+    return getEmailError.length === 0;
   };
 
   const closeModal = () => {
@@ -33,17 +36,33 @@ const SubscribeNews = () => {
     setShowConfirmMessage(false);
   };
 
+  const formSubmit = () => {
+    if (subscribeNewsValidation()) {
+      setLoading(true);
+      // eslint-disable-next-line no-undef
+      const formData = new FormData();
+      formData.append('email', email);
+      actions.theme.sendSubscribe(formData)
+        .then(() => {
+          setShowConfirmMessage(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <>
-      <Wrapper onClick={() => setShowModal(!showModal)}>
+      <Wrapper className={className} onClick={() => setShowModal(!showModal)}>
         <GIconMessage name="mail" />
         <Label>
-          Подписаться на новости
+          <Translator id="subscribeNewsLabel" />
         </Label>
       </Wrapper>
 
       <Modal
-        title={!showConfirmMessage ? 'Мы можем оповещать вас о самых последних событиях' : null}
+        title={!showConfirmMessage ? translator(lang, 'titleSubscribeModal') : null}
         isOpen={showModal}
         handleClose={closeModal}
       >
@@ -58,13 +77,19 @@ const SubscribeNews = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <ButtonWrapper>
-                  <Button onClick={subscribeNews}>
-                    Подписаться
-                  </Button>
+                  {
+                    loading
+                      ? <Loader />
+                      : (
+                        <Button onClick={formSubmit}>
+                          <Translator id="subscribeLabelButton" />
+                        </Button>
+                      )
+                  }
                 </ButtonWrapper>
               </>
             )
-            : <MessageConfirm>Спасибо за подписку!</MessageConfirm>
+            : <MessageConfirm><Translator id="subscribeMessage" /></MessageConfirm>
         }
 
       </Modal>
@@ -72,4 +97,4 @@ const SubscribeNews = () => {
   );
 };
 
-export default SubscribeNews;
+export default connect(SubscribeNews);

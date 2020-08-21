@@ -77,9 +77,11 @@ export const globalStyles = css`
   #rc-anchor-container {
     display: none !important;
   }
+  .grecaptcha-badge { visibility: hidden; }
 `;
 
 export const Main = styled.div`
+  background-color: #E5E5E5;
   position: relative;
   min-height: 400px;
 `;

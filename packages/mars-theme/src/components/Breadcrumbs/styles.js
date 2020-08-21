@@ -1,6 +1,10 @@
 import { styled } from 'frontity';
+import { SIZE_MOBILE } from '../../const/responsive';
 
 export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  
   ul { 
     li {
       a {
@@ -12,7 +16,7 @@ export const Wrapper = styled.div`
         transition: all .3s;
         position: relative;
         
-        &:after {
+        &:before {
           content: '|';
           margin: 0 5px;
           font-size: 12px;
@@ -30,7 +34,12 @@ export const Wrapper = styled.div`
       font-size: 12px;
       line-height: 15px;
       color: #969696;
+      pointer-events: none;
       
+      &:before {
+        color: #969696;
+      }
+
       &:hover {
         cursor: default;
         color: #969696;
@@ -40,9 +49,24 @@ export const Wrapper = styled.div`
     li {
       display: inline;
     
-      &:last-child {
+      &:nth-of-type(3) {
+        display: inline-flex;
+        
         a {
-          &:after {
+          max-width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          
+          @media screen and (max-width: ${SIZE_MOBILE}px) {
+            max-width: 150px;
+          }
+        }
+      }
+      
+      &:first-of-type {
+        a {
+          &:before {
             display: none;
           }
         }

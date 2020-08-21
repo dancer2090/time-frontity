@@ -1,4 +1,5 @@
-import { styled } from 'frontity';
+import { styled, css } from 'frontity';
+import SvgSprite from '../SvgSprite';
 
 export const Card = styled.div`
   display: flex;
@@ -11,6 +12,10 @@ export const Card = styled.div`
   
   &:hover {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+    
+    a {
+      color: rgba(40, 40, 40, 0.75);
+    }
   }
 `;
 
@@ -32,7 +37,7 @@ export const Content = styled.div`
   flex-grow: 2;
   padding: 18px 19px;
   background-color: white;
-  
+
   & > a {
     display: block;
     flex-grow: 2;
@@ -49,6 +54,22 @@ export const Content = styled.div`
       color: #000000;
     }
   }
+
+  ${({ type }) => (
+    type === 'photo'
+      ? css`
+          background: #282828;
+
+          & > a {
+            color: #FFFFFF;
+
+            &:hover {
+              color: rgba(255, 255, 255, 0.75);
+            }
+          }
+        `
+      : null
+  )};
 `;
 
 export const Information = styled.div`
@@ -94,5 +115,30 @@ export const TimeVideo = styled.span`
   font-size: 14px;
   line-height: 19px;
   text-align: center;
+`;
+
+export const PhotoCounter = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: fit-content;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  background: rgba(0, 0, 0, 0.5);
+`;
+
+export const PhotoIcon = styled(SvgSprite)`
+  width: 18px;
+  height: 16px;
+  margin-right: 7px;
+  fill: white;
+`;
+
+export const PhotoCounterValue = styled.span`
+  font-family: 'Noto Sans';
+  font-size: 14px;
+  line-height: 19px;
   color: #FFFFFF;
 `;

@@ -19,6 +19,7 @@ function ModalComponent({
   handleClose,
   libraries,
   fullSize = false,
+  renderTitle = false,
 }) {
   const customStyles = {
     content: {
@@ -56,6 +57,13 @@ function ModalComponent({
             title && (
               <ModalTitle>
                 <Html2React html={title} />
+              </ModalTitle>
+            )
+          }
+          {
+            renderTitle && (
+              <ModalTitle>
+                { renderTitle() }
               </ModalTitle>
             )
           }

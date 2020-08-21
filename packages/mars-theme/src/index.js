@@ -9,6 +9,137 @@ import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace } from './utils/func';
 
+const newHandler = {
+  name: 'categoryOrPostType',
+  priority: 19,
+  pattern: '/:type/(.*)?/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    // 1. try with category.
+    try {
+      const category = libraries.source.handlers.find(
+        (handler) => handler.name == 'category',
+      );
+      await category.func({ 
+        route, params, state, libraries,
+      });
+    } catch (e) {
+      // It's not a category
+      let hand_name = 'post type';
+      if(params.type==="video") hand_name = 'video';
+      const postType = libraries.source.handlers.find(
+        (handler) => handler.name == hand_name,
+      );
+      await postType.func({
+        link: route, params, state, libraries,
+      });
+    }
+  },
+};
+
+const UkMainHandler = {
+  name: 'UkMainHandler',
+  priority: 19,
+  pattern: '/uk/',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    // Get the posts from those categories.
+    const postsResponse = await libraries.source.api.get({
+      endpoint: 'pages',
+      params: { slug: 'main', _embed: true },
+    });
+    const alt_page = await libraries.source.populate({
+      state,
+      response: postsResponse,
+    });
+    alt_page[0].isHome = true;
+    alt_page[0].isPage = true;
+    alt_page[0].isPostType = true;
+    state.theme.lang = 'uk';
+    // const total = libraries.source.getTotal(postsResponse);
+    // const totalPages = libraries.source.getTotalPages(postsResponse);
+
+    // Populate state.source.data with the proper info about this URL.
+    Object.assign(state.source.data[route], alt_page[0]);
+  },
+};
+
+const UkMainHandler2 = {
+  name: 'UkMainHandler2',
+  priority: 19,
+  pattern: '/uk/(.*)?/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    if (params.slug !== 'css2') {
+      state.theme.lang = 'uk';
+      // Check page
+      const postsResponse = await libraries.source.api.get({
+        endpoint: 'pages',
+        params: { slug: params.slug, _embed: true },
+      });
+      const alt_page = await libraries.source.populate({
+        state,
+        response: postsResponse,
+      });
+      if (alt_page.length > 0) {
+        alt_page[0].isPage = true;
+        alt_page[0].isPostType = true;
+        Object.assign(state.source.data[route], alt_page[0]);
+      } else {
+        // Check category
+        const postsResponse2 = await libraries.source.api.get({
+          endpoint: 'categories',
+          params: { slug: params.slug, _embed: true },
+        });
+        const alt_page2 = await libraries.source.populate({
+          state,
+          response: postsResponse2,
+        });
+        if (alt_page2.length > 0) {
+          alt_page2[0].isArchive = true;
+          alt_page2[0].isCategory = true;
+          alt_page2[0].isTaxonomy = true;
+          alt_page2[0].taxonomy = 'category';
+
+          // Get the posts from those categories.
+          const postsResponse3 = await libraries.source.api.get({
+            endpoint: 'posts',
+            params: { categories: alt_page2.id, _embed: true },
+          });
+          const items = await libraries.source.populate({
+            state,
+            response: postsResponse3,
+          });
+          const total = libraries.source.getTotal(postsResponse3);
+          const totalPages = libraries.source.getTotalPages(postsResponse3);
+          alt_page2[0].items = items;
+          alt_page2[0].total = total;
+          alt_page2[0].totalPages = totalPages;
+
+          Object.assign(state.source.data[route], alt_page2[0]);
+        } else {
+          // Check post
+          const postsResponse4 = await libraries.source.api.get({
+            endpoint: 'posts',
+            params: { slug: params.slug, _embed: true },
+          });
+          const alt_page4 = await libraries.source.populate({
+            state,
+            response: postsResponse4,
+          });
+          alt_page4[0].isPostType = true;
+          alt_page4[0].isPost = true;
+          Object.assign(state.source.data[route], alt_page4[0]);
+        }
+      }
+    }
+  },
+};
+
+
 const marsTheme = {
   name: '@frontity/mars-theme',
   roots: {
@@ -24,7 +155,9 @@ const marsTheme = {
      * relevant state. It is scoped to the `theme` namespace.
      */
     customSettings: {
-      pageNumber: 2,
+      actualNumberPage: 2,
+      lastNumberPage: 2,
+      categoryPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -32,13 +165,15 @@ const marsTheme = {
       isCommentSend: false,
       sendFormGuide: false,
       isThanksOpen: true,
-      blogLoadMore: false,
+      actualLoadMore: false,
+      lastLoadMore: false,
+      categoryLoadMore: false,
+      doLoader: false,
     },
     theme: {
       menu: {},
       cases: {},
       teammembers: {},
-      faq: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
       featured: {
@@ -53,6 +188,31 @@ const marsTheme = {
    */
   actions: {
     theme: {
+      getMain: ({ state }) => async () => {
+        state.customSettings.doLoader = true;
+        await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
+          const main = response.data;
+          Object.assign(state.source.data[state.router.link], main);
+          state.customSettings.doLoader = false;
+        });
+      },
+      getCategory: ({ state }) => async (id) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
+        Object.assign(state.source.data[state.router.link], data);
+      },
+      addViewPost: ({ state }) => async (id) => {
+        await axios.get(`${state.source.api}/frontity-api/add-view/${id}`);
+      },
+      loadCategoryPost: ({ state, actions }) => async () => {
+        const linksCategory = state.router.link.split('/');
+        if (linksCategory.length === 4 || linksCategory.length === 5) {
+          let categoryPost = linksCategory[1];
+          if (state.theme.lang === 'uk') {
+            categoryPost = linksCategory[2];
+          }
+          await actions.source.fetch(`/${categoryPost}/`);
+        }
+      },
       ipDetect: ({ state }) => async () => {
         const res = await axios.get(`https://api.sypexgeo.net/json/${state.frontity.ip}`);
         if (res.data) {
@@ -85,53 +245,12 @@ const marsTheme = {
       closeMobileMenu: ({ state }) => {
         state.theme.isMobileMenuOpen = false;
       },
-      changeFormSend: ({ state }) => {
-        state.customSettings.isFormSend = !state.customSettings.isFormSend;
-      },
       changeSubscribeSend: ({ state }) => {
         state.customSettings.isSubscribeSend = !state.customSettings.isSubscribeSend;
       },
-      changeFormGuide: ({ state }) => {
-        state.customSettings.sendFormGuide = !state.customSettings.sendFormGuide;
-      },
-      sendForm: ({ state }) => async (data) => {
-        const dataForm = data.formData;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
-          `${state.source.api}/frontity-api/send-form`,
-          dataForm,
-          { headers: { 'content-type': 'application/json' } },
-        ).then((response) => {
-          state.customSettings.isFormSend = true;
-          gtag('event', 'Send Email from footer form', {
-            'event_category': 'Send Email from footer form',
-          });
-          if (__insp) {
-            __insp.push(['identify', dataForm.get('email')]);
-            __insp.push(['tagSession', {
-              email: dataForm.get('email'),
-              name: dataForm.get('name'),
-              company: dataForm.get('company'),
-            }]);
-          }
-        });
-      },
-      sendFormGuide: ({ state }) => async (data) => {
-        const dataForm = data;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
-          `${state.source.api}/frontity-api/sendbookdata`,
-          dataForm,
-          { headers: { 'content-type': 'application/json' } },
-        ).then((response) => {
-
-        });
-
-        state.customSettings.sendFormGuide = true;
-      },
       sendComment: ({ state }) => async (data) => {
         const dataForm = data.formData;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
+        // dataForm.append('recaptchaToken', state.theme.recaptchaToken);
         state.customSettings.isCommentSend = true;
         await axios.post(
           `${state.source.api}/frontity-api/send-comment`,
@@ -141,23 +260,42 @@ const marsTheme = {
           if (response.status === 200) {
             state.customSettings.isCommentSend = false;
           }
+
+          return response;
         });
       },
 
       sendSubscribe: ({ state }) => async (data) => {
         const dataForm = data;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
+        // dataForm.append('recaptchaToken', state.theme.recaptchaToken);
+        return axios.post(
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
           { headers: { 'content-type': 'application/json' } },
         ).then((response) => {
           if (response.status === 200) {
-            state.customSettings.isSubscribeSend = true;
+            state.customSettings.isCommentSend = false;
           }
+
+          return response;
         });
       },
-      beforeSSR: ({ state, actions, libraries }) => {
+      beforeSSR: async ({ state, actions, libraries }) => {
+        const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
+        const optionPage = globalOptions.data || {};
+
+        state.theme.options = optionPage;
+        actions.theme.alternativeUrlForImage();
+        if (
+          state.router.link.includes('/')
+          || state.router.link.includes('/uk/')
+        ) {
+          const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
+          const main = mainData.data;
+          Object.assign(state.source.data[state.router.link], main);
+        }
+
+        await actions.theme.loadCategoryPost();
       },
     },
   },
@@ -167,7 +305,7 @@ const marsTheme = {
       imageUrlCheck: linkImageReplace,
     },
     source: {
-      handlers: [],
+      handlers: [UkMainHandler, UkMainHandler2, newHandler],
     },
     html2react: {
       /**

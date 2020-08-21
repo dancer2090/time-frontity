@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Global, connect, Head,
 } from 'frontity';
@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
+import Header from '../components/Header';
 import Loader from '../components/Loader';
 import Title from '../components/title';
 import Modal from '../components/Modal';
@@ -35,7 +36,7 @@ const Theme = ({ state, actions }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-
+  console.log(state);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -51,7 +52,7 @@ const Theme = ({ state, actions }) => {
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
         {/* Header components */}
-
+        <Header />
 
         {/* Add the main section. It renders a different component depending
         on the type of URL we are in. */}
@@ -60,8 +61,13 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/category/'} />
             <Post scrollRef={formRef} when={state.router.link === '/post/'} />
             <Post scrollRef={formRef} when={state.router.link === '/video/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/photo/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/post-photo/'} />
+            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <PageError when={data.isError} />
           </Switch>
         </Main>

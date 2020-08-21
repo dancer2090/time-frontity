@@ -1,45 +1,29 @@
 import { styled } from 'frontity';
+import { SIZE_MOBILE } from '../../const/responsive';
 
-export const Container = styled.div`
-  padding-top: 96px;
-  padding-bottom: 157px;
 
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;800&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
-
-  @media screen and (max-width: 991px) {
-    padding-top: 155px;
-    padding-bottom: 135px;
-  }
-
-  @media screen and (max-width: 767px) {
-    padding: 40px 10px 100px 10px;
+export const Wrapper = styled.div`
+  padding: 100px 0;
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    padding: 60px 0;
   }
 `;
 
 export const TitleError = styled.h2`
-  margin-top: 0;
-  font-family: 'Montserrat';
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 18px;
+  font-size: 170px;
   text-align: center;
-  text-transform: uppercase;
-  background: linear-gradient(#F8710F 0%, #FFB03A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 64px;
-`;
-
-export const Frame = styled.img`
-  width: 449px;
-  height: 259px;
-  margin: 0 auto 62px auto;
-
-  @media screen and (max-width: 576px) {
-    max-width: 449px;
-    width: 100%;
-    height: auto;
+  font-weight: bold;
+  margin-bottom: 50px;
+  
+  span {
+    color: #d63434;
+    font-style: italic;
+  }
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    font-size: 125px;
+    margin-bottom: 25px;
   }
 `;
 
@@ -47,34 +31,53 @@ export const Description = styled.div`
   text-align: center;
   font-size: 18px;
   line-height: 24px;
-  text-align: center;
   color: #222222;
 
   span {
-    font-family: 'Open Sans';
     display: block;
     margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
   }
 
   a {
-    color: #FF9434;
+    color: black;
+    text-decoration: none;
     transition: all .3s;
+    position: relative;
+    
+    &:before {
+      content: "";
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: black;
+      transition: all .3s;
+    }
+    
     &:hover {
-      color: #d87216;
+      &:before {
+        width: 0;
+      }
     }
   }
-
-  @media screen and (max-width: 576px) {
+  
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    padding: 0 17px;
     font-size: 16px;
-
+    line-height: 20px;
+    
     span {
-      margin-bottom: 19px;
-
-      &:last-of-type {
-        max-width: 218px;
-        width: 100%;
-        margin: 0 auto;
-      }
+      font-size: 16px;
+      line-height: 20px;
+    }
+    
+    a {
+      margin-top: 15px;
+      display: inline-block;
     }
   }
 `;
