@@ -56,6 +56,8 @@ const Header = ({ state, libraries, actions }) => {
 
   // state
   const navigation = useRef(null);
+  const searchInput = useRef(null);
+  const mobileSearchInput = useRef(null);
   const [resizeContainer, setResizeContainer] = useState(false);
   const [showNavigation, setShowNavigation] = useState(false);
   const [showLanguage, setShowLanguage] = useState(false);
@@ -119,6 +121,16 @@ const Header = ({ state, libraries, actions }) => {
     setShowNavigation(!showNavigation);
   };
 
+  const showSearchBlock = () => {
+    searchInput.current.focus();
+    setShowSearch(true);
+  };
+
+  const showSearchBlockMobile = () => {
+    mobileSearchInput.current.focus();
+    setMobileSearch(true);
+  };
+
   return (
     <Wrapper open={showNavigation}>
       <WrapperContainer>
@@ -130,12 +142,13 @@ const Header = ({ state, libraries, actions }) => {
             <Link link="/">
               <Logo src={urlImage} />
             </Link>
-            <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
+            <MobileSearchIcon onClick={() => showSearchBlockMobile()} name="search" />
             <MobileSearch show={mobileSearch}>
               <MobileSearchBlockIcon name="search" />
               <MobileSearchBlock>
                 <MobileInput
                   value={search}
+                  ref={mobileSearchInput}
                   onChange={(e) => setSearch(e.target.value)}
                   onKeyPress={(e) => sendSearch(e)}
                 />
@@ -171,11 +184,12 @@ const Header = ({ state, libraries, actions }) => {
                 }
               </Navigation>
               <Search active={showSearch}>
-                <SearchIcon name="search" onClick={() => setShowSearch(true)} />
+                <SearchIcon name="search" onClick={() => showSearchBlock()} />
                 <SearchWrapper active={showSearch}>
                   <SearchInputBlock>
                     <SearchInput
                       value={search}
+                      ref={searchInput}
                       onChange={(e) => setSearch(e.target.value)}
                       onKeyPress={(e) => sendSearch(e)}
                     />
@@ -228,13 +242,11 @@ const Header = ({ state, libraries, actions }) => {
         </HeaderContent>
       </WrapperContainer>
 
-      {/*
-       <MobileMenu
+      <MobileMenu
         isOpen={showMobileModal}
         closeModal={() => setShowMobileModal(false)}
         menu={filterMenu}
       />
-      */}
     </Wrapper>
   );
 };
