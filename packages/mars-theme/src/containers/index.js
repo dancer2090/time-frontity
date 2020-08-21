@@ -66,6 +66,8 @@ const Theme = ({ state, actions }) => {
               scrollRef={formRef}
               when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
             />
+            <Post scrollRef={formRef} when={state.router.link === '/person/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/video/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>
