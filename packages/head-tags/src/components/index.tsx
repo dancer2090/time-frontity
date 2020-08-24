@@ -11,7 +11,6 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
   const { urlsWithLocal = {} } = state.customSettings;
 
   const imageCheck = (url) => {
-    console.log(imageUrlCheck(url, urlsWithLocal))
     return imageUrlCheck(url, urlsWithLocal);
   };
 

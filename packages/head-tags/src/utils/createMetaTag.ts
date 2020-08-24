@@ -1,6 +1,8 @@
 export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) => {
+    if (!data) {
+        return [];
+    }
     const { head_tags: tags = [] } = data;
-    console.log(tags);
     const {
         acf = {},
     } = data;

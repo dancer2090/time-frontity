@@ -16,12 +16,17 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
     acf = {},
     link = '',
   } = postContent;
+
   const { title = '' } = acf[lang];
   const { category = {} } = postContent._embedded;
   const { acf: acfCategory = {} } = category;
   let titleCategory = '';
   if (acfCategory) {
-    titleCategory = acfCategory[lang].title;
+    // eslint-disable-next-line no-prototype-builtins
+    const copyAcfCategory = Object.assign({}, acfCategory[lang]);
+    if (acfCategory[lang] && copyAcfCategory.hasOwnProperty('title')) {
+      titleCategory = acfCategory[lang].title;
+    }
   }
   const linkValue = urlCheck(link, [state.frontity.url, state.frontity.adminUrl]);
 

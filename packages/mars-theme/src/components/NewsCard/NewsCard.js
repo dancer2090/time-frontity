@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'frontity';
 import {
   Card,
@@ -19,10 +19,19 @@ import Link from '../link';
 import cardImg from '../../img/card.jpg';
 import ukrNet from '../../img/urk-net.png';
 import videoPlay from '../../img/svg/play-btn.svg';
+import { getTimeVideo } from '../../utils/youtubeFormated';
 
 const NewsCard = ({
-  type = '', showResource = true, className, state, libraries, item = {},
+  type = '',
+  showResource = true,
+  className,
+  state,
+  libraries,
+  item = {},
+  linkVideo = '',
+  time = '',
 }) => {
+  const [timeValue, setTimeValue] = useState('');
   const { urlCheck } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
@@ -66,6 +75,9 @@ const NewsCard = ({
   const month = date.getMonth() + 1;
   const mothValue = months[state.theme.lang][month - 1];
   const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
+  getTimeVideo(time).then((data) => {
+    setTimeValue(data);
+  });
 
   let counterImages = 0;
   if (type === 'photo') {
@@ -79,8 +91,11 @@ const NewsCard = ({
         {
           type === 'video' && (
             <>
+              <Frame src={linkVideo} />
               <VideoButton src={videoPlay} />
-              <TimeVideo>10:30</TimeVideo>
+              <TimeVideo>
+                { timeValue }
+              </TimeVideo>
             </>
           )
         }

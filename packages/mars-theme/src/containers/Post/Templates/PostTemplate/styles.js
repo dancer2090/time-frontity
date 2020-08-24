@@ -26,7 +26,7 @@ export const TopNavigation = styled.div`
   margin-bottom: 37px;
   
   ${({ type }) => (
-    type
+    type && type !== 'video'
       ? css`
         padding-bottom: 25px;
         border-bottom: 1px solid #969696;

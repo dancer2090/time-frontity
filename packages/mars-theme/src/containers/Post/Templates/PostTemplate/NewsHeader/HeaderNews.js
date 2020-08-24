@@ -14,6 +14,8 @@ import { formatDatePost } from '../../../../../utils/formatDate';
 const HeaderNews = ({
   data, category, state, libraries, image, caption,
 }) => {
+  // Get the html2react component.
+  const Html2React = libraries.html2react.Component;
   const { lang = 'ru' } = state.theme;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
