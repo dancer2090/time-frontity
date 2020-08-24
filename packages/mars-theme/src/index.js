@@ -2,6 +2,7 @@
 /* eslint-disable quote-props */
 /* eslint-disable no-param-reassign */
 import image from '@frontity/html2react/processors/image';
+import convert from 'xml-js';
 import iframe from '@frontity/html2react/processors/iframe';
 import axios from 'axios';
 import Theme from './containers';
@@ -21,13 +22,13 @@ const newHandler = {
       const category = libraries.source.handlers.find(
         (handler) => handler.name == 'category',
       );
-      await category.func({ 
+      await category.func({
         route, params, state, libraries,
       });
     } catch (e) {
       // It's not a category
       let hand_name = 'post type';
-      if(params.type==="video") hand_name = 'video';
+      if (params.type === 'video') hand_name = 'video';
       const postType = libraries.source.handlers.find(
         (handler) => handler.name == hand_name,
       );
@@ -195,11 +196,12 @@ const marsTheme = {
    */
   actions: {
     theme: {
-      getMain: ({ state }) => async () => {
+      getMain: ({ state, actions }) => async () => {
         state.customSettings.doLoader = true;
         await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
           const main = response.data;
           Object.assign(state.source.data[state.router.link], main);
+          actions.theme.loadNewsIntegration();
           state.customSettings.doLoader = false;
         });
       },
@@ -296,6 +298,46 @@ const marsTheme = {
         state.theme.searchResult = data;
         state.customSettings.searchInitialLoader = data.search.length;
       },
+      loadNewsIntegration: ({ state }) => async () => {
+        const { lang = 'ru' } = state.theme;
+        const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+        const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+        const { rss = {} } = resultParse;
+        const { channel = {} } = rss;
+        const { item = [] } = channel;
+
+        const resultArrayNews = item.map((item) => {
+          const date = new Date(item.pubDate._text);
+          const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+          return {
+            ...item,
+            link: item.link._text,
+            date: resultDate,
+            acf: {
+              [lang]: {
+                title: item.title._cdata,
+              },
+            },
+            _embedded: {
+              category: {
+                acf: {
+                  [lang]: {
+                    title: item.category._text,
+                  },
+                },
+              },
+              featured_image: {
+                url: item.enclosure._attributes.url,
+              },
+            },
+          };
+        });
+        const resultArray = resultArrayNews.concat(state.source.data[state.router.link].last);
+        state.source.data[state.router.link] = {
+          ...state.source.data[state.router.link],
+          last: resultArray,
+        };
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
@@ -309,13 +351,12 @@ const marsTheme = {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+          actions.theme.loadNewsIntegration();
         }
 
         if (state.router.link === '/search-result/') {
           actions.theme.loadSearch();
         }
-
-
         await actions.theme.loadCategoryPost();
       },
     },
