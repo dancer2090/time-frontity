@@ -333,10 +333,13 @@ const marsTheme = {
           };
         });
         const resultArray = resultArrayNews.concat(state.source.data[state.router.link].last);
-        state.source.data[state.router.link] = {
+        Object.assign(state.source.data[state.router.link], {
           ...state.source.data[state.router.link],
           last: resultArray,
-        };
+        });
+        return new Promise((resolve, reject) => {
+          resolve('data');
+        });
       },
       beforeSSR: async ({ state, actions, libraries }) => {
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);

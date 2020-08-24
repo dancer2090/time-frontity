@@ -98,6 +98,7 @@ const Header = ({ state, libraries, actions }) => {
       const url = state.router.link.replace('/uk', '');
       actions.router.set(url);
     }
+    actions.theme.loadNewsIntegration();
     setShowLanguage(false);
     setLanguageValue(filterLanguage[index]);
   };

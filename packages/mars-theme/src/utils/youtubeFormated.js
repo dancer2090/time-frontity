@@ -48,7 +48,9 @@ export const getTimeVideo = async (url) => {
   const {
     items = [],
   } = data;
-  const { contentDetails = {} } = items[0];
-  const { duration = '' } = contentDetails;
-  return formatYoutubeTime(duration);
+  if (items[0]) {
+    const { contentDetails = {} } = items[0];
+    const { duration = '' } = contentDetails;
+    return formatYoutubeTime(duration);
+  }
 };

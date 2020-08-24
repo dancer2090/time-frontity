@@ -75,6 +75,7 @@ const MobileMenu = ({
       ...item,
       active: false,
     }));
+    actions.theme.loadNewsIntegration();
     setNavigation(filterMenu);
   };
 

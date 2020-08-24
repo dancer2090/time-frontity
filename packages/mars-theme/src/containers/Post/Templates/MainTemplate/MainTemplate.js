@@ -113,15 +113,20 @@ const MainTemplate = ({ state, libraries, actions }) => {
   };
 
   const loadData = () => {
-    console.log('last', last);
-    const dataArray = filterNewsTimeLine(lang, last);
+    const {
+      last: lastPosts = [],
+    } = dataP;
+    const dataArray = filterNewsTimeLine(lang, lastPosts);
     setLastPost(dataArray);
     setPage(page + 1);
   };
 
   useEffect(() => {
     actions.theme.getMain();
-    loadData();
+    actions.theme.loadNewsIntegration()
+      .then(() => {
+        loadData();
+      });
   }, []);
 
   const fetchMoreData = () => {
