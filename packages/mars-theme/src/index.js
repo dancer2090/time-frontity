@@ -16,6 +16,7 @@ const UkMainHandler = {
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukmain-------------');
     console.log(route);
     if(state.theme.isFetch && state.router.link === '/uk'){
       try {
@@ -49,6 +50,7 @@ const MainHandler = {
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('main-------------');
     console.log(route);
     if(state.router.link === '/'){
       try {
@@ -77,11 +79,12 @@ const MainHandler = {
 
 const PostHandler = {
   name: 'PostHandler',
-  priority: 2,
+  priority: 1,
   pattern: '/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('post-------------');
     console.log(route);
     console.log(state.router.link);
     if(state.router.link !== '/'){
@@ -107,11 +110,12 @@ const PostHandler = {
 
 const UkPostHandler = {
   name: 'UkPostHandler',
-  priority: 2,
+  priority: 1,
   pattern: '/(uk)?/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukpost-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -136,11 +140,12 @@ const UkPostHandler = {
 
 const CatHandler = {
   name: 'CatHandler',
-  priority: 3,
+  priority: 1,
   pattern: '/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('cat-------------');
     console.log(route);
     console.log(state.router.link);
     if(state.router.link !== '/'){
@@ -183,11 +188,12 @@ const CatHandler = {
 
 const UkCatHandler = {
   name: 'UkCatHandler',
-  priority: 3,
+  priority: 1,
   pattern: '/(uk)?/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukcat-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -230,11 +236,12 @@ const UkCatHandler = {
 
 const PageHandler = {
   name: 'PageHandler',
-  priority: 4,
+  priority: 1,
   pattern: '/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('page-------------');
     console.log(route);
     console.log(state.router.link);
     if(state.router.link !== '/'){
@@ -247,8 +254,8 @@ const PageHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].isPage = true;
+        alt_page4[0].type = 'page';
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -260,11 +267,12 @@ const PageHandler = {
 
 const UkPageHandler = {
   name: 'UkPageHandler',
-  priority: 4,
+  priority: 1,
   pattern: '/(uk)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukpage-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -276,8 +284,8 @@ const UkPageHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].isPage = true;
+        alt_page4[0].type = 'page';
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -290,11 +298,12 @@ const UkPageHandler = {
 
 const UkVideoHandler = {
   name: 'UkVideoHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(uk)?/(video)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukvideo-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -306,7 +315,9 @@ const UkVideoHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isVideoArchive = true;
+        alt_page4[0].type = "video";
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -318,12 +329,14 @@ const UkVideoHandler = {
 
 const VideoHandler = {
   name: 'VideoHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(video)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('video-------------');
     console.log(route);
+    console.log(222222);
     if(state.router.link !== '/'){
       try {
         const postsResponse4 = await libraries.source.api.get({
@@ -334,7 +347,9 @@ const VideoHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isVideoArchive = true;
+        alt_page4[0].type = "video";
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -346,11 +361,12 @@ const VideoHandler = {
 
 const UkImagesHandler = {
   name: 'UkImagesHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(uk)?/(images)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukimages-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -362,7 +378,9 @@ const UkImagesHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isImagesArchive = true;
+        alt_page4[0].type = "images";
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -374,11 +392,12 @@ const UkImagesHandler = {
 
 const ImagesHandler = {
   name: 'ImagesHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(images)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('images-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -390,7 +409,9 @@ const ImagesHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isImagesArchive = true;
+        alt_page4[0].type = "images";
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -402,11 +423,12 @@ const ImagesHandler = {
 
 const UkPersonaHandler = {
   name: 'UkPersonaHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(uk)?/(persona)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('personauk-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -418,7 +440,9 @@ const UkPersonaHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isPersonaArchive = true;
+        alt_page4[0].type = "persona";
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -430,11 +454,12 @@ const UkPersonaHandler = {
 
 const PersonaHandler = {
   name: 'PersonaHandler',
-  priority: 5,
+  priority: 1,
   pattern: '/(persona)?',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('persona-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -446,7 +471,9 @@ const PersonaHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isArchive = true;
+        alt_page4[0].isPostTypeArchive = true;
+        alt_page4[0].isPersonaArchive = true;
+        alt_page4[0].type = "persona";
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -458,13 +485,14 @@ const PersonaHandler = {
 
 const UkVideoPostHandler = {
   name: 'UkVideoPostHandler',
-  priority: 6,
+  priority: 1,
   pattern: '/(uk)?/(video)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukvideopost-------------');
     console.log(route);
-    if(state.router.link !== '/'){
+    if(state.router.link !== '/' && state.router.link !== '/video'){
       try {
         const postsResponse4 = await libraries.source.api.get({
           endpoint: 'video',
@@ -474,8 +502,7 @@ const UkVideoPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'video';
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -487,13 +514,14 @@ const UkVideoPostHandler = {
 
 const VideoPostHandler = {
   name: 'VideoPostHandler',
-  priority: 6,
+  priority: 2,
   pattern: '/(video)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('videopost-------------');
     console.log(route);
-    if(state.router.link !== '/'){
+    if(state.router.link !== '' && state.router.link !== '/video'){
       try {
         const postsResponse4 = await libraries.source.api.get({
           endpoint: 'video',
@@ -503,8 +531,7 @@ const VideoPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'video';
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -516,11 +543,12 @@ const VideoPostHandler = {
 
 const UkImagesPostHandler = {
   name: 'UkImagesPostHandler',
-  priority: 6,
+  priority: 1,
   pattern: '/(uk)?/(images)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukimagepost-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -532,8 +560,7 @@ const UkImagesPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'images';
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -545,11 +572,12 @@ const UkImagesPostHandler = {
 
 const ImagesPostHandler = {
   name: 'ImagesPostHandler',
-  priority: 6,
+  priority: 1,
   pattern: '/(images)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('imagepost-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -561,8 +589,7 @@ const ImagesPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'images';
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -574,11 +601,12 @@ const ImagesPostHandler = {
 
 const UkPersonaPostHandler = {
   name: 'UkPersonaPostHandler',
-  priority: 6,
+  priority: 1,
   pattern: '/(uk)?/(persona)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('ukpersonapost-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -590,8 +618,7 @@ const UkPersonaPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'persona';
         state.theme.lang = 'uk';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -603,11 +630,12 @@ const UkPersonaPostHandler = {
 
 const PersonaPostHandler = {
   name: 'PersonaPostHandler',
-  priority: 6,
+  priority: 1,
   pattern: '/(persona)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
+    console.log('personapost-------------');
     console.log(route);
     if(state.router.link !== '/'){
       try {
@@ -619,8 +647,7 @@ const PersonaPostHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostType = true;
-        alt_page4[0].isPost = true;
+        alt_page4[0].type = 'persona';
         state.theme.lang = 'ru';
         Object.assign(state.source.data[route], alt_page4[0]);
       } catch (e) {
@@ -796,7 +823,13 @@ const marsTheme = {
       imageUrlCheck: linkImageReplace,
     },
     source: {
-      handlers: [UkMainHandler, MainHandler, PostHandler, UkPostHandler, PageHandler, UkPageHandler, UkVideoHandler, VideoHandler, UkImagesHandler, ImagesHandler],
+      handlers: [
+        UkMainHandler, MainHandler,
+        UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
+        UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
+        UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,
+        CatHandler, UkCatHandler, PostHandler, UkPostHandler, PageHandler, UkPageHandler,
+      ],
     },
     html2react: {
       /**
