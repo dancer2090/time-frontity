@@ -15,30 +15,32 @@ export const generatePreviewYoutubeLink = (url) => {
 };
 
 export const formatYoutubeTime = (duration) => {
-  const secondsRegex = new RegExp(/M\w+S/);
-  const resultSearch = secondsRegex.exec(duration)[0];
-  let seconds = resultSearch.replace('M', '');
-  seconds = seconds.replace('S', '');
-  let minute = '';
-
-  if (duration.includes('H')) {
-    const hoursRegex = new RegExp(/T\w+H/);
-    const resultHours = hoursRegex.exec(duration)[0];
-    const minuteRegex = new RegExp(/H\w+M/);
+  if (duration !== '') {
+    const secondsRegex = new RegExp(/M\w+S/);
+    const resultSearch = duration ? secondsRegex.exec(duration)[0] : '';
+    let seconds = resultSearch.replace('M', '');
+    seconds = seconds.replace('S', '');
+    let minute = '';
+  
+    if (duration.includes('H')) {
+      const hoursRegex = new RegExp(/T\w+H/);
+      const resultHours = hoursRegex.exec(duration)[0];
+      const minuteRegex = new RegExp(/H\w+M/);
+      const resultMinute = minuteRegex.exec(duration)[0];
+      minute = resultMinute.replace('H', '');
+      minute = minute.replace('M', '');
+      let hours = resultHours.replace('T', '');
+      hours = hours.replace('H', '');
+  
+      return `${hours}:${minute < 10 ? `0${minute}` : minute}:00`;
+    }
+    const minuteRegex = new RegExp(/T\w+M/);
     const resultMinute = minuteRegex.exec(duration)[0];
-    minute = resultMinute.replace('H', '');
+    minute = resultMinute.replace('T', '');
     minute = minute.replace('M', '');
-    let hours = resultHours.replace('T', '');
-    hours = hours.replace('H', '');
-
-    return `${hours}:${minute < 10 ? `0${minute}` : minute}:00`;
+  
+    return `${minute < 10 ? `0${minute}` : minute}:${seconds}`;
   }
-  const minuteRegex = new RegExp(/T\w+M/);
-  const resultMinute = minuteRegex.exec(duration)[0];
-  minute = resultMinute.replace('T', '');
-  minute = minute.replace('M', '');
-
-  return `${minute < 10 ? `0${minute}` : minute}:${seconds}`;
 };
 
 export const getTimeVideo = async (url) => {
@@ -48,7 +50,8 @@ export const getTimeVideo = async (url) => {
   const {
     items = [],
   } = data;
-  const { contentDetails = {} } = items[0];
+  const dataItem = items[0] ? items[0] : {};
+  const { contentDetails = {} } = dataItem;
   const { duration = '' } = contentDetails;
   return formatYoutubeTime(duration);
 };
