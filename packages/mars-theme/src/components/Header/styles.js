@@ -31,7 +31,7 @@ export const WrapperContainer = styled.div`
   background: #F8F8F8;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 20;
 
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     background-color: white;

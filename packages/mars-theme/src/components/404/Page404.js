@@ -7,11 +7,10 @@ import {
 } from './styles';
 import { Container } from '../globalStyles';
 import Link from '../link';
-import Translator from "../Translator/Translator";
+import Translator from '../Translator/Translator';
 
 const Page404 = ({ state }) => {
   const { lang = 'ru' } = state.theme;
-
   return (
     <Wrapper>
       <Container>

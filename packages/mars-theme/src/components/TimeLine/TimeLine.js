@@ -26,9 +26,13 @@ const TimeLine = ({
   return (
     <Wrapper>
       <TimeItem>
-        <LabelDate>
-          { date }
-        </LabelDate>
+        {
+          showDate && (
+            <LabelDate>
+              { date }
+            </LabelDate>
+          )
+        }
         <Container>
           {
             data.posts.map((item, index) => {

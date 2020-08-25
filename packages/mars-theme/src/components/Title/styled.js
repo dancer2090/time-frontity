@@ -35,6 +35,8 @@ export const TitleBlock = styled.h2`
 `;
 
 export const Text = styled.span`
+  display: block;
+  
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding: 0 16px;
   }

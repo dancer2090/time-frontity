@@ -61,7 +61,6 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
   //  load page data
   const dataP = state.source.get(state.router.link);
-  const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
 
   const {
     actual = [],

@@ -1,6 +1,6 @@
 import { styled } from 'frontity';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
-import PostDetails from '../PostDetails';
+import PostDetails from '../../../../../components/PostDetails';
 
 export const Wrapper = styled.div`
   @media screen and (max-width: ${SIZE_MOBILE}px) {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   GIconMessage,
@@ -7,32 +8,48 @@ import {
   Button,
   MessageConfirm,
 } from './styles';
+import Loader from '../Loader';
 import Input from '../Input';
 import Modal from '../Modal/Modal';
 import { validateFieldEmail } from '../../utils/validation/validation';
 import Translator from '../Translator/Translator';
 import { translator } from '../../utils/translator';
 
-const SubscribeNews = ({ className, lang = 'ru' }) => {
+const SubscribeNews = ({ className, lang = 'ru', actions }) => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [showConfirmMessage, setShowConfirmMessage] = useState(false);
 
-  const subscribeNews = () => {
+  const subscribeNewsValidation = () => {
     const getEmailError = validateFieldEmail(email);
 
     setEmailError(getEmailError);
 
-    if (getEmailError.length === 0) {
-      setShowConfirmMessage(true);
-    }
+    return getEmailError.length === 0;
   };
 
   const closeModal = () => {
     setEmail('');
     setShowModal(false);
     setShowConfirmMessage(false);
+  };
+
+  const formSubmit = () => {
+    if (subscribeNewsValidation()) {
+      setLoading(true);
+      // eslint-disable-next-line no-undef
+      const formData = new FormData();
+      formData.append('email', email);
+      actions.theme.sendSubscribe(formData)
+        .then(() => {
+          setShowConfirmMessage(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -60,9 +77,15 @@ const SubscribeNews = ({ className, lang = 'ru' }) => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <ButtonWrapper>
-                  <Button onClick={subscribeNews}>
-                    <Translator id="subscribeLabelButton" />
-                  </Button>
+                  {
+                    loading
+                      ? <Loader />
+                      : (
+                        <Button onClick={formSubmit}>
+                          <Translator id="subscribeLabelButton" />
+                        </Button>
+                      )
+                  }
                 </ButtonWrapper>
               </>
             )
@@ -74,4 +97,4 @@ const SubscribeNews = ({ className, lang = 'ru' }) => {
   );
 };
 
-export default SubscribeNews;
+export default connect(SubscribeNews);

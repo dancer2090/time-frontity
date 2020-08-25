@@ -4,6 +4,7 @@ import {
   Wrapper,
   TopNavigation,
   ContentWrapper,
+  ContentItem,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Title from '../../../../components/Title';
@@ -13,15 +14,12 @@ import TimeLine from '../../../../components/TimeLine/TimeLine';
 
 const timeLineData = [
   {
-    date: '17 сентября 2020, воскресенье',
     posts: [
       {
-        time: '12:00',
         content: `<strong>Медиацентр «Время» начал свою работу в 2014 году, впервые заявив о</strong>
                   себе информационным марафоном 26 октября, в день выборов в Верховную Раду Украины.\n`,
       },
       {
-        time: '12:02',
         post: {
           type: 'post',
           category: 'Спорт',
@@ -29,7 +27,6 @@ const timeLineData = [
         },
       },
       {
-        time: '12:02',
         post: {
           type: 'photo',
           category: 'Спорт',
@@ -37,7 +34,6 @@ const timeLineData = [
         },
       },
       {
-        time: '12:02',
         post: {
           type: 'post',
           category: 'Спорт',
@@ -45,51 +41,6 @@ const timeLineData = [
         },
       },
       {
-        time: '12:02',
-        post: {
-          type: 'video',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-  {
-    date: '18 декабря 2021, воскресенье',
-    posts: [
-      {
-        time: '12:00',
-        post: {
-          category: 'Культура',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        post: {
-          type: 'photo',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        time: '12:02',
         post: {
           type: 'video',
           category: 'Спорт',
@@ -99,10 +50,24 @@ const timeLineData = [
     ],
   },
 ];
-const MediaCenterTemplate = ({ libraries }) => {
+const MediaCenterTemplate = ({ state, libraries }) => {
   // Component exposed by html2react.
   const Html2React = libraries.html2react.Component;
-
+  const { lang = 'ru' } = state.theme;
+  const data = state.source.get(state.router.link);
+  const post = state.source[data.type][data.id];
+  const { acf = {} } = post;
+  const {
+    items = [],
+  } = acf[lang];
+  const itemsPoint = [
+    {
+      posts: [],
+    },
+  ];
+  items.forEach((item) => {
+    itemsPoint[0].posts.push(item);
+  });
   return (
     <Wrapper>
       <Container>
@@ -118,12 +83,21 @@ const MediaCenterTemplate = ({ libraries }) => {
         </Title>
         <ContentWrapper>
           {
-            timeLineData.map((item, index) => (
+            itemsPoint.map((item, index) => (
               <TimeLine
                 key={index}
                 data={item}
+                showDate={false}
                 customsContent
-                customRender={(el) => (el.content ? <Html2React html={el.content} /> : <span>bla bla</span>)}
+                customRender={(el) => (
+                  el.point
+                    ? (
+                      <ContentItem>
+                        <Html2React html={el.point} />
+                      </ContentItem>
+                    )
+                    : <span></span>
+                )}
               />
             ))
           }
