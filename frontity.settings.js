@@ -38,7 +38,7 @@ const settings = [
       "state": {
         "source": {
           "api": "https://time-admin.webbuilder.in.ua/wp-json",
-          "homepage": '/main',
+          "homepage": '/',
           "postsPage": '/blog',
           params: {
             per_page: 10,
