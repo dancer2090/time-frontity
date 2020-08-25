@@ -12,7 +12,7 @@ import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => {
   const data = state.source.get(state.router.link);
-  console.log(data);
+  // console.log(data);
 
   return (
     <Switch>

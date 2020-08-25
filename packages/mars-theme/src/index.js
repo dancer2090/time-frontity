@@ -17,23 +17,40 @@ const newHandler = {
     route, params, state, libraries,
   }) => {
     // 1. try with category.
+
+    const error = [];
     try {
       const category = libraries.source.handlers.find(
-        (handler) => handler.name == 'category',
+        (handler) => handler.name === 'category',
       );
-      await category.func({ 
+      await category.func({
         route, params, state, libraries,
       });
     } catch (e) {
-      // It's not a category
-      let hand_name = 'post type';
-      if(params.type==="video") hand_name = 'video';
-      const postType = libraries.source.handlers.find(
-        (handler) => handler.name == hand_name,
-      );
-      await postType.func({
-        link: route, params, state, libraries,
-      });
+      error.push('not-category');
+    }
+
+    try {
+      if (error.indexOf('not-category') !== -1) {
+        // It's not a category
+        let hand_name = 'post type';
+
+        if (params.type === "video") {
+          hand_name = 'video';
+        } 
+        
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name === hand_name,
+        );
+        
+        await postType.func({
+          link: route, params, state, libraries,
+        });
+      }
+
+    } catch(e) {
+
+  //     error.push('not-post-type');
     }
   },
 };
@@ -46,6 +63,7 @@ const newHandler2 = {
     route, params, state, libraries,
   }) => {
     // 1. try with category.
+    const error = [];
     try {
       const category = libraries.source.handlers.find(
         (handler) => handler.name == 'category',
@@ -54,14 +72,21 @@ const newHandler2 = {
         route, params, state, libraries,
       });
     } catch (e) {
-      // It's not a category
-      let hand_name = 'page';
-      const postType = libraries.source.handlers.find(
-        (handler) => handler.name == hand_name,
-      );
-      await postType.func({
-        link: route, params, state, libraries,
-      });
+      error.push('not-category')
+    }
+
+    try {    
+      if (error.indexOf('not-category')) {
+        // It's not a category
+        let hand_name = 'page';
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name == hand_name,
+        );
+        await postType.func({
+          link: route, params, state, libraries,
+        });
+      }
+    } catch (e) {
     }
   },
 };
@@ -224,14 +249,19 @@ const marsTheme = {
         state.customSettings.searchInitialLoader = data.search.length;
       },
       beforeSSR: async ({ state, actions, libraries }) => {
+        const ldata = libraries.source.parse('http://sitename.com' + state.router.link);
+
+        console.log(ldata);
+        if (ldata.query && ldata.query.lang) {
+          state.theme.lang = ldata.query.lang;
+        }
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
 
         state.theme.options = optionPage;
         actions.theme.alternativeUrlForImage();
         if (
-          state.router.link === '/'
-          || state.router.link === '/uk/'
+          ldata.route === '/'
         ) {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
@@ -241,7 +271,6 @@ const marsTheme = {
         if (state.router.link === '/search-result/') {
           actions.theme.loadSearch();
         }
-
 
         await actions.theme.loadCategoryPost();
       },
