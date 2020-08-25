@@ -299,13 +299,13 @@ const UkPageHandler = {
 const UkVideoHandler = {
   name: 'UkVideoHandler',
   priority: 1,
-  pattern: '/(uk)?/(video)?',
+  pattern: '/uk/(video)?',
   func: async ({
     route, params, state, libraries,
   }) => {
     console.log('ukvideo-------------');
     console.log(route);
-    if(state.router.link !== '/'){
+    if(state.router.link !== '/' && state.router.link !== '/video'){
       try {
         const postsResponse4 = await libraries.source.api.get({
           endpoint: 'video',
@@ -336,7 +336,6 @@ const VideoHandler = {
   }) => {
     console.log('video-------------');
     console.log(route);
-    console.log(222222);
     if(state.router.link !== '/'){
       try {
         const postsResponse4 = await libraries.source.api.get({
@@ -347,11 +346,16 @@ const VideoHandler = {
           state,
           response: postsResponse4,
         });
-        alt_page4[0].isPostTypeArchive = true;
-        alt_page4[0].isVideoArchive = true;
-        alt_page4[0].type = "video";
+
+        const archive = {
+          isPostTypeArchive : true,
+          isVideoArchive : true,
+          type : "video",
+          items : alt_page4,
+        }
+
         state.theme.lang = 'ru';
-        Object.assign(state.source.data[route], alt_page4[0]);
+        Object.assign(state.source.data[route], archive);
       } catch (e) {
 
       }
