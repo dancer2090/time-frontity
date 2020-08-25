@@ -54,6 +54,11 @@ const settings = [
               type: "images", // type slug
               endpoint: "images", // REST API endpoint
               archive: "/images" // link where this custom posts are listed
+            },
+            {
+              type: "persona", // type slug
+              endpoint: "persona", // REST API endpoint
+              archive: "/persona" // link where this custom posts are listed
             }
           ],
           taxonomies: [
