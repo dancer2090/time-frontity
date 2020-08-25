@@ -18,12 +18,12 @@ const PostContent = ({ state, scrollRef = null }) => {
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-      <MediaCenterTemplate scrollRef={scrollRef} when={state.router.link === '/media-center/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />
       <PostPhotoTemplate scrollRef={scrollRef} when={data.type === 'images'} />
+      <MediaCenterTemplate scrollRef={scrollRef} when={data.type === 'page' && state.router.link.includes('media-center')} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
       <PersonTemplate scrollRef={scrollRef} when={state.router.link === '/person/'} />
     </Switch>

@@ -47,10 +47,15 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/media-center/'} />
             <Post
               scrollRef={formRef}
-              when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
+              when={
+                data.isPostType
+                || data.isCategory
+                || data.isVideoArchive
+                || data.isImagesArchive
+                || data.type === 'page'
+              }
             />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />

@@ -56,6 +56,7 @@ const MediaCenterTemplate = ({ state, libraries }) => {
   const { lang = 'ru' } = state.theme;
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
+  console.log(post);
   const { acf = {} } = post;
   const {
     items = [],
