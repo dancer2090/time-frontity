@@ -9,110 +9,59 @@ import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
 import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
 
-const UkMainHandler = {
-  name: 'UkMainHandler',
-  priority: 1,
-  pattern: '/(uk)?/',
+const newHandler = {
+  name: 'categoryOrPostType',
+  priority: 19,
+  pattern: '/:type/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
-    console.log('ukmain-------------');
-    console.log(state.router.link);
-    if(state.router.link === '/uk/'){
-      console.log('uk check');
-      try {
-        // Get the posts from those categories.
-        const postsResponse = await libraries.source.api.get({
-          endpoint: 'pages',
-          params: { slug: 'main', _embed: true },
-        });
-        const alt_page = await libraries.source.populate({
-          state,
-          response: postsResponse,
-        });
-        alt_page[0].isHome = true;
-        alt_page[0].isPage = true;
-        alt_page[0].isPostType = true;
-        state.theme.lang = 'uk';
-
-        // Populate state.source.data with the proper info about this URL.
-        Object.assign(state.source.data[route], alt_page[0]);
-      } catch (e) {
-
-      }
+    // 1. try with category.
+    try {
+      const category = libraries.source.handlers.find(
+        (handler) => handler.name == 'category',
+      );
+      await category.func({ 
+        route, params, state, libraries,
+      });
+    } catch (e) {
+      // It's not a category
+      let hand_name = 'post type';
+      if(params.type==="video") hand_name = 'video';
+      const postType = libraries.source.handlers.find(
+        (handler) => handler.name == hand_name,
+      );
+      await postType.func({
+        link: route, params, state, libraries,
+      });
     }
-    else {
-      const l = libraries.source.parse(state.router.link);
-      const lPath = l.path.split('/').filter((item, n) => n>1);
-      console.log(lPath);
-      const slug = lPath[0];
-      let checkError = false;
-      console.log(slug);
-      console.log(route);
-      console.log(state.router.link);
-      if (slug !== 'css2') {
-//        try{
-          console.log(1);
+  },
+};
 
-          const postsResponse2 = await libraries.source.api.get({
-            endpoint: 'categories',
-            params: { slug: slug, _embed: true },
-          });
-          const alt_page2 = await libraries.source.populate({
-            state,
-            response: postsResponse2,
-          });
-          if (alt_page2.length > 0) {
-            alt_page2[0].isArchive = true;
-            alt_page2[0].isCategory = true;
-            alt_page2[0].isTaxonomy = true;
-            alt_page2[0].taxonomy = 'category';
-
-            // Get the posts from those categories.
-            const postsResponse3 = await libraries.source.api.get({
-              endpoint: 'posts',
-              params: { categories: alt_page2.id, _embed: true },
-            });
-            const items = await libraries.source.populate({
-              state,
-              response: postsResponse3,
-            });
-            const total = libraries.source.getTotal(postsResponse3);
-            const totalPages = libraries.source.getTotalPages(postsResponse3);
-            alt_page2[0].items = items;
-            alt_page2[0].total = total;
-            alt_page2[0].totalPages = totalPages;
-            console.log(alt_page2);
-            Object.assign(state.source.data[route], alt_page2[0]);
-          }
-
-          
-//        } catch(e){
-//          checkError = true;
-//        }
-        if(checkError){
-          try{
-            console.log(2);
-            const postsResponse4 = await libraries.source.api.get({
-              endpoint: 'posts',
-              params: { slug: slug, _embed: true },
-            });
-            const alt_page4 = await libraries.source.populate({
-              state,
-              response: postsResponse4,
-            });
-            if (alt_page4.length > 0) {
-              alt_page4[0].isPostType = true;
-              alt_page4[0].isPost = true;
-              state.theme.lang = 'uk';
-              Object.assign(state.source.data[route], alt_page4[0]);
-            }
-          } catch(e){
-            checkError = true;
-          }
-        }
-      }
-      console.log('uk page check');
+const newHandler2 = {
+  name: 'categoryOrPostType2',
+  priority: 19,
+  pattern: '/:slug',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    // 1. try with category.
+    try {
+      const category = libraries.source.handlers.find(
+        (handler) => handler.name == 'category',
+      );
+      await category.func({ 
+        route, params, state, libraries,
+      });
+    } catch (e) {
+      // It's not a category
+      let hand_name = 'page';
+      const postType = libraries.source.handlers.find(
+        (handler) => handler.name == hand_name,
+      );
+      await postType.func({
+        link: route, params, state, libraries,
+      });
     }
   },
 };
@@ -306,7 +255,7 @@ const marsTheme = {
     },
     source: {
       handlers: [
-        UkMainHandler/*, MainHandler,
+        newHandler, newHandler2/*UkMainHandler/*, MainHandler,
         UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
         UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
         UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,

@@ -198,6 +198,7 @@ const Header = ({ state, libraries, actions }) => {
                 </SearchWrapper>
               </Search>
             </BottomRelative>
+            {/*
             <Language>
               <LanguageValueBlock
                 onClick={() => setShowLanguage(!showLanguage)}
@@ -221,6 +222,7 @@ const Header = ({ state, libraries, actions }) => {
                 }
               </LanguageShow>
             </Language>
+            */}
           </BottomContent>
         </Container>
         <HeaderContent show={showNavigation}>
