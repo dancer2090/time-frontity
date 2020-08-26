@@ -114,5 +114,17 @@ export const BlockContent = styled.div`
     &:before {
       display: none;
     }
+    
+    ${({ customsContent }) => (
+    customsContent
+      ? css`
+          padding-left: 27px;
+          border-left: 2px solid #969696;
+          &:before {
+            display: block;
+          }
+            `
+      : null
+  )}
   }
 `;

@@ -4,6 +4,7 @@ import Switch from '@frontity/components/switch';
 import MainTemplate from '../Templates/MainTemplate';
 import CategoryTemplate from '../Templates/CategoryTemplate';
 import PostTemplate from '../Templates/PostTemplate';
+import MediaCenterTemplate from '../Templates/MediaCenterTemplate';
 import SpecialThemeTemplate from '../Templates/SpecialThemeTemplate';
 import ResultSearchTemplate from '../Templates/ResultSearchTemplate';
 import PersonTemplate from '../Templates/PersonTemplate';
@@ -24,6 +25,7 @@ const PostContent = ({ state, scrollRef = null }) => {
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />
       <PostPhotoTemplate scrollRef={scrollRef} when={data.type === 'images'} />
+      <MediaCenterTemplate scrollRef={scrollRef} when={data.type === 'page' && state.router.link.includes('media-center')} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
       <PersonTemplate scrollRef={scrollRef} when={state.router.link === '/person/'} />
     </Switch>

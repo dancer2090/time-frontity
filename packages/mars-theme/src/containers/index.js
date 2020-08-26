@@ -53,7 +53,13 @@ const Theme = ({ state, actions }) => {
             <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <Post
               scrollRef={formRef}
-              when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
+              when={
+                data.isPostType
+                || data.isCategory
+                || data.isVideoArchive
+                || data.isImagesArchive
+                || data.type === 'page'
+              }
             />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />
