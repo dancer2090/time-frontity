@@ -271,8 +271,10 @@ const marsTheme = {
           Object.assign(state.source.data[state.router.link], main);
         }
 
-        if (state.router.link === '/search-result/') {
-          actions.theme.loadSearch();
+        if (state.router.link.includes('search-result')) {
+          const urlData = libraries.source.parse(state.frontity.url + state.router.link);
+          const querySearch = decodeURI(urlData.query.s);
+          actions.theme.loadSearch(querySearch);
         }
 
         await actions.theme.loadCategoryPost();
