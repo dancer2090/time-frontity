@@ -43,7 +43,7 @@ const ResultSearchTemplate = ({ state, actions }) => {
 
     loadTimeLineData();
   }, [state.router.link], () => {
-    console.log('destroy');
+    // console.log('destroy');
   });
 
   const fetchMoreData = () => {
