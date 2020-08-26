@@ -16,8 +16,6 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
   const data = state.source.get(state.router.link);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
-  //console.log('ldata');
-  //console.log(ldata);
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />

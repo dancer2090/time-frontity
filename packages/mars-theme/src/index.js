@@ -156,6 +156,9 @@ const marsTheme = {
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
         Object.assign(state.source.data[state.router.link], data);
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
       },
       addViewPost: ({ state }) => async (id) => {
         await axios.get(`${state.source.api}/frontity-api/add-view/${id}`);
