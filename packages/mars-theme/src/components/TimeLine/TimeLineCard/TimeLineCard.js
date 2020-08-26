@@ -12,6 +12,7 @@ import {
   VideoIcon,
 } from './styled';
 import TimeLinePost from '../TimeLinePost';
+import {generatePreviewYoutubeLink} from "../../../utils/youtubeFormated";
 
 const TimeLineCard = ({
   type = 'default', state, libraries, onClick, postContent, imageUrl = false,
@@ -19,6 +20,20 @@ const TimeLineCard = ({
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const urlImage = imageUrlCheck(imageUrl, urlsWithLocal);
+  let imageSrc = '';
+  let imageVideoSrc = '';
+  if (type === 'images') {
+    const {
+      acf = {},
+    } = postContent;
+    imageSrc = imageUrlCheck(acf.images[0].image.url, urlsWithLocal);
+  }
+  if (type === 'video') {
+    const {
+      acf = {},
+    } = postContent;
+    imageVideoSrc = generatePreviewYoutubeLink(acf.video);
+  }
 
   return (
     <Card type={type}>
@@ -26,20 +41,30 @@ const TimeLineCard = ({
         type !== 'post'
         && (
         <Frame>
-          <FrameImage src={urlImage} />
           {
-            type === 'photo' && (
-              <Photo>
-                <PhotoIcon name="photo" />
-                <PhotoCounter>10</PhotoCounter>
-              </Photo>
+            type === 'images' && (
+              <>
+                <FrameImage src={imageSrc} />
+                <Photo>
+                  <PhotoIcon name="photo" />
+                  <PhotoCounter>10</PhotoCounter>
+                </Photo>
+              </>
             )
           }
           {
             type === 'video' && (
-              <Video onClick={onClick}>
-                <VideoIcon name="play" />
-              </Video>
+              <>
+                <FrameImage src={imageVideoSrc} />
+                <Video onClick={onClick}>
+                  <VideoIcon name="play" />
+                </Video>
+              </>
+            )
+          }
+          {
+            type === 'default' && (
+              <FrameImage src={urlImage} />
             )
           }
         </Frame>

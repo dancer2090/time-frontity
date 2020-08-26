@@ -37,7 +37,9 @@ const TimeLine = ({
           {
             data.posts.map((item, index) => {
               const { post = {} } = item;
-              let type = 'post';
+              let {
+                type = 'post',
+              } = post;
               const { featured_image: featuredImage = {} } = post._embedded || {};
               const { url = false } = featuredImage;
               if (url !== false) {
