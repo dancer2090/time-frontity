@@ -49,6 +49,8 @@ const Theme = ({ state, actions }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/special-theme/'} />
+            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <Post
               scrollRef={formRef}
               when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
