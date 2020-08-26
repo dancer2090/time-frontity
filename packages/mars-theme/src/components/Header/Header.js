@@ -92,11 +92,11 @@ const Header = ({ state, libraries, actions }) => {
     e.preventDefault();
     if (filterLanguage[index] === 'uk') {
       state.theme.lang = 'uk';
-      actions.router.set(`/uk${state.router.link}`);
+      // actions.router.set(`/uk${state.router.link}`);
     } else {
       state.theme.lang = filterLanguage[index];
-      const url = state.router.link.replace('/uk', '');
-      actions.router.set(url);
+      // const url = state.router.link.replace('/uk', '');
+      // actions.router.set(url);
     }
     setShowLanguage(false);
     setLanguageValue(filterLanguage[index]);
@@ -198,7 +198,7 @@ const Header = ({ state, libraries, actions }) => {
                 </SearchWrapper>
               </Search>
             </BottomRelative>
-            {/*
+            
             <Language>
               <LanguageValueBlock
                 onClick={() => setShowLanguage(!showLanguage)}
@@ -222,7 +222,7 @@ const Header = ({ state, libraries, actions }) => {
                 }
               </LanguageShow>
             </Language>
-            */}
+           
           </BottomContent>
         </Container>
         <HeaderContent show={showNavigation}>
