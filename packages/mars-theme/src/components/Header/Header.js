@@ -104,7 +104,7 @@ const Header = ({ state, libraries, actions }) => {
 
   const sendSearch = (e) => {
     if (e.key === 'Enter') {
-      const redirectUrl = lang === 'ru' ? `/search-result/?s=${search}` : `/uk/search-result/${search}`;
+      const redirectUrl = lang === 'ru' ? `/search-result/?s=${search}` : `/search-result/?s=${search}&lang=uk`;
       actions.router.set(redirectUrl, {
         state: {
           search,

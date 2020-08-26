@@ -18,33 +18,32 @@ import Translator from '../../../../components/Translator/Translator';
 import { Loading, NotLoadPost } from '../MainTemplate/styles';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
 
-const ResultSearchTemplate = ({ state, actions }) => {
+const ResultSearchTemplate = ({ state, actions, libraries }) => {
   const { lang = 'ru' } = state.theme;
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
-  const urlArray = state.router.link.split('?s=');
-  let querySearch = '';
-  if (urlArray.length === 2) {
-    querySearch = decodeURIComponent(urlArray[1]);
-  }
+  const ldata = libraries.source.parse(state.frontity.url + state.router.link);
+  const querySearch = decodeURI(ldata.query.s);
 
   const {
     search = [],
   } = state.theme.searchResult;
 
   const loadTimeLineData = () => {
-    const dataTimeLine = filterNewsTimeLine(lang, search);
+    const {
+      search: searchData = [],
+    } = state.theme.searchResult;
+    const dataTimeLine = filterNewsTimeLine(lang, searchData);
     setLastPost(dataTimeLine);
   };
 
   useEffect(() => {
-    actions.theme.loadSearch(querySearch);
-    state.customSettings.searchPage = 2;
-
-    loadTimeLineData();
-  }, [state.router.link], () => {
-    // console.log('destroy');
-  });
+    actions.theme.loadSearch(querySearch)
+      .then(() => {
+        state.customSettings.searchPage = 2;
+        loadTimeLineData();
+      });
+  }, [state.router.link]);
 
   const fetchMoreData = () => {
     state.customSettings.searchLoadMore = true;

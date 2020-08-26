@@ -248,6 +248,9 @@ const marsTheme = {
         });
         state.theme.searchResult = data;
         state.customSettings.searchInitialLoader = data.search.length;
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
       },
       beforeSSR: async ({ state, actions, libraries }) => {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
