@@ -44,14 +44,15 @@ export const formatYoutubeTime = (duration) => {
 };
 
 export const getTimeVideo = async (url) => {
-  const id = getIdVideo(url);
-  const sendUrl = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&key=AIzaSyCpa6XnZXxDgqOJA3BWK_LMrQLnvtpFvLA`;
-  const { data } = await axios.get(sendUrl);
-  const {
-    items = [],
-  } = data;
-  const dataItem = items[0] ? items[0] : {};
-  const { contentDetails = {} } = dataItem;
-  const { duration = '' } = contentDetails;
-  return formatYoutubeTime(duration);
+  // const id = getIdVideo(url);
+  // const sendUrl = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&key=AIzaSyCpa6XnZXxDgqOJA3BWK_LMrQLnvtpFvLA`;
+  // const { data } = await axios.get(sendUrl);
+  // const {
+  //   items = [],
+  // } = data;
+  // const dataItem = items[0] ? items[0] : {};
+  // const { contentDetails = {} } = dataItem;
+  // const { duration = '' } = contentDetails;
+  // return formatYoutubeTime(duration);
+  return '';
 };

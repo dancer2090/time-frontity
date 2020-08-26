@@ -23,7 +23,7 @@ import { getTimeVideo } from '../../utils/youtubeFormated';
 
 const NewsCard = ({
   type = '',
-  showResource = true,
+  showResource = false,
   className,
   state,
   libraries,
