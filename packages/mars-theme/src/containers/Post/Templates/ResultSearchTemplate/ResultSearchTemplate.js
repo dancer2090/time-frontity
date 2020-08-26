@@ -25,7 +25,7 @@ const ResultSearchTemplate = ({ state, actions }) => {
   const urlArray = state.router.link.split('?s=');
   let querySearch = '';
   if (urlArray.length === 2) {
-    querySearch = urlArray[1];
+    querySearch = decodeURIComponent(urlArray[1]);
   }
 
   const {
@@ -43,7 +43,7 @@ const ResultSearchTemplate = ({ state, actions }) => {
 
     loadTimeLineData();
   }, [state.router.link], () => {
-    console.log('destroy');
+    // console.log('destroy');
   });
 
   const fetchMoreData = () => {

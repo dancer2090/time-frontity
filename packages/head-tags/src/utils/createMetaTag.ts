@@ -78,7 +78,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                }
            }
            if (rel === 'shortlink') {
-               console.log(';askd;laks;dlka;skd;laksl;d');
+              //  console.log(';askd;laks;dlka;skd;laksl;d');
                return false;
            }
        }
