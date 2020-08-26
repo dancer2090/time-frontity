@@ -13,7 +13,7 @@ const Link = ({
   afterClick = () => { console.log('after click'); },
   'aria-current': ariaCurrent,
 }) => {
-  if( state.theme.lang !== "ru" ) link = '/' + state.theme.lang + link;
+  if ( state.theme.lang !== "ru" ) link = `${link}`;
   const onClick = (event) => {
     // Do nothing if it's an external link
     if (link.startsWith(state.frontity.url)) {

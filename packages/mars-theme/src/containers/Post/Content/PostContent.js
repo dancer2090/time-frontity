@@ -5,6 +5,7 @@ import MainTemplate from '../Templates/MainTemplate';
 import CategoryTemplate from '../Templates/CategoryTemplate';
 import PostTemplate from '../Templates/PostTemplate';
 import MediaCenterTemplate from '../Templates/MediaCenterTemplate';
+import SpecialThemeTemplate from '../Templates/SpecialThemeTemplate';
 import ResultSearchTemplate from '../Templates/ResultSearchTemplate';
 import PersonTemplate from '../Templates/PersonTemplate';
 import VideoTemplate from '../Templates/VideoTemplate';
@@ -13,11 +14,12 @@ import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 
 const PostContent = ({ state, scrollRef = null }) => {
   const data = state.source.get(state.router.link);
-  console.log('post content data ', data);
+  // console.log(data);
 
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+      <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
