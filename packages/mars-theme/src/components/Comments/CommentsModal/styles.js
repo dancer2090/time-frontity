@@ -1,5 +1,5 @@
 import { styled } from 'frontity';
-import SvgSprite from "../../SvgSprite";
+import SvgSprite from '../../SvgSprite';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -48,4 +48,10 @@ export const SendButton = styled(SvgSprite)`
 export const Message = styled.div`
   padding: 10px 10px;
   font-size: 12px;
+`;
+
+export const NoComments = styled.strong`
+  display: block;
+  margin: 10px 0;
+  text-align: center;
 `;

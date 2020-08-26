@@ -35,11 +35,13 @@ import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import HeaderNews from './NewsHeader';
 import InterviewHeader from './InterviewHeader';
 import PublicationHeader from './PublicationHeader';
+import VideoHeader from './VideoHeader';
 import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
 import Link from '../../../../components/link';
 import Translator from '../../../../components/Translator/Translator';
 import defaultImage from '../../../../img/post.jpg';
+import { translator } from '../../../../utils/translator';
 
 const PostTemplate = ({ state, libraries, actions }) => {
   // Get the html2react component.
@@ -64,10 +66,19 @@ const PostTemplate = ({ state, libraries, actions }) => {
     actions.theme.addViewPost(post.id);
   }, []);
 
-  const categoryData = state.source.get(`/${categoryPost}/`);
-  const category = state.source.category[categoryData.id];
-  const { acf: acfCategory = {} } = category;
-  const { title: categoryName = '' } = acfCategory[lang];
+  let type = '';
+  let categoryName = '';
+  let categoryData = {};
+  if (post.type === 'video') {
+    type = 'video';
+    categoryName = translator(lang, 'videoTitle');
+    categoryData = state.source.get('/video/');
+  } else {
+    categoryData = state.source.get(`/${categoryPost}/`);
+    const category = state.source.category[categoryData.id];
+    const { acf: acfCategory = {} } = category;
+    categoryName = acfCategory[lang].title;
+  }
 
   // big photo
   const { featured_media: frameId = '' } = post;
@@ -105,14 +116,20 @@ const PostTemplate = ({ state, libraries, actions }) => {
   } = authorData;
   // state
   const [showComments, setShowComments] = useState(false);
-  const type = '';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
       case 'interview':
         return <InterviewHeader />;
       case 'publication':
-        return <PublicationHeader />;
+        return <PublicationHeader data={post} />;
+      case 'video':
+        return (
+          <VideoHeader
+            data={post}
+            category={categoryName}
+          />
+        );
       default:
         return (
           <HeaderNews
@@ -160,7 +177,9 @@ const PostTemplate = ({ state, libraries, actions }) => {
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
-                <MobileCommentCount>999</MobileCommentCount>
+                <MobileCommentCount>
+                  { state.theme.commentsLength }
+                </MobileCommentCount>
               </MobileComments>
               <Shared link={fullPostUrl} />
             </MobileEvents>
@@ -172,7 +191,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
             />
 
             <SubscribeBlock>
-              <SubscribeNews />
+              <SubscribeNews lang={lang} />
             </SubscribeBlock>
 
             <CommentsBlock>

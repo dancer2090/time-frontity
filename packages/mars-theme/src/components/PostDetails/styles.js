@@ -1,6 +1,6 @@
 import { styled, css } from 'frontity';
-import SvgSprite from '../../../../../components/SvgSprite';
-import { SIZE_MOBILE } from '../../../../../const/responsive';
+import SvgSprite from '../SvgSprite';
+import { SIZE_MOBILE } from '../../const/responsive';
 
 export const Wrapper = styled.div``;
 
@@ -68,7 +68,7 @@ export const FlexCenter = styled.div`
   align-items: center;
   margin-right: 20px;
   
-  &:last-child {
+  &:last-of-type {
     margin-right: 0;
   }
 `;

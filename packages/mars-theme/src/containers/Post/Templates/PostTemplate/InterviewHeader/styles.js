@@ -1,5 +1,5 @@
 import { styled } from 'frontity';
-import PostDetails from '../PostDetails';
+import PostDetails from '../../../../../components/PostDetails';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
 
 export const Wrapper = styled.div`

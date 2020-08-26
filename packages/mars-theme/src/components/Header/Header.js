@@ -56,6 +56,8 @@ const Header = ({ state, libraries, actions }) => {
 
   // state
   const navigation = useRef(null);
+  const searchInput = useRef(null);
+  const mobileSearchInput = useRef(null);
   const [resizeContainer, setResizeContainer] = useState(false);
   const [showNavigation, setShowNavigation] = useState(false);
   const [showLanguage, setShowLanguage] = useState(false);
@@ -65,6 +67,7 @@ const Header = ({ state, libraries, actions }) => {
   const [search, setSearch] = useState('');
   const [mobileSearch, setMobileSearch] = useState(false);
   const [linksSubMenu, setLinksSubMenu] = useState([]);
+  const [changeSubLink, setChangeSubLink] = useState(false);
   const filterLanguage = languageOptions.filter((item) => item !== languageValue);
 
   useEffect(() => {
@@ -78,7 +81,12 @@ const Header = ({ state, libraries, actions }) => {
         }
       }
     });
-  }, []);
+
+    if (changeSubLink) {
+      setShowNavigation(false);
+      setChangeSubLink(false);
+    }
+  }, [state.router.link]);
 
   const setLanguage = (e, index) => {
     e.preventDefault();
@@ -96,6 +104,12 @@ const Header = ({ state, libraries, actions }) => {
 
   const sendSearch = (e) => {
     if (e.key === 'Enter') {
+      const redirectUrl = lang === 'ru' ? `/search-result/?s=${search}` : `/uk/search-result/${search}`;
+      actions.router.set(redirectUrl, {
+        state: {
+          search,
+        },
+      });
       setShowSearch(false);
       setSearch('');
     }
@@ -107,6 +121,16 @@ const Header = ({ state, libraries, actions }) => {
     setShowNavigation(!showNavigation);
   };
 
+  const showSearchBlock = () => {
+    searchInput.current.focus();
+    setShowSearch(true);
+  };
+
+  const showSearchBlockMobile = () => {
+    mobileSearchInput.current.focus();
+    setMobileSearch(true);
+  };
+
   return (
     <Wrapper open={showNavigation}>
       <WrapperContainer>
@@ -115,15 +139,16 @@ const Header = ({ state, libraries, actions }) => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Link link='/'>
+            <Link link="/">
               <Logo src={urlImage} />
             </Link>
-            <MobileSearchIcon onClick={() => setMobileSearch(true)} name="search" />
+            <MobileSearchIcon onClick={() => showSearchBlockMobile()} name="search" />
             <MobileSearch show={mobileSearch}>
               <MobileSearchBlockIcon name="search" />
               <MobileSearchBlock>
                 <MobileInput
                   value={search}
+                  ref={mobileSearchInput}
                   onChange={(e) => setSearch(e.target.value)}
                   onKeyPress={(e) => sendSearch(e)}
                 />
@@ -144,6 +169,7 @@ const Header = ({ state, libraries, actions }) => {
                           <Link
                             key={index}
                             link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
+                            afterClick={() => setChangeSubLink(true)}
                           >
                             { link.title }
                           </Link>
@@ -158,11 +184,12 @@ const Header = ({ state, libraries, actions }) => {
                 }
               </Navigation>
               <Search active={showSearch}>
-                <SearchIcon name="search" onClick={() => setShowSearch(true)} />
+                <SearchIcon name="search" onClick={() => showSearchBlock()} />
                 <SearchWrapper active={showSearch}>
                   <SearchInputBlock>
                     <SearchInput
                       value={search}
+                      ref={searchInput}
                       onChange={(e) => setSearch(e.target.value)}
                       onKeyPress={(e) => sendSearch(e)}
                     />
@@ -171,12 +198,16 @@ const Header = ({ state, libraries, actions }) => {
                 </SearchWrapper>
               </Search>
             </BottomRelative>
+            {/*
             <Language>
-              <LanguageValueBlock onClick={() => setShowLanguage(!showLanguage)}>
+              <LanguageValueBlock
+                onClick={() => setShowLanguage(!showLanguage)}
+                active={showLanguage}
+              >
                 <LanguageValue>
                   {languageValue}
                 </LanguageValue>
-                <LanguageIcon name="arrow-lang" active={showLanguage} />
+                <LanguageIcon name="arrow-lang" />
               </LanguageValueBlock>
               <LanguageShow show={showLanguage}>
                 {
@@ -191,6 +222,7 @@ const Header = ({ state, libraries, actions }) => {
                 }
               </LanguageShow>
             </Language>
+            */}
           </BottomContent>
         </Container>
         <HeaderContent show={showNavigation}>
@@ -201,8 +233,7 @@ const Header = ({ state, libraries, actions }) => {
                 return (
                   <Link
                     key={index}
-                    link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])
-                    }
+                    link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
                   >
                     { link.title }
                   </Link>
