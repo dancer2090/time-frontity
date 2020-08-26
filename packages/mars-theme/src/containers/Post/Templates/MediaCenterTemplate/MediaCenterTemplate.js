@@ -11,46 +11,7 @@ import Title from '../../../../components/Title';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
-import Translator from "../../../../components/Translator/Translator";
 
-const timeLineData = [
-  {
-    posts: [
-      {
-        content: `<strong>Медиацентр «Время» начал свою работу в 2014 году, впервые заявив о</strong>
-                  себе информационным марафоном 26 октября, в день выборов в Верховную Раду Украины.\n`,
-      },
-      {
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        post: {
-          type: 'photo',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        post: {
-          type: 'post',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-      {
-        post: {
-          type: 'video',
-          category: 'Спорт',
-          text: 'В Хабаровске десятки тысяч человек вышли на акцию в поддержку Сергея Фургала. Главное',
-        },
-      },
-    ],
-  },
-];
 const MediaCenterTemplate = ({ state, libraries }) => {
   // Component exposed by html2react.
   const Html2React = libraries.html2react.Component;
@@ -60,6 +21,7 @@ const MediaCenterTemplate = ({ state, libraries }) => {
   const { acf = {} } = post;
   const {
     items = [],
+    title = '',
   } = acf[lang];
   const itemsPoint = [
     {
@@ -75,13 +37,13 @@ const MediaCenterTemplate = ({ state, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: <Translator id="mediaCenter" />, links: '#' },
+            { name: <Html2React html={title} />, links: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
         <Title>
-          <Translator id="mediaCenter" />
+          <Html2React html={title} />
         </Title>
         <ContentWrapper>
           {
