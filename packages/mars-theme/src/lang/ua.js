@@ -28,4 +28,5 @@ export default {
   videoTitle: 'Відео',
   photoCategory: 'Фото',
   newsPhoto: 'Новини Фото',
+  mediaCenter: 'Медіацентр',
 };

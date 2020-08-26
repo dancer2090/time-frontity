@@ -11,6 +11,7 @@ import Title from '../../../../components/Title';
 import Breadcrumbs from '../../../../components/Breadcrumbs/Breadcrumbs';
 import SocialList from '../../../../components/SocialList/SocialList';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
+import Translator from "../../../../components/Translator/Translator";
 
 const timeLineData = [
   {
@@ -56,7 +57,6 @@ const MediaCenterTemplate = ({ state, libraries }) => {
   const { lang = 'ru' } = state.theme;
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
-  console.log(post);
   const { acf = {} } = post;
   const {
     items = [],
@@ -69,18 +69,19 @@ const MediaCenterTemplate = ({ state, libraries }) => {
   items.forEach((item) => {
     itemsPoint[0].posts.push(item);
   });
+
   return (
     <Wrapper>
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: 'Харьков', links: '#' },
+            { name: <Translator id="mediaCenter" />, links: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
         <Title>
-          Медиацентр
+          <Translator id="mediaCenter" />
         </Title>
         <ContentWrapper>
           {
@@ -97,7 +98,7 @@ const MediaCenterTemplate = ({ state, libraries }) => {
                         <Html2React html={el.point} />
                       </ContentItem>
                     )
-                    : <span></span>
+                    : <span />
                 )}
               />
             ))
