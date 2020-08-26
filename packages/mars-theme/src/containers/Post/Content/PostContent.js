@@ -12,13 +12,15 @@ import VideoTemplate from '../Templates/VideoTemplate';
 import PhotoListTemplate from '../Templates/PhotoListTemplate';
 import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 
-const PostContent = ({ state, scrollRef = null }) => {
+const PostContent = ({ state, scrollRef = null, libraries }) => {
   const data = state.source.get(state.router.link);
-  // console.log(data);
+  const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
+  console.log('ldata');
+  console.log(ldata);
   return (
     <Switch>
-      <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+      <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />
       <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />

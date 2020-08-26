@@ -92,11 +92,11 @@ const Header = ({ state, libraries, actions }) => {
     e.preventDefault();
     if (filterLanguage[index] === 'uk') {
       state.theme.lang = 'uk';
-      // actions.router.set(`/uk${state.router.link}`);
+      actions.router.set(`${state.router.link}?lang=${state.theme.lang}`);
     } else {
       state.theme.lang = filterLanguage[index];
       // const url = state.router.link.replace('/uk', '');
-      // actions.router.set(url);
+      actions.router.set(state.router.link);
     }
     setShowLanguage(false);
     setLanguageValue(filterLanguage[index]);

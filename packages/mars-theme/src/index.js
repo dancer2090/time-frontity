@@ -49,8 +49,6 @@ const newHandler = {
       }
 
     } catch(e) {
-
-  //     error.push('not-post-type');
     }
   },
 };
@@ -66,21 +64,21 @@ const newHandler2 = {
     const error = [];
     try {
       const category = libraries.source.handlers.find(
-        (handler) => handler.name == 'category',
+        (handler) => handler.name === 'category',
       );
-      await category.func({ 
+      await category.func({
         route, params, state, libraries,
       });
     } catch (e) {
-      error.push('not-category')
+      error.push('not-category');
     }
 
-    try {    
+    try {
       if (error.indexOf('not-category')) {
         // It's not a category
         let hand_name = 'page';
         const postType = libraries.source.handlers.find(
-          (handler) => handler.name == hand_name,
+          (handler) => handler.name === hand_name,
         );
         await postType.func({
           link: route, params, state, libraries,
@@ -249,9 +247,8 @@ const marsTheme = {
         state.customSettings.searchInitialLoader = data.search.length;
       },
       beforeSSR: async ({ state, actions, libraries }) => {
-        const ldata = libraries.source.parse('http://sitename.com' + state.router.link);
+        const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
-        console.log(ldata);
         if (ldata.query && ldata.query.lang) {
           state.theme.lang = ldata.query.lang;
         }

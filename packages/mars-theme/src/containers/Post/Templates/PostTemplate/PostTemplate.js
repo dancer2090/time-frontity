@@ -50,17 +50,13 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // get Data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
+
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
   const { content = '' } = acf[lang];
   // category post
   const linksCategory = state.router.link.split('/');
-  let categoryPost = linksCategory[1];
-  if (linksCategory.length === 4 || linksCategory.length === 5) {
-    if (state.theme.lang === 'uk') {
-      categoryPost = linksCategory[2];
-    }
-  }
+  const categoryPost = linksCategory[1];
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
@@ -75,7 +71,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
     categoryData = state.source.get('/video/');
   } else {
     categoryData = state.source.get(`/${categoryPost}/`);
-    const category = state.source.category[categoryData.id];
+    const category = state.source.category[categoryData.id] || {};
     const { acf: acfCategory = {} } = category;
     categoryName = acfCategory[lang].title;
   }
