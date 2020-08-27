@@ -64,7 +64,7 @@ const settings = [
           taxonomies: [
             {
               taxonomy: "post_tag",
-              endpoint: "post_tag",
+              endpoint: "tag",
               postTypeEndpoint: "post",
               params: {
                 per_page: 10,
