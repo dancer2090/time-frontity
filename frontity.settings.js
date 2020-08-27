@@ -59,6 +59,11 @@ const settings = [
               type: "persona", // type slug
               endpoint: "persona", // REST API endpoint
               archive: "/persona" // link where this custom posts are listed
+            },
+            {
+              type: "authors", // type slug
+              endpoint: "authors", // REST API endpoint
+              archive: "/authors" // link where this custom posts are listed
             }
           ],
           taxonomies: [
