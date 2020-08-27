@@ -48,7 +48,6 @@ const Theme = ({ state, actions, libraries }) => {
           <Switch>
             <Loader when={data.isFetching} />
             <Post scrollRef={formRef} when={ldata.route === '/'} />
-            <Post scrollRef={formRef} when={state.router.link === '/special-theme/'} />
             <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <Post
               scrollRef={formRef}
@@ -60,6 +59,7 @@ const Theme = ({ state, actions, libraries }) => {
                 || data.type === 'page'
               }
             />
+            <Post scrollRef={formRef} when={state.router.link.includes('specztemy')} />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <PageError when={data.isError} />

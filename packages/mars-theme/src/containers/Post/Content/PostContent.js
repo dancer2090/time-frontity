@@ -19,8 +19,8 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />
-      <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
+      <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link.includes('specztemy')} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />

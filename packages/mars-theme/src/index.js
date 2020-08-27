@@ -252,6 +252,10 @@ const marsTheme = {
           resolve('ok');
         });
       },
+      loadSpecialTheme: ({ state }) => async () => {
+        const { data } = await axios.get(`${state.source.api}/wp/v2/spec_theme`);
+        Object.assign(state.source.data[state.router.link].items, data);
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
@@ -269,6 +273,10 @@ const marsTheme = {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+        }
+
+        if (state.router.link.includes('specztemy')) {
+          actions.theme.loadSpecialTheme();
         }
 
         if (state.router.link.includes('search-result')) {
