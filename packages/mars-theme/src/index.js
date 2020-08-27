@@ -35,20 +35,19 @@ const newHandler = {
         // It's not a category
         let hand_name = 'post type';
 
-        if (params.type === "video") {
+        if (params.type === 'video') {
           hand_name = 'video';
-        } 
-        
+        }
+
         const postType = libraries.source.handlers.find(
           (handler) => handler.name === hand_name,
         );
-        
+
         await postType.func({
           link: route, params, state, libraries,
         });
       }
-
-    } catch(e) {
+    } catch (e) {
     }
   },
 };
@@ -76,7 +75,7 @@ const newHandler2 = {
     try {
       if (error.indexOf('not-category')) {
         // It's not a category
-        let hand_name = 'page';
+        const hand_name = 'page';
         const postType = libraries.source.handlers.find(
           (handler) => handler.name === hand_name,
         );
@@ -252,6 +251,17 @@ const marsTheme = {
           resolve('ok');
         });
       },
+      getDataAuthor: ({ state }) => async (id) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-info/${id}`);
+        Object.assign(state.source.data[state.router.link], {
+          author: {
+            ...data,
+          },
+        });
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
@@ -289,11 +299,11 @@ const marsTheme = {
     },
     source: {
       handlers: [
-        newHandler, newHandler2/*UkMainHandler/*, MainHandler,
+        newHandler, newHandler2, /* UkMainHandler/*, MainHandler,
         UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
         UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
         UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,
-        CatHandler, UkCatHandler, PostHandler, UkPostHandler, PageHandler, UkPageHandler,*/
+        CatHandler, UkCatHandler, PostHandler, UkPostHandler, PageHandler, UkPageHandler, */
       ],
     },
     html2react: {

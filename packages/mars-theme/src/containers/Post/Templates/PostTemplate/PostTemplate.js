@@ -47,9 +47,22 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
   const fullPostUrl = `${state.frontity.url}${state.router.link}`;
+  const { imageUrlCheck } = libraries.func;
+  const { urlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
   // get Data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
+  // state
+  const [showComments, setShowComments] = useState(false);
+  const [authorData, setAuthorData] = useState({
+    acf: {
+      uk: {},
+      ru: {},
+    },
+    link: '',
+    photo: '',
+  });
 
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
@@ -57,9 +70,18 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // category post
   const linksCategory = state.router.link.split('/');
   const categoryPost = linksCategory[1];
+  // author data
+  const { author: authorId = false } = acf;
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
+    if (authorId) {
+      actions.theme.getDataAuthor(authorId)
+        .then(() => {
+          const { author } = state.source.get(state.router.link);
+          setAuthorData(author);
+        });
+    }
   }, []);
 
   let type = '';
@@ -103,15 +125,6 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // tags post
   const { tags = [] } = post;
   const tagsArray = tags.map((item) => state.source.tag[item]);
-  // author data
-  const { author = 0 } = post;
-  const authorData = state.source.author[author];
-  const {
-    name: authorName = '',
-    link: authorLink = '#',
-  } = authorData;
-  // state
-  const [showComments, setShowComments] = useState(false);
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
@@ -162,14 +175,18 @@ const PostTemplate = ({ state, libraries, actions }) => {
               <TabsPost />
               <Shared link={fullPostUrl} />
             </TabsWrapper>
-            <AuthorInformation>
-              <Link link={authorLink}>
-                <AuthorImage src={authorLogo} />
-                <AuthorName>
-                  {authorName}
-                </AuthorName>
-              </Link>
-            </AuthorInformation>
+            {
+              authorId && (
+                <AuthorInformation>
+                  <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
+                    <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
+                    <AuthorName>
+                      { authorData.acf[lang].name }
+                    </AuthorName>
+                  </Link>
+                </AuthorInformation>
+              )
+            }
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
