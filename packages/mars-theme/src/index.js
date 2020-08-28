@@ -110,6 +110,7 @@ const marsTheme = {
       videoPage: 2,
       searchPage: 1,
       photoPage: 1,
+      personPage: 2,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -122,6 +123,7 @@ const marsTheme = {
       categoryLoadMore: false,
       loadMorePhoto: false,
       searchLoadMore: false,
+      loadMorePerson: false,
       searchInitialLoader: 0,
       doLoader: false,
     },
@@ -262,6 +264,10 @@ const marsTheme = {
           resolve('ok');
         });
       },
+      getDataPersonLoad: ({ state }) => async () => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-persona/`);
+        Object.assign(state.source.data[state.router.link], data);
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
@@ -285,6 +291,10 @@ const marsTheme = {
           const urlData = libraries.source.parse(state.frontity.url + state.router.link);
           const querySearch = decodeURI(urlData.query.s);
           actions.theme.loadSearch(querySearch);
+        }
+
+        if (state.router.link.includes('persona')) {
+          await actions.theme.getDataPersonLoad();
         }
 
         await actions.theme.loadCategoryPost();

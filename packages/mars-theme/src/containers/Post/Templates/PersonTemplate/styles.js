@@ -25,6 +25,10 @@ export const BigPerson = styled.div`
   width: 100%;
   margin-bottom: 33px;
   
+  a {
+    text-decoration: none;
+  }
+  
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-bottom: 15px;
   }
@@ -35,6 +39,10 @@ export const Row = styled.div`
   flex-wrap: wrap;
   margin-right: -33px;
   margin-bottom: 105px;
+  
+  a {
+    text-decoration: none;
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     margin-right: -15px;
@@ -93,6 +101,9 @@ export const InfinityList = styled.div`
 
 export const InfinityListItem = styled.div`
   margin-bottom: 33px;
+  a {
+    text-decoration: none;
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     margin-bottom: 15px;
@@ -115,4 +126,18 @@ export const BannerContent = styled.div`
   width: 100%;
   height: 400px;
   background-color: silver;
+`;
+
+export const Loading = styled.div`
+  margin: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+export const NotLoadPost = styled.div`
+  margin: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
 `;

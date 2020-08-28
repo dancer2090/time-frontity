@@ -27,7 +27,7 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
       <PostPhotoTemplate scrollRef={scrollRef} when={data.type === 'images'} />
       <MediaCenterTemplate scrollRef={scrollRef} when={data.type === 'page' && state.router.link.includes('media-center')} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
-      <PersonTemplate scrollRef={scrollRef} when={state.router.link === '/person/'} />
+      <PersonTemplate scrollRef={scrollRef} when={data.isPersonaArchive} />
     </Switch>
   );
 };
