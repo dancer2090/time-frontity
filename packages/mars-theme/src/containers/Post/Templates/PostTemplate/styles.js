@@ -458,7 +458,7 @@ export const AuthorInformation = styled.div`
 `;
 
 export const AuthorImage = styled.img`
-  width: 42px;
+  width: auto;
   height: 42px;
   margin-right: 14px;
 `;

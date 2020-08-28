@@ -181,7 +181,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
                   <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
                     <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
                     <AuthorName>
-                      { authorData.acf[lang].name }
+                      { authorData.acf[lang].title }
                     </AuthorName>
                   </Link>
                 </AuthorInformation>
