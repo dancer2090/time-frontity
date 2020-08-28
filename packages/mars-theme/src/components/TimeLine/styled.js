@@ -47,6 +47,7 @@ export const BlockTime = styled.div`
   padding-left: 3px;
   padding-top: 24px;
   min-width: 71px;
+  width: 71px;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     padding: 0 18px 20px 18px;

@@ -49,7 +49,10 @@ const PersonTemplate = ({ state, actions }) => {
   });
 
   const loadData = () => {
-    setTimeLinePost(timeline);
+    const {
+      timeline: timeLineData = [],
+    } = dataPost;
+    setTimeLinePost(timeLineData);
   };
 
   const fetchMoreData = () => {

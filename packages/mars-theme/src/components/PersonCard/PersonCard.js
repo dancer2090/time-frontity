@@ -42,7 +42,10 @@ const PersonCard = ({
     description = '',
     title = '',
   } = acf[lang];
-  const { url: mediaUrl = '' } = _embedded.featured_image;
+  let mediaUrl = '';
+  if (_embedded.featured_image) {
+    mediaUrl = _embedded.featured_image.url;
+  }
 
   return (
     <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>

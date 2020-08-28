@@ -112,6 +112,7 @@ const marsTheme = {
       searchPage: 1,
       photoPage: 1,
       personPage: 2,
+      censorNewsLength: 0,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -277,37 +278,45 @@ const marsTheme = {
         const { channel = {} } = rss;
         const { item = [] } = channel;
 
-        const resultArrayNews = item.map((item) => {
-          const date = new Date(item.pubDate._text);
-          const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
-          return {
-            ...item,
-            link: item.link._text,
-            date: resultDate,
-            acf: {
-              [lang]: {
-                title: item.title._cdata,
-              },
-            },
-            _embedded: {
-              category: {
-                acf: {
-                  [lang]: {
-                    title: item.category._text,
-                  },
+        const resultArrayNews = [];
+        item.forEach((item) => {
+          if (item) {
+            const date = new Date(item.pubDate._text);
+            const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+            resultArrayNews.push({
+              ...item,
+              link: item.link._text,
+              date: resultDate,
+              acf: {
+                [lang]: {
+                  title: item.title._cdata,
                 },
               },
-              featured_image: {
-                url: item.enclosure._attributes.url,
+              _embedded: {
+                category: {
+                  acf: {
+                    [lang]: {
+                      title: item.category._text,
+                    },
+                  },
+                },
+                featured_image: {
+                  url: item.enclosure._attributes.url,
+                },
               },
-            },
-          };
+            });
+          }
         });
-        const resultArray = resultArrayNews.concat(state.source.data[state.router.link].last);
+        const resultArray = resultArrayNews;
+        if (state.source.data[state.router.link].last !== undefined) {
+          resultArray.push(...state.source.data[state.router.link].last);
+        }
         Object.assign(state.source.data[state.router.link], {
           ...state.source.data[state.router.link],
           last: resultArray,
         });
+        state.customSettings.censorNewsLength = resultArrayNews.length;
+        state.theme.cases = resultArray;
         return new Promise((resolve, reject) => {
           resolve('data');
         });
