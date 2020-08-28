@@ -29,7 +29,7 @@ const Theme = ({ state, actions, libraries }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-
+  console.log(state);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -58,10 +58,10 @@ const Theme = ({ state, actions, libraries }) => {
                 || data.isVideoArchive
                 || data.isImagesArchive
                 || data.type === 'page'
+                || data.isPersonaArchive
               }
             />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
-            <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>

@@ -29,4 +29,5 @@ export default {
   photoCategory: 'Фото',
   newsPhoto: 'Новини Фото',
   mediaCenter: 'Медіацентр',
+  personCategory: 'Персони',
 };

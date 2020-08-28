@@ -91,6 +91,11 @@ const PostTemplate = ({ state, libraries, actions }) => {
     type = 'video';
     categoryName = translator(lang, 'videoTitle');
     categoryData = state.source.get('/video/');
+  } else if (post.type === 'persona') {
+    categoryData = state.source.get(`/${categoryPost}/`);
+    const category = state.source.category[categoryData.id] || {};
+    categoryName = translator(lang, 'personCategory');
+    type = 'interview';
   } else {
     categoryData = state.source.get(`/${categoryPost}/`);
     const category = state.source.category[categoryData.id] || {};
@@ -129,7 +134,13 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
       case 'interview':
-        return <InterviewHeader />;
+        return (
+          <InterviewHeader
+            data={post}
+            caption={captionImage}
+            category={categoryName}
+          />
+        );
       case 'publication':
         return <PublicationHeader data={post} />;
       case 'video':
