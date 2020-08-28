@@ -23,16 +23,22 @@ const TimeLine = ({
   return (
     <Wrapper>
       <TimeItem>
-        <LabelDate>
-          { date }
-        </LabelDate>
+        {
+          showDate && (
+            <LabelDate>
+              { date }
+            </LabelDate>
+          )
+        }
         <Container>
           {
             data.posts.map((item, index) => {
               const { post = {} } = item;
-              let type = 'post';
-              const { featured_image: featuteImage = {} } = post._embedded;
-              const { url = false } = featuteImage;
+              let {
+                type = 'post',
+              } = post;
+              const { featured_image: featuredImage = {} } = post._embedded || {};
+              const { url = false } = featuredImage;
               if (url !== false) {
                 type = 'default';
               }
@@ -60,7 +66,7 @@ const TimeLine = ({
                   <BlockContent customsContent={customsContent}>
                     {
                       customsContent
-                        ? customRender()
+                        ? customRender(item)
                         : <TimeLineCard type={type} postContent={post} imageUrl={url} />
                     }
                   </BlockContent>

@@ -43,6 +43,7 @@ import Translator from '../../../../components/Translator/Translator';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 
 const MainTemplate = ({ state, libraries, actions }) => {
+
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreHidden, setLoadMoreHidden] = useState(false);

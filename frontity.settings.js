@@ -38,7 +38,7 @@ const settings = [
       "state": {
         "source": {
           "api": "https://time-admin.webbuilder.in.ua/wp-json",
-          "homepage": '/main',
+          "homepage": '/',
           "postsPage": '/blog',
           params: {
             per_page: 10,
@@ -54,12 +54,22 @@ const settings = [
               type: "images", // type slug
               endpoint: "images", // REST API endpoint
               archive: "/images" // link where this custom posts are listed
+            },
+            {
+              type: "persona", // type slug
+              endpoint: "persona", // REST API endpoint
+              archive: "/persona" // link where this custom posts are listed
+            },
+            {
+              type: "authors", // type slug
+              endpoint: "authors", // REST API endpoint
+              archive: "/authors" // link where this custom posts are listed
             }
           ],
           taxonomies: [
             {
               taxonomy: "post_tag",
-              endpoint: "post_tag",
+              endpoint: "tag",
               postTypeEndpoint: "post",
               params: {
                 per_page: 10,

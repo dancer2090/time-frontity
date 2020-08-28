@@ -28,4 +28,6 @@ export default {
   videoTitle: 'Видео',
   photoCategory: 'Фото',
   newsPhoto: 'Новости Фото',
+  mediaCenter: 'Медиацентр',
+  personCategory: 'Персоны',
 };

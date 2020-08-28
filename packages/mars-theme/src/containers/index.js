@@ -19,16 +19,17 @@ import Recaptcha from '../components/Recaptcha';
  * Theme is the root React component of our theme. The one we will export
  * in roots.
  */
-const Theme = ({ state, actions }) => {
+const Theme = ({ state, actions, libraries }) => {
   // Get information about the current URL.
   const { recaptchaKey } = state.frontity;
   const data = state.source.get(state.router.link);
+  const ldata = libraries.source.parse(state.frontity.url + state.router.link);
   const formRef = useRef(null);
 
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-
+  console.log(state);
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -46,13 +47,21 @@ const Theme = ({ state, actions }) => {
         <Main>
           <Switch>
             <Loader when={data.isFetching} />
-            <Post scrollRef={formRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+            <Post scrollRef={formRef} when={ldata.route === '/'} />
+            <Post scrollRef={formRef} when={state.router.link === '/special-theme/'} />
+            <Post scrollRef={formRef} when={data.isPostType || data.isCategory} />
             <Post
               scrollRef={formRef}
-              when={data.isPostType || data.isCategory || data.isVideoArchive || data.isImagesArchive}
+              when={
+                data.isPostType
+                || data.isCategory
+                || data.isVideoArchive
+                || data.isImagesArchive
+                || data.type === 'page'
+                || data.isPersonaArchive
+              }
             />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
-            <Post scrollRef={formRef} when={state.router.link === '/person/'} />
             <PageError when={data.isError} />
           </Switch>
         </Main>

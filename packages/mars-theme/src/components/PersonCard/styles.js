@@ -1,5 +1,5 @@
 import { styled, css } from 'frontity';
-import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../const/responsive';
+import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../const/responsive';
 
 export const FrameBlock = styled.div`
   width: 50%;
@@ -44,6 +44,7 @@ export const Title = styled.h2`
   text-transform: uppercase;
   color: #000000;
   margin-bottom: 26px;
+  text-decoration: none;
   padding-right: 10px;
   
   ${({ sizeText }) => (
@@ -85,6 +86,8 @@ export const Text = styled.p`
   line-height: 20px;
   color: #000000;
   margin-bottom: 5px;
+  text-decoration: none;
+
   
   ${({ sizeText }) => (
     sizeText === 'small'
@@ -111,6 +114,7 @@ export const DateBlock = styled.div`
   font-family: 'Noto Sans';
   font-size: 14px;
   line-height: 19px;
+  text-decoration: none;
   color: #969696;
   
   ${({ sizeText }) => (
@@ -181,6 +185,12 @@ export const Card = styled.div`
           
           ${DateBlock} {
             text-align: left;
+          }
+          
+          @media screen and (min-width: ${SIZE_LAPTOP_SMALL}px) and (max-width: ${SIZE_DESCTOP_SMALL}px) {
+            ${FrameBlock} {
+              height: initial;
+            }
           }
           
           @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
