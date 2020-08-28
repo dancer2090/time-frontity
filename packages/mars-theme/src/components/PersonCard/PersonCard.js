@@ -40,6 +40,7 @@ const PersonCard = ({
   const {
     name = '',
     description = '',
+    title = '',
   } = acf[lang];
   const { url: mediaUrl = '' } = _embedded.featured_image;
 
@@ -55,7 +56,7 @@ const PersonCard = ({
               <Html2React html={name} />
             </Title>
             <Text sizeText={sizeText}>
-              <Html2React html={description} />
+              <Html2React html={title} />
             </Text>
           </ContentBlock>
           <DateBlock sizeText={sizeText}>
