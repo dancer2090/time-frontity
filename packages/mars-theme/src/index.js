@@ -2,6 +2,7 @@
 /* eslint-disable quote-props */
 /* eslint-disable no-param-reassign */
 import image from '@frontity/html2react/processors/image';
+import convert from 'xml-js';
 import iframe from '@frontity/html2react/processors/iframe';
 import axios from 'axios';
 import Theme from './containers';
@@ -146,7 +147,7 @@ const marsTheme = {
    */
   actions: {
     theme: {
-      getMain: ({ state }) => async () => {
+      getMain: ({ state, actions }) => async () => {
         state.customSettings.doLoader = true;
         await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
           const main = response.data;
@@ -268,6 +269,49 @@ const marsTheme = {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-persona/`);
         Object.assign(state.source.data[state.router.link], data);
       },
+      loadNewsIntegration: ({ state }) => async () => {
+        const { lang = 'ru' } = state.theme;
+        const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+        const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+        const { rss = {} } = resultParse;
+        const { channel = {} } = rss;
+        const { item = [] } = channel;
+
+        const resultArrayNews = item.map((item) => {
+          const date = new Date(item.pubDate._text);
+          const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+          return {
+            ...item,
+            link: item.link._text,
+            date: resultDate,
+            acf: {
+              [lang]: {
+                title: item.title._cdata,
+              },
+            },
+            _embedded: {
+              category: {
+                acf: {
+                  [lang]: {
+                    title: item.category._text,
+                  },
+                },
+              },
+              featured_image: {
+                url: item.enclosure._attributes.url,
+              },
+            },
+          };
+        });
+        const resultArray = resultArrayNews.concat(state.source.data[state.router.link].last);
+        Object.assign(state.source.data[state.router.link], {
+          ...state.source.data[state.router.link],
+          last: resultArray,
+        });
+        return new Promise((resolve, reject) => {
+          resolve('data');
+        });
+      },
       beforeSSR: async ({ state, actions, libraries }) => {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
@@ -292,6 +336,7 @@ const marsTheme = {
           const querySearch = decodeURI(urlData.query.s);
           actions.theme.loadSearch(querySearch);
         }
+        await actions.theme.loadNewsIntegration();
 
         if (state.router.link.includes('persona')) {
           await actions.theme.getDataPersonLoad();

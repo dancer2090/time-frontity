@@ -29,17 +29,33 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
     }
   }
   const linkValue = urlCheck(link, [state.frontity.url, state.frontity.adminUrl]);
+  const hasService = linkValue.includes('censor');
 
   return (
     <Post>
-      <Link link={linkValue}>
-        <Category>
-          { titleCategory }
-        </Category>
-        <Text>
-          <Html2React html={title} />
-        </Text>
-      </Link>
+      {
+        hasService
+          ? (
+            <a target="_blank" href={linkValue}>
+              <Category>
+                { titleCategory }
+              </Category>
+              <Text>
+                <Html2React html={title} />
+              </Text>
+            </a>
+          )
+          : (
+            <Link link={linkValue}>
+              <Category>
+                { titleCategory }
+              </Category>
+              <Text>
+                <Html2React html={title} />
+              </Text>
+            </Link>
+          )
+      }
     </Post>
   );
 };

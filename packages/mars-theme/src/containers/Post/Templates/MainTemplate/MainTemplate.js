@@ -114,14 +114,17 @@ const MainTemplate = ({ state, libraries, actions }) => {
   };
 
   const loadData = () => {
-    const dataArray = filterNewsTimeLine(lang, last);
+    const {
+      last: lastPosts = [],
+    } = dataP;
+    const dataArray = filterNewsTimeLine(lang, lastPosts);
     setLastPost(dataArray);
     setPage(page + 1);
   };
 
   useEffect(() => {
-    loadData();
     actions.theme.getMain();
+    loadData();
   }, []);
 
   const fetchMoreData = () => {
