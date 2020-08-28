@@ -201,7 +201,6 @@ const marsTheme = {
         await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
           const main = response.data;
           Object.assign(state.source.data[state.router.link], main);
-          actions.theme.loadNewsIntegration();
           state.customSettings.doLoader = false;
         });
       },
@@ -354,12 +353,12 @@ const marsTheme = {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
-          actions.theme.loadNewsIntegration();
         }
 
         if (state.router.link === '/search-result/') {
           actions.theme.loadSearch();
         }
+        await actions.theme.loadNewsIntegration();
         await actions.theme.loadCategoryPost();
       },
     },
