@@ -46,10 +46,7 @@ const TagTemplate = ({ state, actions, libraries }) => {
 
   const { lang = 'ru' } = state.theme;
   const { acf = { 'ru' : {}, 'uk' : {} } } = dataPost;
-
-  const {
-    title : tagTitle = '',
-  } = acf[lang];
+  const tagTitle = (acf ? acf[lang].title : '');
 
   const loadData = () => {
     const {
@@ -77,10 +74,9 @@ const TagTemplate = ({ state, actions, libraries }) => {
     state.customSettings.tagPage = 1;
     state.source.data[state.router.link].timeline = [];
     axios.get(
-      `${state.source.api}/frontity-api/get-tag-info/?tag=${dataPost.link.replace('/tag/','').replace('/','')}`
+      `${state.source.api}/frontity-api/get-tag-info/?tag=${dataPost.route.replace('/tag/','').replace('/','')}`
     ).then((response) => {
       const tag = response.data;
-      console.log(tag);
       Object.assign(state.source.data[state.router.link], tag);
       fetchMoreData();
     });
@@ -100,7 +96,7 @@ const TagTemplate = ({ state, actions, libraries }) => {
         <InfinityBlock>
           <InfinityRow>
             <InfiniteScroll
-              dataLength={state.source.data[state.router.link].timeline.length}
+              dataLength={timeLinePost.length}
               next={fetchMoreData}
               hasMore={hasLoadMore}
               scrollThreshold={0.5}
