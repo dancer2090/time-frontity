@@ -339,7 +339,7 @@ const marsTheme = {
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
         if (ldata.query && ldata.query.lang) {
-          state.theme.lang = ldata.query.lang;
+          state.theme.lang = ldata.query.lang !== 'uk' && ldata.query.lang !== 'ru' ? 'ru' : ldata.query.lang;
         }
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
