@@ -19,12 +19,10 @@ import PageTemplate from '../Templates/PageTemplate';
 const PostContent = ({ state, scrollRef = null, libraries }) => {
   const data = state.source.get(state.router.link);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
-  console.log(state);
-  console.log(data);
 
   return (
     <Switch>
-      <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+      <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />
       <ContactsTemplate scrollRef={scrollRef} when={state.router.link === '/contacts/'} />
       <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
