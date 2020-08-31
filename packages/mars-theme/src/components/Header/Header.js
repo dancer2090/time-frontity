@@ -88,16 +88,32 @@ const Header = ({ state, libraries, actions }) => {
     }
   }, [state.router.link]);
 
+
+
+  const getQuery = () => {
+    const ldata = libraries.source.parse(state.frontity.url + state.router.link);
+    return ldata.query;
+  };    
+
   const setLanguage = (e, index) => {
     e.preventDefault();
+
+
+    const queryLink = getQuery();
+    if (filterLanguage[index] === 'uk') {
+      queryLink.lang = 'uk';
+    } else {
+      delete queryLink.lang;
+    }
+    const queryString = Object.keys(queryLink).map((key) => `${key}=${queryLink[key]}`).join('&');
+    const data = state.source.get(state.router.link);
+
     if (filterLanguage[index] === 'uk') {
       state.theme.lang = 'uk';
-      actions.router.set(`${state.router.link}?lang=${state.theme.lang}`);
     } else {
       state.theme.lang = filterLanguage[index];
-      const data = state.source.get(state.router.link);
-      actions.router.set(data.route);
     }
+    actions.router.set(data.route + `${queryString && queryString !== '' && '?'+queryString}`);
     window.location.reload();
     actions.theme.loadNewsIntegration();
     setShowLanguage(false);

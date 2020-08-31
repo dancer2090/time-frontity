@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'frontity';
 import axios from 'axios';
@@ -23,7 +24,7 @@ const ResultSearchTemplate = ({ state, actions, libraries }) => {
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
-  const querySearch = decodeURI(ldata.query.s);
+  const querySearch = ldata.query.s ? decodeURI(ldata.query.s) : '';
 
   const {
     search = [],
@@ -47,10 +48,9 @@ const ResultSearchTemplate = ({ state, actions, libraries }) => {
 
   const fetchMoreData = () => {
     state.customSettings.searchLoadMore = true;
-
     axios.get(`${state.source.api}/frontity-api/get-search/page/${state.customSettings.searchPage}`, {
       params: {
-        s: querySearch,
+        s: querySearch ? querySearch : null,
       },
     }).then((response) => {
       const items = response.data;
@@ -70,18 +70,21 @@ const ResultSearchTemplate = ({ state, actions, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: 'Результаты поиска', link: '#' },
+            { name: <Translator id="searchResults" />, link: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
         <Result>
           <ResultTitle>
-            По запросу
+            <Translator id="searchRequest" />
             {' '}
-            {querySearch}
+            &quot;
+            {querySearch && querySearch}
+            &quot;
             {' '}
-            найдено:
+            <Translator id="searchFound" />
+            :
           </ResultTitle>
         </Result>
         {
