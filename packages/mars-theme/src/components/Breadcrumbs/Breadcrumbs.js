@@ -12,7 +12,7 @@ const Breadcrumbs = ({ links = [], className = '', state }) => {
     <Wrapper className={className}>
       <ul>
         <li>
-          <Link link={lang === 'ru' ? '/' : '/uk/'}>
+          <Link link={'/'}>
             <Translator id="home" />
           </Link>
         </li>
