@@ -22,7 +22,9 @@ import {
   AuthorInfo,
   AuthorName,
   AuthorStatus,
-  AuthorText
+  AuthorText,
+  TitleBlock,
+  Text,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
@@ -45,11 +47,8 @@ const TagTemplate = ({ state, actions, libraries }) => {
   } = dataPost;
 
   const { lang = 'ru' } = state.theme;
-  const { acf = { 'ru' : {}, 'uk' : {} } } = dataPost;
-
-  const {
-    title : tagTitle = '',
-  } = acf[lang];
+  const { acf = {} } = dataPost;
+  const titlePost = (acf && acf[lang] ? acf[lang].title : '');
 
   const loadData = () => {
     const {
@@ -77,10 +76,9 @@ const TagTemplate = ({ state, actions, libraries }) => {
     state.customSettings.tagPage = 1;
     state.source.data[state.router.link].timeline = [];
     axios.get(
-      `${state.source.api}/frontity-api/get-tag-info/?tag=${dataPost.link.replace('/tag/','').replace('/','')}`
+      `${state.source.api}/frontity-api/get-tag-info/?tag=${dataPost.route.replace('/tag/','').replace('/','')}`
     ).then((response) => {
       const tag = response.data;
-      console.log(tag);
       Object.assign(state.source.data[state.router.link], tag);
       fetchMoreData();
     });
@@ -91,16 +89,18 @@ const TagTemplate = ({ state, actions, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: tagTitle, link: '#' },
+            { name: titlePost, link: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
-        <Title> {tagTitle} </Title>
+        <TitleBlock>
+          <Text>{ titlePost }</Text>
+        </TitleBlock>
         <InfinityBlock>
           <InfinityRow>
             <InfiniteScroll
-              dataLength={state.source.data[state.router.link].timeline.length}
+              dataLength={timeLinePost.length}
               next={fetchMoreData}
               hasMore={hasLoadMore}
               scrollThreshold={0.5}

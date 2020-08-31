@@ -208,3 +208,27 @@ export const NotLoadPost = styled.div`
   font-size: 14px;
   font-weight: bold;
 `;
+
+export const TitleBlock = styled.h2`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  text-transform: uppercase;
+  color: #000000;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #969696;
+  margin-bottom: 33px;
+
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    font-size: 16px;
+    line-height: 20px;
+  }
+`;
+
+export const Text = styled.span`
+  display: block;
+  
+  @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+    padding: 0 16px;
+  }
+`;

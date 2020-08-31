@@ -12,6 +12,7 @@ import {
 } from './styles';
 import Link from "../link";
 import pic from '../../img/pic.jpg';
+import cardImg from '../../img/card.jpg';
 import { formatDatePerson } from '../../utils/formatDate';
 
 const PersonCard = ({
@@ -42,8 +43,8 @@ const PersonCard = ({
     description = '',
     title = '',
   } = acf[lang];
-  let mediaUrl = '';
-  if (_embedded.featured_image) {
+  let mediaUrl = cardImg;
+  if (_embedded.featured_image.url) {
     mediaUrl = _embedded.featured_image.url;
   }
   const card_title = (name !== '' ? name : title);
