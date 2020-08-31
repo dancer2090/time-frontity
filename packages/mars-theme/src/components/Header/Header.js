@@ -113,7 +113,7 @@ const Header = ({ state, libraries, actions }) => {
     } else {
       state.theme.lang = filterLanguage[index];
     }
-    actions.router.set(data.route + `${queryString !== '' && '?'+queryString}`);
+    actions.router.set(data.route + `${queryString && queryString !== '' && '?'+queryString}`);
     window.location.reload();
     actions.theme.loadNewsIntegration();
     setShowLanguage(false);
