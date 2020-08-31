@@ -17,6 +17,8 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
     link = '',
   } = postContent;
 
+  if (!acf[lang]) return;
+
   const { title = '' } = acf[lang];
   const { category = {} } = postContent._embedded;
   const { acf: acfCategory = {} } = category;

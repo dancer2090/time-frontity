@@ -95,12 +95,14 @@ const Header = ({ state, libraries, actions }) => {
       actions.router.set(`${state.router.link}?lang=${state.theme.lang}`);
     } else {
       state.theme.lang = filterLanguage[index];
-      // const url = state.router.link.replace('/uk', '');
-      actions.router.set(state.router.link);
+      const data = state.source.get(state.router.link);
+      actions.router.set(data.route);
     }
+    window.location.reload();
     actions.theme.loadNewsIntegration();
     setShowLanguage(false);
     setLanguageValue(filterLanguage[index]);
+
   };
 
   const sendSearch = (e) => {

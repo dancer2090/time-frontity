@@ -284,6 +284,7 @@ const marsTheme = {
         const { lang = 'ru' } = state.theme;
         
         const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+        console.log(result)
         const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
         const { rss = {} } = resultParse;
         const rss = {};
