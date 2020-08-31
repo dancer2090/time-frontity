@@ -287,7 +287,7 @@ const marsTheme = {
         console.log(result)
         const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
         const { rss = {} } = resultParse;
-        const rss = {};
+        //const rss = {};
         const { channel = {} } = rss;
         const { item = [] } = channel;
 
