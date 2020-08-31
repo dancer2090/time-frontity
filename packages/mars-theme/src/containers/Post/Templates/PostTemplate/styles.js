@@ -26,7 +26,7 @@ export const TopNavigation = styled.div`
   margin-bottom: 37px;
   
   ${({ type }) => (
-    type
+    type && type !== 'video'
       ? css`
         padding-bottom: 25px;
         border-bottom: 1px solid #969696;
@@ -232,7 +232,7 @@ export const Content = styled.div`
       color: #000000;
       margin-bottom: 33px;
       
-      &:last-child {
+      &:last-of-type {
         margin-bottom: 0;
       }
       
@@ -458,7 +458,7 @@ export const AuthorInformation = styled.div`
 `;
 
 export const AuthorImage = styled.img`
-  width: 42px;
+  width: auto;
   height: 42px;
   margin-right: 14px;
 `;

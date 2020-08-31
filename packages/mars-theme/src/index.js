@@ -2,137 +2,89 @@
 /* eslint-disable quote-props */
 /* eslint-disable no-param-reassign */
 import image from '@frontity/html2react/processors/image';
+import convert from 'xml-js';
 import iframe from '@frontity/html2react/processors/iframe';
 import axios from 'axios';
 import Theme from './containers';
 import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
-import { linkReplace, linkImageReplace } from './utils/func';
+import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
 
 const newHandler = {
   name: 'categoryOrPostType',
   priority: 19,
-  pattern: '/(.*)?/:slug',
+  pattern: '/:type/(.*)?/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
     // 1. try with category.
+
+    const error = [];
     try {
       const category = libraries.source.handlers.find(
-        (handler) => handler.name == 'category',
+        (handler) => handler.name === 'category',
       );
       await category.func({
         route, params, state, libraries,
       });
     } catch (e) {
-      // It's not a category
-      const postType = libraries.source.handlers.find(
-        (handler) => handler.name == 'post type',
-      );
-      await postType.func({
-        link: route, params, state, libraries,
-      });
+      error.push('not-category');
+    }
+
+    try {
+      if (error.indexOf('not-category') !== -1) {
+        // It's not a category
+        let hand_name = 'post type';
+
+        if (params.type === 'video') {
+          hand_name = 'video';
+        }
+
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name === hand_name,
+        );
+
+        await postType.func({
+          link: route, params, state, libraries,
+        });
+      }
+    } catch (e) {
     }
   },
 };
 
-const UkMainHandler = {
-  name: 'UkMainHandler',
+const newHandler2 = {
+  name: 'categoryOrPostType2',
   priority: 19,
-  pattern: '/uk/',
+  pattern: '/:slug',
   func: async ({
     route, params, state, libraries,
   }) => {
-    // Get the posts from those categories.
-    const postsResponse = await libraries.source.api.get({
-      endpoint: 'pages',
-      params: { slug: 'main', _embed: true },
-    });
-    const alt_page = await libraries.source.populate({
-      state,
-      response: postsResponse,
-    });
-    alt_page[0].isHome = true;
-    alt_page[0].isPage = true;
-    alt_page[0].isPostType = true;
-    state.theme.lang = 'uk';
-    // const total = libraries.source.getTotal(postsResponse);
-    // const totalPages = libraries.source.getTotalPages(postsResponse);
-
-    // Populate state.source.data with the proper info about this URL.
-    Object.assign(state.source.data[route], alt_page[0]);
-  },
-};
-
-const UkMainHandler2 = {
-  name: 'UkMainHandler2',
-  priority: 19,
-  pattern: '/uk/(.*)?/:slug',
-  func: async ({
-    route, params, state, libraries,
-  }) => {
-    if (params.slug !== 'css2') {
-      state.theme.lang = 'uk';
-      // Check page
-      const postsResponse = await libraries.source.api.get({
-        endpoint: 'pages',
-        params: { slug: params.slug, _embed: true },
+    // 1. try with category.
+    const error = [];
+    try {
+      const category = libraries.source.handlers.find(
+        (handler) => handler.name === 'category',
+      );
+      await category.func({
+        route, params, state, libraries,
       });
-      const alt_page = await libraries.source.populate({
-        state,
-        response: postsResponse,
-      });
-      if (alt_page.length > 0) {
-        alt_page[0].isPage = true;
-        alt_page[0].isPostType = true;
-        Object.assign(state.source.data[route], alt_page[0]);
-      } else {
-        // Check category
-        const postsResponse2 = await libraries.source.api.get({
-          endpoint: 'categories',
-          params: { slug: params.slug, _embed: true },
-        });
-        const alt_page2 = await libraries.source.populate({
-          state,
-          response: postsResponse2,
-        });
-        if (alt_page2.length > 0) {
-          alt_page2[0].isArchive = true;
-          alt_page2[0].isCategory = true;
-          alt_page2[0].isTaxonomy = true;
-          alt_page2[0].taxonomy = 'category';
+    } catch (e) {
+      error.push('not-category');
+    }
 
-          // Get the posts from those categories.
-          const postsResponse3 = await libraries.source.api.get({
-            endpoint: 'posts',
-            params: { categories: alt_page2.id, _embed: true },
-          });
-          const items = await libraries.source.populate({
-            state,
-            response: postsResponse3,
-          });
-          const total = libraries.source.getTotal(postsResponse3);
-          const totalPages = libraries.source.getTotalPages(postsResponse3);
-          alt_page2[0].items = items;
-          alt_page2[0].total = total;
-          alt_page2[0].totalPages = totalPages;
-
-          Object.assign(state.source.data[route], alt_page2[0]);
-        } else {
-          // Check post
-          const postsResponse4 = await libraries.source.api.get({
-            endpoint: 'posts',
-            params: { slug: params.slug, _embed: true },
-          });
-          const alt_page4 = await libraries.source.populate({
-            state,
-            response: postsResponse4,
-          });
-          alt_page4[0].isPostType = true;
-          alt_page4[0].isPost = true;
-          Object.assign(state.source.data[route], alt_page4[0]);
-        }
+    try {
+      if (error.indexOf('not-category')) {
+        // It's not a category
+        const hand_name = 'page';
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name === hand_name,
+        );
+        await postType.func({
+          link: route, params, state, libraries,
+        });
       }
+    } catch (e) {
     }
   },
 };
@@ -156,6 +108,11 @@ const marsTheme = {
       actualNumberPage: 2,
       lastNumberPage: 2,
       categoryPage: 2,
+      videoPage: 2,
+      searchPage: 1,
+      photoPage: 1,
+      personPage: 2,
+      censorNewsLength: 0,
       urlsWithLocal: {},
       categories: {},
       isSubscribeSend: false,
@@ -166,6 +123,10 @@ const marsTheme = {
       actualLoadMore: false,
       lastLoadMore: false,
       categoryLoadMore: false,
+      loadMorePhoto: false,
+      searchLoadMore: false,
+      loadMorePerson: false,
+      searchInitialLoader: 0,
       doLoader: false,
     },
     theme: {
@@ -178,6 +139,7 @@ const marsTheme = {
         showOnList: false,
         showOnPost: false,
       },
+      searchResult: {},
     },
   },
   /**
@@ -186,7 +148,7 @@ const marsTheme = {
    */
   actions: {
     theme: {
-      getMain: ({ state }) => async () => {
+      getMain: ({ state, actions }) => async () => {
         state.customSettings.doLoader = true;
         await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
           const main = response.data;
@@ -197,6 +159,9 @@ const marsTheme = {
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
         Object.assign(state.source.data[state.router.link], data);
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
       },
       addViewPost: ({ state }) => async (id) => {
         await axios.get(`${state.source.api}/frontity-api/add-view/${id}`);
@@ -265,30 +230,126 @@ const marsTheme = {
 
       sendSubscribe: ({ state }) => async (data) => {
         const dataForm = data;
-        dataForm.append('recaptchaToken', state.theme.recaptchaToken);
-        await axios.post(
+        // dataForm.append('recaptchaToken', state.theme.recaptchaToken);
+        return axios.post(
           `${state.source.api}/frontity-api/send-subscribe`,
           dataForm,
           { headers: { 'content-type': 'application/json' } },
         ).then((response) => {
           if (response.status === 200) {
-            state.customSettings.isSubscribeSend = true;
+            state.customSettings.isCommentSend = false;
           }
+
+          return response;
+        });
+      },
+      loadSearch: ({ state }) => async (searchValue) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-search/page/${state.customSettings.searchPage}`, {
+          params: {
+            s: searchValue,
+          },
+        });
+        state.theme.searchResult = data;
+        state.customSettings.searchInitialLoader = data.search.length;
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
+      },
+      getDataAuthor: ({ state }) => async (id) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-info/${id}`);
+        Object.assign(state.source.data[state.router.link], {
+          author: {
+            ...data,
+          },
+        });
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
+      },
+      getDataPersonLoad: ({ state }) => async () => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-persona/`);
+        Object.assign(state.source.data[state.router.link], data);
+      },
+      loadNewsIntegration: ({ state }) => async () => {
+        const { lang = 'ru' } = state.theme;
+        const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+        console.log(result)
+        const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+        const { rss = {} } = resultParse;
+        const { channel = {} } = rss;
+        const { item = [] } = channel;
+
+        const resultArrayNews = [];
+        item.forEach((item) => {
+          if (item) {
+            const date = new Date(item.pubDate._text);
+            const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+            resultArrayNews.push({
+              ...item,
+              link: item.link._text,
+              date: resultDate,
+              acf: {
+                [lang]: {
+                  title: item.title._cdata,
+                },
+              },
+              _embedded: {
+                category: {
+                  acf: {
+                    [lang]: {
+                      title: item.category._text,
+                    },
+                  },
+                },
+                featured_image: {
+                  url: item.enclosure._attributes.url,
+                },
+              },
+            });
+          }
+        });
+        const resultArray = resultArrayNews;
+        if (state.source.data[state.router.link].last !== undefined) {
+          resultArray.push(...state.source.data[state.router.link].last);
+        }
+        Object.assign(state.source.data[state.router.link], {
+          ...state.source.data[state.router.link],
+          last: resultArray,
+        });
+        state.customSettings.censorNewsLength = resultArrayNews.length;
+        state.theme.cases = resultArray;
+        return new Promise((resolve, reject) => {
+          resolve('data');
         });
       },
       beforeSSR: async ({ state, actions, libraries }) => {
+        const ldata = libraries.source.parse(state.frontity.url + state.router.link);
+
+        if (ldata.query && ldata.query.lang) {
+          state.theme.lang = ldata.query.lang;
+        }
         const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
 
         state.theme.options = optionPage;
         actions.theme.alternativeUrlForImage();
         if (
-          state.router.link.includes('/')
-          || state.router.link.includes('/uk/')
+          ldata.route === '/'
         ) {
           const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+        }
+
+        if (state.router.link.includes('search-result')) {
+          const urlData = libraries.source.parse(state.frontity.url + state.router.link);
+          const querySearch = decodeURI(urlData.query.s);
+          actions.theme.loadSearch(querySearch);
+        }
+        await actions.theme.loadNewsIntegration();
+
+        if (state.router.link.includes('persona')) {
+          await actions.theme.getDataPersonLoad();
         }
 
         await actions.theme.loadCategoryPost();
@@ -299,9 +360,16 @@ const marsTheme = {
     func: {
       urlCheck: linkReplace,
       imageUrlCheck: linkImageReplace,
+      urlSeoCheck: linkSeoReplacer,
     },
     source: {
-      handlers: [UkMainHandler, UkMainHandler2, newHandler],
+      handlers: [
+        newHandler, newHandler2, /* UkMainHandler/*, MainHandler,
+        UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
+        UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
+        UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,
+        CatHandler, UkCatHandler, PostHandler, UkPostHandler, PageHandler, UkPageHandler, */
+      ],
     },
     html2react: {
       /**

@@ -12,33 +12,37 @@ import {
   BlockTimeResourceImage,
   BlockContent,
 } from './styled';
+import censor from '../../img/censor.png';
 import TimeLineCard from './TimeLineCard/TimeLineCard';
 
 const TimeLine = ({
-  showDate = true, customsContent = false, customRender, data, state, libraries,
+  showDate = true, customsContent = false, customRender, data,
 }) => {
-  const { imageUrlCheck } = libraries.func;
-  const { urlsWithLocal = {} } = state.customSettings;
-
-  const urlImage = (url) => imageUrlCheck(url, urlsWithLocal);
   const { date = '' } = data;
 
   return (
     <Wrapper>
       <TimeItem>
-        <LabelDate>
-          { date }
-        </LabelDate>
+        {
+          showDate && (
+            <LabelDate>
+              { date }
+            </LabelDate>
+          )
+        }
         <Container>
           {
             data.posts.map((item, index) => {
               const { post = {} } = item;
-              let type = 'post';
-              const { featured_image: featuteImage = {} } = post._embedded;
-              const { url = false } = featuteImage;
+              let {
+                type = 'post',
+              } = post;
+              const { featured_image: featuredImage = {} } = post._embedded || {};
+              const { url = false } = featuredImage;
               if (url !== false) {
                 type = 'default';
               }
+              const { link = '' } = post;
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <Row key={index} type={type}>
@@ -49,7 +53,11 @@ const TimeLine = ({
                           { item.time }
                         </BlockTimeValue>
                         <BlockTimeResource>
-                          <BlockTimeResourceImage src={urlImage(item.resourceImage)} />
+                          {
+                            link.includes('censor') && (
+                              <BlockTimeResourceImage src={censor} />
+                            )
+                          }
                         </BlockTimeResource>
                       </BlockTime>
                     )
@@ -58,7 +66,7 @@ const TimeLine = ({
                   <BlockContent customsContent={customsContent}>
                     {
                       customsContent
-                        ? customRender()
+                        ? customRender(item)
                         : <TimeLineCard type={type} postContent={post} imageUrl={url} />
                     }
                   </BlockContent>

@@ -60,20 +60,18 @@ const MainTemplate = ({ state, libraries, actions }) => {
   } = acfOptions[lang];
 
   //  load page data
-  const dataP = state.source.get(state.router.link);
-  const post = dataP.type && dataP.id ? state.source[dataP.type][dataP.id] : {};
+  const dataP = state.source.data[state.router.link];
 
   const {
     actual = [],
     analytic = [],
-    last = [],
     banner = {},
     countActual = 0,
     countLast = 0,
   } = dataP;
 
   const totalPages = Math.floor(countActual / 6);
-  const totalPagesLastPost = Math.floor(countLast / 10);
+  const totalPagesLastPost = Math.floor((countLast + state.customSettings.censorNewsLength) / 10);
 
   const { post: bannerPost = {} } = banner;
   const {
@@ -108,20 +106,22 @@ const MainTemplate = ({ state, libraries, actions }) => {
       const items = response.data;
       state.source.data[state.router.link].actual.push(...items);
       state.customSettings.actualNumberPage += 1;
-    });
-
-    if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
+    })
+      .finally(() => {
+        if (state.customSettings.actualNumberPage - 1 === totalPages) setLoadMoreHidden(true);
+      });
   };
 
   const loadData = () => {
-    const dataArray = filterNewsTimeLine(lang, last);
+    const lastPosts = state.theme.cases;
+    const dataArray = filterNewsTimeLine(lang, lastPosts);
     setLastPost(dataArray);
     setPage(page + 1);
   };
 
   useEffect(() => {
-    loadData();
     actions.theme.getMain();
+    loadData();
   }, []);
 
   const fetchMoreData = () => {
@@ -136,12 +136,12 @@ const MainTemplate = ({ state, libraries, actions }) => {
       config,
     ).then((response) => {
       const items = response.data;
-      state.source.data[state.router.link].last.push(...items);
+      state.theme.cases.push(...items);
       state.customSettings.lastNumberPage += 1;
       loadData();
+    }).finally(() => {
+      if (state.customSettings.lastNumberPage - 1 === totalPagesLastPost) setLoadMoreTimeLine(true);
     });
-
-    if (state.customSettings.lastNumberPage - 1 === totalPagesLastPost) setLoadMoreTimeLine(true);
   };
 
   return (
@@ -204,7 +204,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
               <Translator id="lastNewsTitle" />
             </Title>
             <InfiniteScroll
-              dataLength={last.length}
+              dataLength={state.theme.cases.length}
               next={fetchMoreData}
               hasMore={!loadMoreTimeLine}
               scrollThreshold={0.5}

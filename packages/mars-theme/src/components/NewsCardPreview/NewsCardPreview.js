@@ -24,7 +24,15 @@ const NewsCardPreview = ({
   } = data;
   const { featured_image: imageUrl = '' } = data._embedded;
   const { url = '' } = imageUrl;
-  const resultImageUrl = imageUrlCheck(url, urlsWithLocal);
+  let resultImageUrl = '';
+  if (acf.images) {
+    const {
+      url: urlImage = '',
+    } = acf.images[0].image;
+    resultImageUrl = imageUrlCheck(urlImage, urlsWithLocal);
+  } else {
+    resultImageUrl = imageUrlCheck(url, urlsWithLocal);
+  }
   const { title = '' } = acf[lang];
   return (
     <Card>

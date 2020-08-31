@@ -14,37 +14,74 @@ import {
   ImageDescription,
 } from './styles';
 import img from '../../../../../img/girls-image.jpg';
+import {formatDatePost} from "../../../../../utils/formatDate";
 
-const InterviewHeader = ({ state, libraries }) => {
+const InterviewHeader = ({
+  data,
+  state,
+  libraries,
+  category,
+}) => {
+  // Html2React component
+  const Html2React = libraries.html2react.Component;
+  const { lang = 'ru' } = state.theme;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
-  const urlImage = imageUrlCheck(img, urlsWithLocal);
+  // const urlImage = imageUrlCheck(img, urlsWithLocal);
+
+  // post data
+  const {
+    acf = {},
+    featured_media: mediaId = '',
+  } = data;
+  const {
+    name = '',
+    title = '',
+    description = '',
+  } = acf[lang];
+  const {
+    views = '0',
+  } = acf;
+  const {
+    source_url: urlImage = '',
+    caption = {
+      rendered: '',
+    },
+  } = state.source.attachment[mediaId];
+  const date = formatDatePost(lang, data.date);
 
   return (
     <Wrapper>
       <LeftContent>
         <Name>
-          Наталья Фролова:
+          <Html2React html={name} />
         </Name>
         <Quote>
-          “Музиканти не можуть бути повністю поза
-          політикою, адже ми впливаємо на мільйони сердець і голів ”
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          "
+          <Html2React html={title} />
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          "
         </Quote>
         <LeftBottomContent>
-          <GPostDetails showResources={false} showShared={false} />
+          <GPostDetails
+            date={date}
+            category={category}
+            showResources={false}
+            showShared={false}
+            eyeCount={views}
+          />
           <TextDescription>
-            Сооснователь «Белой скалы», зоолог Марина Шквыря рассказала УНИАН,
-            почему приют переезжает и как это связано с коронавирусом,
-            почему необходимо пресечь торговлю экзотами и чем приют лучше частных рук.
+            <Html2React html={description} />
           </TextDescription>
         </LeftBottomContent>
       </LeftContent>
       <RightContent>
         <FrameBlock>
-          <Image src={urlImage} />
+          <Image src={imageUrlCheck(urlImage, urlsWithLocal)} />
         </FrameBlock>
         <ImageDescription>
-          Фото: Пресс-служба
+          <Html2React html={caption} />
         </ImageDescription>
       </RightContent>
     </Wrapper>

@@ -14,16 +14,18 @@ import linkedin from '../../img/svg/linkedin-shader.svg';
 import twitter from '../../img/svg/twitter-shared.svg';
 import Translator from '../Translator/Translator';
 
-const Shared = ({ link }) => {
+const Shared = ({ className, link }) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
       <Icon
         onClick={() => setShowModal(true)}
         name="shared"
+        className={className}
       />
       <Modal
         isOpen={showModal}
+        fullSize={false}
         handleClose={() => setShowModal(false)}
         renderTitle={() => <Translator id="sharedTitle" />}
       >

@@ -15,7 +15,7 @@ export const MobileMenuWrapper = styled.div`
 
   ${({ isOpen }) => (
     isOpen
-      ? 'z-index: 2; opacity: 1;'
+      ? 'z-index: 20; opacity: 1;'
       : null
   )}
 `;
@@ -89,7 +89,7 @@ export const NavigationItem = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
 
@@ -138,7 +138,7 @@ export const NavigationContent = styled.div`
     letter-spacing: 0.03em;
     color: #000000;
 
-    &:last-child {
+    &:last-of-type {
       margin-bottom: 0;
     }
   }

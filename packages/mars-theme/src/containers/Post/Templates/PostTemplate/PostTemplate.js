@@ -35,39 +35,73 @@ import RelatedNewsCard from './RelatedNewsCard/RelatedNewsCard';
 import HeaderNews from './NewsHeader';
 import InterviewHeader from './InterviewHeader';
 import PublicationHeader from './PublicationHeader';
+import VideoHeader from './VideoHeader';
 import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
 import Link from '../../../../components/link';
 import Translator from '../../../../components/Translator/Translator';
 import defaultImage from '../../../../img/post.jpg';
+import { translator } from '../../../../utils/translator';
 
 const PostTemplate = ({ state, libraries, actions }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
   const fullPostUrl = `${state.frontity.url}${state.router.link}`;
+  const { imageUrlCheck } = libraries.func;
+  const { urlCheck } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
   // get Data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
+  // state
+  const [showComments, setShowComments] = useState(false);
+  const [authorData, setAuthorData] = useState({
+    acf: {
+      uk: {},
+      ru: {},
+    },
+    link: '',
+    photo: '',
+  });
+
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
   const { content = '' } = acf[lang];
   // category post
   const linksCategory = state.router.link.split('/');
-  let categoryPost = linksCategory[1];
-  if (linksCategory.length === 4 || linksCategory.length === 5) {
-    if (state.theme.lang === 'uk') {
-      categoryPost = linksCategory[2];
-    }
-  }
+  const categoryPost = linksCategory[1];
+  // author data
+  const { author: authorId = false } = acf;
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
+    if (authorId) {
+      actions.theme.getDataAuthor(authorId)
+        .then(() => {
+          const { author } = state.source.get(state.router.link);
+          setAuthorData(author);
+        });
+    }
   }, []);
 
-  const categoryData = state.source.get(`/${categoryPost}/`);
-  const category = state.source.category[categoryData.id];
-  const { acf: acfCategory = {} } = category;
-  const { title: categoryName = '' } = acfCategory[lang];
+  let type = '';
+  let categoryName = '';
+  let categoryData = {};
+  if (post.type === 'video') {
+    type = 'video';
+    categoryName = translator(lang, 'videoTitle');
+    categoryData = state.source.get('/video/');
+  } else if (post.type === 'persona') {
+    categoryData = state.source.get(`/${categoryPost}/`);
+    const category = state.source.category[categoryData.id] || {};
+    categoryName = translator(lang, 'personCategory');
+    type = 'interview';
+  } else {
+    categoryData = state.source.get(`/${categoryPost}/`);
+    const category = state.source.category[categoryData.id] || {};
+    const { acf: acfCategory = {} } = category;
+    categoryName = acfCategory[lang].title;
+  }
 
   // big photo
   const { featured_media: frameId = '' } = post;
@@ -96,23 +130,26 @@ const PostTemplate = ({ state, libraries, actions }) => {
   // tags post
   const { tags = [] } = post;
   const tagsArray = tags.map((item) => state.source.tag[item]);
-  // author data
-  const { author = 0 } = post;
-  const authorData = state.source.author[author];
-  const {
-    name: authorName = '',
-    link: authorLink = '#',
-  } = authorData;
-  // state
-  const [showComments, setShowComments] = useState(false);
-  const type = '';
 
   const renderHeaderPost = (typePost) => {
     switch (typePost) {
       case 'interview':
-        return <InterviewHeader />;
+        return (
+          <InterviewHeader
+            data={post}
+            caption={captionImage}
+            category={categoryName}
+          />
+        );
       case 'publication':
-        return <PublicationHeader />;
+        return <PublicationHeader data={post} />;
+      case 'video':
+        return (
+          <VideoHeader
+            data={post}
+            category={categoryName}
+          />
+        );
       default:
         return (
           <HeaderNews
@@ -149,18 +186,24 @@ const PostTemplate = ({ state, libraries, actions }) => {
               <TabsPost />
               <Shared link={fullPostUrl} />
             </TabsWrapper>
-            <AuthorInformation>
-              <Link link={authorLink}>
-                <AuthorImage src={authorLogo} />
-                <AuthorName>
-                  {authorName}
-                </AuthorName>
-              </Link>
-            </AuthorInformation>
+            {
+              authorId && (
+                <AuthorInformation>
+                  <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
+                    <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
+                    <AuthorName>
+                      { authorData.acf[lang].title }
+                    </AuthorName>
+                  </Link>
+                </AuthorInformation>
+              )
+            }
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />
-                <MobileCommentCount>999</MobileCommentCount>
+                <MobileCommentCount>
+                  { state.theme.commentsLength }
+                </MobileCommentCount>
               </MobileComments>
               <Shared link={fullPostUrl} />
             </MobileEvents>
@@ -172,7 +215,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
             />
 
             <SubscribeBlock>
-              <SubscribeNews />
+              <SubscribeNews lang={lang} />
             </SubscribeBlock>
 
             <CommentsBlock>

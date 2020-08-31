@@ -52,15 +52,20 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
   } = dataCategory;
 
   const loadTimeLineData = () => {
-    const dataTimeLine = filterNewsTimeLine(lang, timeline);
+    const {
+      timeline: timeLineData = [],
+    } = dataCategory;
+    const dataTimeLine = filterNewsTimeLine(lang, timeLineData);
     setLastPost(dataTimeLine);
   };
 
   useEffect(() => {
     state.customSettings.categoryPage = 2;
-    actions.theme.getCategory(dataCategory.id);
-    loadTimeLineData();
-    if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
+    actions.theme.getCategory(dataCategory.id)
+      .then(() => {
+        loadTimeLineData();
+        if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
+      });
   }, [state.router.link]);
 
   const fetchMoreData = () => {

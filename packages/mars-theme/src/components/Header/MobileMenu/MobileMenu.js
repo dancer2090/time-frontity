@@ -75,7 +75,18 @@ const MobileMenu = ({
       ...item,
       active: false,
     }));
+    actions.theme.loadNewsIntegration();
     setNavigation(filterMenu);
+  };
+
+  const changeRouter = () => {
+    closeModal();
+    const result = navigation.map((item) => ({
+      ...item,
+      active: false,
+      height: 0,
+    }));
+    setNavigation(result);
   };
 
   return (
@@ -109,7 +120,7 @@ const MobileMenu = ({
                         : (
                           <Link
                             link={urlCheck(link.url, [state.frontity.url, state.frontity.adminUrl])}
-                            afterClick={() => closeModal()}
+                            afterClick={() => changeRouter()}
                           >
                             { link.title }
                           </Link>
