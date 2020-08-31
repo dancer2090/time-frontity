@@ -30,22 +30,28 @@ const PostDetails = ({
   return (
     <Wrapper className={className}>
       <FlexContainer showShared={showShared}>
-        <Category>
-          { category }
-        </Category>
+        { category !== '' && (
+          <Category>
+            { category }
+          </Category>
+        ) }
         <DateValue>
           { date }
         </DateValue>
+        { eyeCount > 0 && (
         <FlexCenter>
           <IconEye name="eye" />
           <Counter>{ eyeCount }</Counter>
         </FlexCenter>
-        <FlexCenter>
-          <IconComments name="comments" />
-          <Counter>
-            { state.theme.commentsLength }
-          </Counter>
-        </FlexCenter>
+        ) }
+        { state.theme.commentsLength > 0 && (
+          <FlexCenter>
+            <IconComments name="comments" />
+            <Counter>
+              { state.theme.commentsLength }
+            </Counter>
+          </FlexCenter>
+        ) }
         {
           showResources && (
             <Resources>

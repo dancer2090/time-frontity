@@ -18,7 +18,7 @@ const newHandler = {
     route, params, state, libraries,
   }) => {
     // 1. try with category.
-
+    console.log('hand1');
     const error = [];
     try {
       const category = libraries.source.handlers.find(
@@ -74,9 +74,9 @@ const newHandler2 = {
     }
 
     try {
-      if (error.indexOf('not-category')) {
+      if (error.indexOf('not-category') !== -1) {
         // It's not a category
-        const hand_name = 'page';
+        const hand_name = 'post type';
         const postType = libraries.source.handlers.find(
           (handler) => handler.name === hand_name,
         );
@@ -282,12 +282,13 @@ const marsTheme = {
       },
       loadNewsIntegration: ({ state }) => async () => {
         const { lang = 'ru' } = state.theme;
-        
+        /*
         const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
         console.log(result)
         const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
         const { rss = {} } = resultParse;
-        //const rss = {};
+        */
+        const rss = {};
         const { channel = {} } = rss;
         const { item = [] } = channel;
 

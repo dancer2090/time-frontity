@@ -14,11 +14,13 @@ import PhotoListTemplate from '../Templates/PhotoListTemplate';
 import PostPhotoTemplate from '../Templates/PostPhotoTemplate';
 import AuthorsTemplate from '../Templates/AuthorsTemplate';
 import TagTemplate from '../Templates/TagTemplate';
+import PageTemplate from '../Templates/PageTemplate';
 
 const PostContent = ({ state, scrollRef = null, libraries }) => {
   const data = state.source.get(state.router.link);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
   console.log(state);
+  console.log(data);
 
   return (
     <Switch>
@@ -31,6 +33,7 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />
       <PostPhotoTemplate scrollRef={scrollRef} when={data.type === 'images'} />
       <MediaCenterTemplate scrollRef={scrollRef} when={data.type === 'page' && state.router.link.includes('media-center')} />
+      <PageTemplate scrollRef={scrollRef} when={data.isPage} />
       <AuthorsTemplate scrollRef={scrollRef} when={data.type === 'authors'} />
       <TagTemplate scrollRef={scrollRef} when={state.router.link.includes('/tag/')} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
