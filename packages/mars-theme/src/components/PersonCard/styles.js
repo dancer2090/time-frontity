@@ -165,7 +165,7 @@ export const Card = styled.div`
       ? css`
           ${FrameBlock} {
             min-height: 227px;
-            height: 227px;
+            height: auto;
           }
           
           ${Content} {
@@ -194,6 +194,9 @@ export const Card = styled.div`
           }
           
           @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
+            ${FrameBlock} {
+              height: 227px;
+            }
             ${Title},
             ${Text},
             ${DateBlock} {

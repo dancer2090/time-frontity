@@ -112,6 +112,8 @@ const marsTheme = {
       searchPage: 1,
       photoPage: 1,
       personPage: 2,
+      authorPage: 1,
+      tagPage: 1,
       censorNewsLength: 0,
       urlsWithLocal: {},
       categories: {},
@@ -132,6 +134,7 @@ const marsTheme = {
     theme: {
       menu: {},
       cases: {},
+      postTags: {},
       teammembers: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
@@ -159,6 +162,13 @@ const marsTheme = {
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
         Object.assign(state.source.data[state.router.link], data);
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
+      },
+      getTags: ({ state }) => async (id) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-tags/${id}`);
+        state.theme.postTags = data;
         return new Promise((resolve) => {
           resolve('ok');
         });
@@ -272,9 +282,11 @@ const marsTheme = {
       },
       loadNewsIntegration: ({ state }) => async () => {
         const { lang = 'ru' } = state.theme;
+        
         const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
         const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
         const { rss = {} } = resultParse;
+        const rss = {};
         const { channel = {} } = rss;
         const { item = [] } = channel;
 
@@ -349,6 +361,9 @@ const marsTheme = {
 
         if (state.router.link.includes('persona')) {
           await actions.theme.getDataPersonLoad();
+        }
+        if (state.router.link.includes('authors') || state.router.link.includes('tag')) {
+          state.source.data[state.router.link].timeline = [];
         }
 
         await actions.theme.loadCategoryPost();

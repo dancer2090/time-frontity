@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   GIconTag,
@@ -6,21 +7,35 @@ import {
 } from './styles';
 import Link from '../link';
 
-const TabsPost = () => (
+const TabsPost = ({items = [], state}) => {
+  const arrTags = [];
+  const { lang = 'ru' } = state.theme;
+  items.length > 0 && items.map((item) => {
+    const {
+      acf = {},
+      link = '',
+    } = item;
+    if(acf){
+      const {
+        title = '',
+      } = acf[lang];
+      arrTags.push({
+        title : title,
+        link : link
+      })
+    }
+  });
+return (
   <Wrapper>
     <GIconTag name="tag" />
     <List>
-      <Link>
-        культура
-      </Link>
-      <Link>
-        культура
-      </Link>
-      <Link>
-        культура
-      </Link>
+      {arrTags.map((item) => (
+        <Link link={item.link}>
+          {item.title}
+        </Link>
+      ))}
     </List>
   </Wrapper>
-);
+)};
 
-export default TabsPost;
+export default connect(TabsPost);

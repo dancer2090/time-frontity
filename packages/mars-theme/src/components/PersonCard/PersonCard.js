@@ -46,6 +46,8 @@ const PersonCard = ({
   if (_embedded.featured_image) {
     mediaUrl = _embedded.featured_image.url;
   }
+  const card_title = (name !== '' ? name : title);
+  const card_description = (name !== '' ? title : description);
 
   return (
     <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
@@ -56,10 +58,10 @@ const PersonCard = ({
         <Content>
           <ContentBlock>
             <Title sizeText={sizeText}>
-              <Html2React html={name} />
+              <Html2React html={card_title} />
             </Title>
             <Text sizeText={sizeText}>
-              <Html2React html={title} />
+              <Html2React html={card_description} />
             </Text>
           </ContentBlock>
           <DateBlock sizeText={sizeText}>

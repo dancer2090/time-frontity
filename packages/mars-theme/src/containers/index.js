@@ -58,9 +58,11 @@ const Theme = ({ state, actions, libraries }) => {
                 || data.isVideoArchive
                 || data.isImagesArchive
                 || data.type === 'page'
+                || data.type === 'authors'
                 || data.isPersonaArchive
               }
             />
+            <Post scrollRef={formRef} when={state.router.link.includes('/tag/')} />
             <Post scrollRef={formRef} when={state.router.link.includes('/search-result/')} />
             <PageError when={data.isError} />
           </Switch>

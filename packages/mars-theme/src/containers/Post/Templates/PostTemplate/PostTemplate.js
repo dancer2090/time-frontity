@@ -75,6 +75,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
+    actions.theme.getTags(post.id);
     if (authorId) {
       actions.theme.getDataAuthor(authorId)
         .then(() => {
@@ -183,7 +184,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
             </Content>
 
             <TabsWrapper>
-              <TabsPost />
+              <TabsPost items={state.theme.postTags}/>
               <Shared link={fullPostUrl} />
             </TabsWrapper>
             {
