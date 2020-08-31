@@ -39,6 +39,7 @@ import Button from '../../../../components/Button';
 import TextPost from './TextPost';
 import TimeLine from '../../../../components/TimeLine';
 import Translator from '../../../../components/Translator/Translator';
+import Banner from '../../../../components/Banner/Banner';
 // eslint-disable-next-line import/named
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 
@@ -55,6 +56,12 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const {
     acf: acfOptions = {},
   } = state.theme.options;
+  const {
+    bannerMA = {},
+    bannerMM = {},
+    bannerMT1 = {},
+    bannerMT2 = {},
+  } = acfOptions;
   const {
     pdf = '',
   } = acfOptions[lang];
@@ -173,8 +180,10 @@ const MainTemplate = ({ state, libraries, actions }) => {
               </Link>
             </BigContent>
           </BigNews>
+
           <BigBanner>
-            Banner
+            {bannerMT1 && bannerMT1.link && bannerMT1.img && <Banner width='348px' height='316.5px' link={bannerMT1.link} bannerImg={bannerMT1.img.url} />}
+            {bannerMT2 && bannerMT2.link && bannerMT2.img && <Banner width='348px' height='316.5px' link={bannerMT2.link} bannerImg={bannerMT2.img.url} />}
           </BigBanner>
         </BigNewsWrapper>
 
@@ -197,7 +206,11 @@ const MainTemplate = ({ state, libraries, actions }) => {
             </Button>
           </NewsLoad>
         </NewsListContainer>
-        <FullBanner />
+        {bannerMM && bannerMM.link && bannerMM.img && (
+          <FullBanner>
+            <Banner width='1041px' height='140px' link={bannerMM.link} bannerImg={bannerMM.img.url} />
+          </FullBanner>
+        )}
         <FlexBlock>
           <LastNews>
             <Title size="small">
@@ -234,7 +247,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
                 ))
               }
             </TextPostList>
-            <RightBanner />
+            {bannerMA && bannerMA.link && bannerMA.img && (
+              <RightBanner> <Banner width='331px' height='350px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
+            )}
           </AnalyticNews>
         </FlexBlock>
       </Container>

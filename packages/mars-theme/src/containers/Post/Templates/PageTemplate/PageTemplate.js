@@ -40,6 +40,7 @@ import CommentsModal from '../../../../components/Comments/CommentsModal';
 import authorLogo from '../../../../img/author-logo.jpg';
 import Link from '../../../../components/link';
 import Translator from '../../../../components/Translator/Translator';
+import Banner from '../../../../components/Banner/Banner';
 import defaultImage from '../../../../img/post.jpg';
 import { translator } from '../../../../utils/translator';
 
@@ -50,12 +51,19 @@ const PageTemplate = ({ state, libraries, actions }) => {
   const { imageUrlCheck } = libraries.func;
   const { urlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
+  // get Banners
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    bannerNR = {},
+    bannerNB = {},
+  } = acfOptions;
   // get Data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
 
   const { lang = 'ru' } = state.theme;
-  console.log(post);
   const { acf = {} } = post;
   const { content = '' } = acf[lang];
 
@@ -113,7 +121,9 @@ const PageTemplate = ({ state, libraries, actions }) => {
           </CenterContent>
 
           <RightNavigation>
-            <RightBanner />
+            {bannerNR && bannerNR.link && bannerNR.img && (
+              <RightBanner> <Banner width='217px' height='436px' link={bannerNR.link} bannerImg={bannerNR.img.url} /> </RightBanner>
+            )}
           </RightNavigation>
         </ContentContainer>
 
@@ -126,7 +136,9 @@ const PageTemplate = ({ state, libraries, actions }) => {
           </SocialFlex>
         </SocialBlock>
 
-        <FullBanner />
+        {bannerNB && bannerNB.link && bannerNB.img && (
+          <FullBanner> <Banner width='1041px' height='258px' link={bannerNB.link} bannerImg={bannerNB.img.url} /> </FullBanner>
+        )}
       </Container>
     </Wrapper>
   );

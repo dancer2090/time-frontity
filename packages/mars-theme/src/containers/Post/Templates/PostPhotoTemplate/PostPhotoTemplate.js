@@ -50,6 +50,7 @@ import { formatDatePost } from '../../../../utils/formatDate';
 import CommentsModal from '../../../../components/Comments/CommentsModal';
 import Title from '../../../../components/Title';
 import NewsCardPreview from '../../../../components/NewsCardPreview/NewsCardPreview';
+import Banner from '../../../../components/Banner/Banner';
 import {translator} from "../../../../utils/translator";
 
 // install Swiper components
@@ -62,7 +63,14 @@ const PostPhotoTemplate = ({ state, libraries, actions }) => {
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const { lang = 'ru' } = state.theme;
-
+  // get Banners
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    bannerNR = {},
+    bannerNB = {},
+  } = acfOptions;
   // post data
   const data = state.source.get(state.router.link);
   const post = state.source[data.type][data.id];
@@ -209,7 +217,9 @@ const PostPhotoTemplate = ({ state, libraries, actions }) => {
               <SocialList />
             </SocialFlex>
           </SocialBlock>
-          <FullBanner />
+          {bannerNB && bannerNB.link && bannerNB.img && (
+            <FullBanner> <Banner width='1041px' height='258px' link={bannerNB.link} bannerImg={bannerNB.img.url} /> </FullBanner>
+          )}
         </WrapperContent>
         <MobileListNews>
           <Title>

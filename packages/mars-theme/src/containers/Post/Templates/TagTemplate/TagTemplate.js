@@ -12,7 +12,7 @@ import {
   InfinityRow,
   InfinityList,
   InfinityListItem,
-  Banner,
+  Banner2,
   BannerContent,
   Loading,
   NotLoadPost,
@@ -32,6 +32,7 @@ import SocialList from '../../../../components/SocialList';
 import Title from '../../../../components/Title';
 import PersonCard from '../../../../components/PersonCard';
 import Translator from '../../../../components/Translator/Translator';
+import Banner from '../../../../components/Banner/Banner';
 import defaultImage from '../../../../img/post.jpg';
 
 const TagTemplate = ({ state, actions, libraries }) => {
@@ -39,6 +40,14 @@ const TagTemplate = ({ state, actions, libraries }) => {
   const [hasLoadMore, setHasLoadMore] = useState(true);
   const dataPost = state.source.data[state.router.link];
   const Html2React = libraries.html2react.Component;
+
+  // get Banners
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    bannerAR = {},
+  } = acfOptions;
 
   const {
     topItems = [],
@@ -123,9 +132,11 @@ const TagTemplate = ({ state, actions, libraries }) => {
                 }
               </InfinityList>
             </InfiniteScroll>
-            <Banner>
-              <BannerContent />
-            </Banner>
+            {bannerAR && bannerAR.link && bannerAR.img && (
+              <Banner2>
+                <BannerContent> <Banner width='335px' height='1019px' link={bannerAR.link} bannerImg={bannerAR.img.url} /> </BannerContent>
+              </Banner2>
+            )}
           </InfinityRow>
         </InfinityBlock>
       </Container>

@@ -12,7 +12,7 @@ import {
   InfinityRow,
   InfinityList,
   InfinityListItem,
-  Banner,
+  Banner2,
   BannerContent,
   Loading,
   NotLoadPost,
@@ -23,11 +23,19 @@ import SocialList from '../../../../components/SocialList';
 import Title from '../../../../components/Title';
 import PersonCard from '../../../../components/PersonCard';
 import Translator from '../../../../components/Translator/Translator';
+import Banner from '../../../../components/Banner/Banner';
 
 const PersonTemplate = ({ state, actions }) => {
   const [timeLinePost, setTimeLinePost] = useState([]);
   const [hasLoadMore, setHasLoadMore] = useState(true);
   const dataPost = state.source.data[state.router.link];
+
+  const {
+    acf: acfOptions = {},
+  } = state.theme.options;
+  const {
+    bannerPR = {},
+  } = acfOptions;
 
   const {
     topItems = [],
@@ -136,9 +144,11 @@ const PersonTemplate = ({ state, actions }) => {
                 }
               </InfinityList>
             </InfiniteScroll>
-            <Banner>
-              <BannerContent />
-            </Banner>
+            {bannerPR && bannerPR.link && bannerPR.img && (
+              <Banner2>
+                <BannerContent> <Banner width='335px' height='400px' link={bannerPR.link} bannerImg={bannerPR.img.url} /> </BannerContent>
+              </Banner2>
+            )}
           </InfinityRow>
         </InfinityBlock>
       </Container>

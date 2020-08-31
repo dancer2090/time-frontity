@@ -110,7 +110,7 @@ export const InfinityListItem = styled.div`
   }
 `;
 
-export const Banner = styled.div`
+export const Banner2 = styled.div`
   width: 335px;
   
   @media screen and (max-width: ${SIZE_DESCTOP_SMALL}px) {
