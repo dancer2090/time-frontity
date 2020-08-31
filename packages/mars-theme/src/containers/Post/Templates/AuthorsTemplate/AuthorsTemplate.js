@@ -117,7 +117,7 @@ const AuthorsTemplate = ({ state, actions, libraries }) => {
         <InfinityBlock>
           <InfinityRow>
             <InfiniteScroll
-              dataLength={state.source.data[state.router.link].timeline.length}
+              dataLength={timeLinePost.length}
               next={fetchMoreData}
               hasMore={hasLoadMore}
               scrollThreshold={0.5}

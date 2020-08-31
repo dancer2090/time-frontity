@@ -44,7 +44,7 @@ const PersonCard = ({
     title = '',
   } = acf[lang];
   let mediaUrl = cardImg;
-  if (_embedded.featured_image.url) {
+  if (_embedded.featured_image && _embedded.featured_image.url) {
     mediaUrl = _embedded.featured_image.url;
   }
   const card_title = (name !== '' ? name : title);
