@@ -67,7 +67,7 @@ export const globalStyles = css`
 
   body {
     font-family: 'Montserrat', sans-serif;
-    background: #F2F2F2;
+    background: #E5E5E5;
     
     &.ReactModal__Body--open {
       overflow: hidden;

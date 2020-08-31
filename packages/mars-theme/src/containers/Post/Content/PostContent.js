@@ -4,6 +4,7 @@ import Switch from '@frontity/components/switch';
 import MainTemplate from '../Templates/MainTemplate';
 import CategoryTemplate from '../Templates/CategoryTemplate';
 import PostTemplate from '../Templates/PostTemplate';
+import ContactsTemplate from '../Templates/ContactsTemplate';
 import MediaCenterTemplate from '../Templates/MediaCenterTemplate';
 import SpecialThemeTemplate from '../Templates/SpecialThemeTemplate';
 import ResultSearchTemplate from '../Templates/ResultSearchTemplate';
@@ -18,7 +19,8 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
 
   return (
     <Switch>
-      <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />
+      <MainTemplate scrollRef={scrollRef} when={state.router.link === '/' || state.router.link === '/uk/'} />
+      <ContactsTemplate scrollRef={scrollRef} when={state.router.link === '/contacts/'} />
       <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
       <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />

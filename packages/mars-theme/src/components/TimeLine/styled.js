@@ -60,7 +60,7 @@ export const BlockTimeValue = styled.span`
   font-size: 16px;
   line-height: 22px;
   color: #969696;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif; 
   display: inline-block;
   margin-bottom: 6px;
   
