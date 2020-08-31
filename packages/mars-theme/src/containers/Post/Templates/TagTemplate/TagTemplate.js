@@ -22,7 +22,9 @@ import {
   AuthorInfo,
   AuthorName,
   AuthorStatus,
-  AuthorText
+  AuthorText,
+  TitleBlock,
+  Text,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
@@ -45,8 +47,8 @@ const TagTemplate = ({ state, actions, libraries }) => {
   } = dataPost;
 
   const { lang = 'ru' } = state.theme;
-  const { acf = { 'ru' : {}, 'uk' : {} } } = dataPost;
-  const tagTitle = (acf ? acf[lang].title : '');
+  const { acf = {} } = dataPost;
+  const titlePost = (acf && acf[lang] ? acf[lang].title : '');
 
   const loadData = () => {
     const {
@@ -87,12 +89,14 @@ const TagTemplate = ({ state, actions, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: tagTitle, link: '#' },
+            { name: titlePost, link: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
-        <Title> {tagTitle} </Title>
+        <TitleBlock>
+          <Text>{ titlePost }</Text>
+        </TitleBlock>
         <InfinityBlock>
           <InfinityRow>
             <InfiniteScroll
