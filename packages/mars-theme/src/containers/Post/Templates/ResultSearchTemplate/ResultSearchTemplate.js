@@ -70,18 +70,21 @@ const ResultSearchTemplate = ({ state, actions, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: 'Результаты поиска', link: '#' },
+            { name: <Translator id="searchResults" />, link: '#' },
           ]}
           />
           <SocialList />
         </TopNavigation>
         <Result>
           <ResultTitle>
-            По запросу
+            <Translator id="searchRequest" />
             {' '}
+            &quot;
             {querySearch}
+            &quot;
             {' '}
-            найдено:
+            <Translator id="searchFound" />
+            :
           </ResultTitle>
         </Result>
         {

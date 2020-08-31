@@ -38,4 +38,7 @@ export default {
   newsPhoto: 'Новини Фото',
   mediaCenter: 'Медіацентр',
   personCategory: 'Персони',
+  searchResults: 'Результати пошуку',
+  searchRequest: 'По запиту',
+  searchFound: 'знайдено',
 };
