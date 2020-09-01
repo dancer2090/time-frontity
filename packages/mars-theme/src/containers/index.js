@@ -25,7 +25,7 @@ const Theme = ({ state, actions, libraries }) => {
   const data = state.source.get(state.router.link);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
   const formRef = useRef(null);
-  console.log(state);
+
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);

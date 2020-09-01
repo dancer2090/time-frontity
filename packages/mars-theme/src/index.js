@@ -285,6 +285,7 @@ const marsTheme = {
         let rss = {};
         try {
           const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+          //const result = await axios.get(`http://webspinner.ru/news_ru.xml`); // for test
           const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
           rss = resultParse.rss;
         } catch (ex) {
@@ -296,7 +297,7 @@ const marsTheme = {
 
         const resultArrayNews = [];
         item.forEach((item) => {
-          if (item) {
+          if (item && (item.category._text === 'Политика Украины' || item.category._text === 'Проишествия' || item.category._text === 'Экономика')) {
             const date = new Date(item.pubDate._text);
             const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
             resultArrayNews.push({
@@ -317,7 +318,7 @@ const marsTheme = {
                   },
                 },
                 featured_image: {
-                  url: item.enclosure._attributes.url,
+                  url: false,//item.enclosure._attributes.url,
                 },
               },
             });
