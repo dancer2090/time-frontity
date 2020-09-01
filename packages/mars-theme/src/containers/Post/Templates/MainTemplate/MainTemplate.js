@@ -11,6 +11,7 @@ import {
   PdfIcon,
   PdfShow,
   BigNewsWrapper,
+  BigNewsContainer,
   BigNews,
   BigBanner,
   BigFrame,
@@ -80,7 +81,12 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const totalPages = Math.floor(countActual / 6);
   const totalPagesLastPost = Math.floor((countLast + state.customSettings.censorNewsLength) / 10);
 
-  const { post: bannerPost = {} } = banner;
+  const {
+    post: bannerPost = {},
+    post2: bannerPost2 = {},
+    post3: bannerPost3 = {},
+    post4: bannerPost4 = {},
+  } = banner;
   const {
     _embedded: bannerEmbed = {},
     link: bannerLink = '',
@@ -97,6 +103,60 @@ const MainTemplate = ({ state, libraries, actions }) => {
   const bannerMeta = {
     uk: bannerUk,
     ru: bannerRu,
+  };
+
+  const {
+    _embedded: bannerEmbed2 = {},
+    link: bannerLink2 = '',
+    acf: bannerAcf2 = {},
+    ID: bannerId2 = '',
+  } = bannerPost2;
+  const {
+    featured_image: bannerImage2 = { url: '' },
+  } = bannerEmbed2;
+  const {
+    uk: bannerUk2 = { title: '', content: '' },
+    ru: bannerRu2 = { title: '', content: '' },
+  } = bannerAcf2;
+  const bannerMeta2 = {
+    uk: bannerUk2,
+    ru: bannerRu2,
+  };
+
+  const {
+    _embedded: bannerEmbed3 = {},
+    link: bannerLink3 = '',
+    acf: bannerAcf3 = {},
+    ID: bannerId3 = '',
+  } = bannerPost3;
+  const {
+    featured_image: bannerImage3 = { url: '' },
+  } = bannerEmbed3;
+  const {
+    uk: bannerUk3 = { title: '', content: '' },
+    ru: bannerRu3 = { title: '', content: '' },
+  } = bannerAcf3;
+  const bannerMeta3 = {
+    uk: bannerUk3,
+    ru: bannerRu3,
+  };
+
+  const {
+    _embedded: bannerEmbed4 = {},
+    link: bannerLink4 = '',
+    acf: bannerAcf4 = {},
+    ID: bannerId4 = '',
+  } = bannerPost4;
+  const {
+    featured_image: bannerImage4 = { url: '' },
+  } = bannerEmbed4;
+  const {
+    uk: bannerUk4 = { title: '', content: '' },
+    ru: bannerRu4 = { title: '', content: '' },
+  } = bannerAcf4;
+  const bannerMeta4 = {
+    uk: bannerUk4,
+    ru: bannerRu4,
   };
 
   const loadMore1 = () => {
@@ -170,16 +230,48 @@ const MainTemplate = ({ state, libraries, actions }) => {
         </SocialsWrapper>
 
         <BigNewsWrapper>
-          <BigNews>
-            <BigFrame>
-              {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
-            </BigFrame>
-            <BigContent>
-              <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
-                {bannerMeta[state.theme.lang].title}
-              </Link>
-            </BigContent>
-          </BigNews>
+          <BigNewsContainer>
+            <BigNews>
+              <BigFrame>
+                {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+              </BigFrame>
+              <BigContent>
+                <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerMeta[state.theme.lang].title}
+                </Link>
+              </BigContent>
+            </BigNews>
+            <BigNews>
+              <BigFrame>
+                {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+              </BigFrame>
+              <BigContent>
+                <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerMeta2[state.theme.lang].title}
+                </Link>
+              </BigContent>
+            </BigNews>
+            <BigNews>
+              <BigFrame>
+                {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+              </BigFrame>
+              <BigContent>
+                <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerMeta3[state.theme.lang].title}
+                </Link>
+              </BigContent>
+            </BigNews>
+            <BigNews>
+              <BigFrame>
+                {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+              </BigFrame>
+              <BigContent>
+                <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerMeta4[state.theme.lang].title}
+                </Link>
+              </BigContent>
+            </BigNews>
+          </BigNewsContainer>
 
           <BigBanner>
             {bannerMT1 && bannerMT1.link && bannerMT1.img && <Banner width='348px' height='316.5px' link={bannerMT1.link} bannerImg={bannerMT1.img.url} />}
