@@ -115,7 +115,17 @@ export const BigNews = styled.div`
 
 export const BigBanner = styled.div`
   width: 348px;
-  background: #C4C4C4;
+  background: transparent;
+
+  > div {
+    overflow: hidden;
+    &:nth-of-type(1) {
+      margin-bottom: 10px;
+    }
+    &:nth-of-type(2) {
+      padding-top: 10px;
+    }
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     display: none;
