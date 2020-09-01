@@ -282,13 +282,15 @@ const marsTheme = {
       },
       loadNewsIntegration: ({ state }) => async () => {
         const { lang = 'ru' } = state.theme;
-        /*
-        const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-        console.log(result)
-        const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
-        const { rss = {} } = resultParse;
-        */
-        const rss = {};
+        let rss = {};
+        try {
+          const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+          const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+          rss = resultParse.rss;
+        } catch (ex) {
+          console.log(ex);
+        }
+
         const { channel = {} } = rss;
         const { item = [] } = channel;
 
