@@ -296,8 +296,16 @@ const marsTheme = {
         const { item = [] } = channel;
 
         const resultArrayNews = [];
+        const filterCategories = [
+          'Політика України',
+          'Политика Украины',
+          'Проишествия',
+          'Події',
+          'Економіка',
+          'Экономика',
+        ];
         item.forEach((item) => {
-          if (item && (item.category._text === 'Политика Украины' || item.category._text === 'Проишествия' || item.category._text === 'Экономика')) {
+          if (item && filterCategories.indexOf(item.category._text) !== -1) {
             const date = new Date(item.pubDate._text);
             const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
             resultArrayNews.push({
