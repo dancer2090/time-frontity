@@ -37,7 +37,7 @@ const MediaCenterTemplate = ({ state, libraries }) => {
       <Container>
         <TopNavigation>
           <Breadcrumbs links={[
-            { name: <Html2React html={title} />, links: '#' },
+            { name: <Html2React html={title} />, link: '#' },
           ]}
           />
           <SocialList />
