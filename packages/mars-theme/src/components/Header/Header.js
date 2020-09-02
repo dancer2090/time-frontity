@@ -93,7 +93,7 @@ const Header = ({ state, libraries, actions }) => {
   const getQuery = () => {
     const ldata = libraries.source.parse(state.frontity.url + state.router.link);
     return ldata.query;
-  };    
+  };
 
   const setLanguage = (e, index) => {
     e.preventDefault();

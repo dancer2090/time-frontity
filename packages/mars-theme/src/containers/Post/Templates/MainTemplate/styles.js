@@ -87,6 +87,10 @@ export const SocialLabel = styled.span`
   line-height: 17px;
   color: #666666;
   margin-right: 15px;
+  & a{
+    color: #666666;
+    text-decoration: none;
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
     display: none;

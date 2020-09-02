@@ -60,14 +60,16 @@ const MobileMenu = ({
     setNavigation(result);
   };
 
+
   const changeLang = () => {
+    const ldata = libraries.source.parse(state.frontity.url + state.router.link);
     if (lang !== 'uk') {
       state.theme.lang = 'uk';
-      actions.router.set(`/uk${state.router.link}`);
+      if(ldata.query && ldata.query.s) actions.router.set(`${state.router.link}&lang=uk`);
+      else  actions.router.set(`${state.router.link}?lang=uk`);
     } else {
       state.theme.lang = 'ru';
-      const url = state.router.link.replace('/uk', '');
-      actions.router.set(url);
+      actions.router.set(`${state.router.link.replace('&lang=uk', '').replace('?lang=uk', '')}`);
     }
     closeModal();
     const { header_menu = [] } = acfOptions[state.theme.lang];

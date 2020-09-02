@@ -74,6 +74,8 @@ const MainTemplate = ({ state, libraries, actions }) => {
     actual = [],
     analytic = [],
     banner = {},
+    linkRu = {},
+    linkUk = {},
     countActual = 0,
     countLast = 0,
   } = dataP;
@@ -216,7 +218,8 @@ const MainTemplate = ({ state, libraries, actions }) => {
       <Container>
         <SocialsWrapper>
           <SocialLabel>
-            <Translator id="homePageLabelTime" />
+            { lang === 'ru' && <Link link={linkRu.url}> {linkRu.title} </Link> }
+            { lang === 'uk' && <Link link={linkUk.url}> {linkUk.title} </Link> }
           </SocialLabel>
           <RightTopWrapper>
             <PdfWrapper>
