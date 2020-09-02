@@ -236,46 +236,57 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
         <BigNewsWrapper>
           <BigNewsContainer>
-            <BigNews>
-              <BigFrame>
-                {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
-              </BigFrame>
-              <BigContent>
-                <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerMeta[state.theme.lang].title}
-                </Link>
-              </BigContent>
-            </BigNews>
-            <BigNews>
-              <BigFrame>
-                {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
-              </BigFrame>
-              <BigContent>
-                <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerMeta2[state.theme.lang].title}
-                </Link>
-              </BigContent>
-            </BigNews>
-            <BigNews>
-              <BigFrame>
-                {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
-              </BigFrame>
-              <BigContent>
-                <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerMeta3[state.theme.lang].title}
-                </Link>
-              </BigContent>
-            </BigNews>
-            <BigNews>
-              <BigFrame>
-                {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
-              </BigFrame>
-              <BigContent>
-                <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerMeta4[state.theme.lang].title}
-                </Link>
-              </BigContent>
-            </BigNews>
+            {bannerMeta[state.theme.lang].title !== '' && (
+              <BigNews>
+                <BigFrame>
+                  {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+                </BigFrame>
+                <BigContent>
+                  <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
+                    {bannerMeta[state.theme.lang].title}
+                  </Link>
+                </BigContent>
+              </BigNews>
+            )}
+
+            {bannerMeta2[state.theme.lang].title !== '' && (
+              <BigNews>
+                <BigFrame>
+                  {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+                </BigFrame>
+                <BigContent>
+                  <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
+                    {bannerMeta2[state.theme.lang].title}
+                  </Link>
+                </BigContent>
+              </BigNews>
+            )}
+
+            {bannerMeta3[state.theme.lang].title !== '' && (
+              <BigNews>
+                <BigFrame>
+                  {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+                </BigFrame>
+                <BigContent>
+                  <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
+                    {bannerMeta3[state.theme.lang].title}
+                  </Link>
+                </BigContent>
+              </BigNews>
+            )}
+
+            {bannerMeta4[state.theme.lang].title !== '' && (
+              <BigNews>
+                <BigFrame>
+                  {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+                </BigFrame>
+                <BigContent>
+                  <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
+                    {bannerMeta4[state.theme.lang].title}
+                  </Link>
+                </BigContent>
+              </BigNews>
+            )}
           </BigNewsContainer>
 
           <BigBanner>
