@@ -139,6 +139,7 @@ export const Navigation = styled.nav`
     margin-right: 16px;
     text-decoration: none;
     transition: all .3s;
+    white-space: nowrap;
 
     &:hover {
       color: #000;
