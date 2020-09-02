@@ -197,8 +197,8 @@ const MainTemplate = ({ state, libraries, actions }) => {
     state.customSettings.lastLoadMore = true;
 
     const config = {
-      cat_minus: '-28, -14',
-      post_minus: bannerId,
+      cat_minus: '',
+      post_minus: [],
     };
     axios.get(
       `${state.source.api}/frontity-api/get-last/page/${state.customSettings.lastNumberPage}`,
