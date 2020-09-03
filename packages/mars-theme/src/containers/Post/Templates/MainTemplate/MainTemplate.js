@@ -31,6 +31,7 @@ import {
   NotLoadPost,
   PdfLink,
   BigContentEmpty,
+  NewsBanner,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
@@ -353,10 +354,17 @@ const MainTemplate = ({ state, libraries, actions }) => {
             >
               {
                 lastPost.map((item, index) => (
-                  <TimeLine
-                    key={index}
-                    data={item}
-                  />
+                  <>
+                    <TimeLine
+                      key={index}
+                      data={item}
+                    />
+                    {index === 4 && (
+                      <NewsBanner>
+                        <Banner width='100%' height='350px' link={bannerMA.link} bannerImg={bannerMA.img.url} />
+                      </NewsBanner>
+                    )}
+                  </>
                 ))
               }
             </InfiniteScroll>
@@ -373,7 +381,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
               }
             </TextPostList>
             {bannerMA && bannerMA.link && bannerMA.img && (
-              <RightBanner ref={contentRef}> <Banner isFixed={fixedLinks} width='331px' height='350px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
+              <RightBanner ref={contentRef}> <Banner isFixed={fixedLinks} width='331px' height='250px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
             )}
           </AnalyticNews>
         </FlexBlock>

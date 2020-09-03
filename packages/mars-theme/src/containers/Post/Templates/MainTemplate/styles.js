@@ -1,7 +1,7 @@
 import { styled, css } from 'frontity';
 import SvgSprite from '../../../../components/SvgSprite';
 import {
-  SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL,
+  SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE
 } from '../../../../const/responsive';
 
 export const Wrapper = styled.div`
@@ -291,6 +291,15 @@ export const FullBanner = styled.div`
 export const FlexBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+
+export const NewsBanner = styled.div`
+  position: relative;
+  display: none;
+  @media screen and (max-width: ${SIZE_MOBILE}px) {
+    display: block;
+    margin-bottom: 65px
+  }
 `;
 
 export const LastNews = styled.div`
