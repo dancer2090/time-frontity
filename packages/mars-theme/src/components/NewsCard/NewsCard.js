@@ -90,18 +90,18 @@ const NewsCard = ({
       <FrameBlock>
         {
           type === 'video' && (
-            <>
+            <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
               <Frame src={linkVideo} />
               <VideoButton src={videoPlay} />
               <TimeVideo>
                 { timeValue }
               </TimeVideo>
-            </>
+            </Link>
           )
         }
         {
           type === 'photo' && (
-            <>
+            <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
               <Frame
                 src={counterImages > 0
                   ? imageUrlCheck(itemAcf.images[0].image.url, urlsWithLocal)
@@ -113,11 +113,15 @@ const NewsCard = ({
                   { counterImages }
                 </PhotoCounterValue>
               </PhotoCounter>
-            </>
+            </Link>
           )
         }
         {
-          type === '' && <Frame src={newsImage} />
+          type === '' && (
+            <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
+              <Frame src={newsImage} />
+            </Link>
+          )
         }
       </FrameBlock>
       <Content>

@@ -256,7 +256,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
           <BigNewsContainer>
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
-                {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+                <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+                </Link>
               </BigFrame>
               <BigContent>
                 <BigContentEmpty>
@@ -269,7 +271,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
-                {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+                <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+                </Link>
               </BigFrame>
               <BigContent>
                 <BigContentEmpty>
@@ -282,7 +286,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
-                {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+                <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+                </Link>
               </BigFrame>
               <BigContent>
                 <BigContentEmpty>
@@ -295,7 +301,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
-                {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+                <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
+                  {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+                </Link>
               </BigFrame>
               <BigContent>
                 <BigContentEmpty>
