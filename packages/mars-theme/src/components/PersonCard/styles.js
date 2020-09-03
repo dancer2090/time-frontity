@@ -4,6 +4,8 @@ import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '.
 export const FrameBlock = styled.div`
   width: 50%;
   height: 370px;
+  position: relative;
+  overflow: hidden;
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     height: 300px;
@@ -147,6 +149,8 @@ export const Card = styled.div`
           ${FrameBlock} {
             width: 100%;
             height: 218px;
+            overflow: hidden;
+            position: relative;
           }
           ${Content} {
             flex-grow: 2;
@@ -166,6 +170,8 @@ export const Card = styled.div`
           ${FrameBlock} {
             min-height: 227px;
             height: auto;
+            overflow: hidden;
+            position: relative;
           }
           
           ${Content} {
@@ -217,6 +223,7 @@ export const Frame = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
 `;
 
 export const ContentBlock = styled.div`
