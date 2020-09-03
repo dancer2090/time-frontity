@@ -37,7 +37,9 @@ const NewsCardPreview = ({
   return (
     <Card>
       <FrameBlock size={size}>
-        <FrameImage src={resultImageUrl || imageUrlCheck(logoImage, urlsWithLocal)} style={{ objectFit: !resultImageUrl ? 'contain' : null }} />
+        <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
+          <FrameImage src={resultImageUrl || imageUrlCheck(logoImage, urlsWithLocal)} style={{ objectFit: !resultImageUrl ? 'contain' : null }} />
+        </Link>
       </FrameBlock>
       <Content size={size}>
         <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
