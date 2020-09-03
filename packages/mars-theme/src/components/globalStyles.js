@@ -61,7 +61,13 @@ export const globalStyles = css`
       outline: none;
     }
   }
-  
+
+  @keyframes MuiSkeleton-keyframes-pulse{
+    0%{opacity:1}
+    50%{opacity:.4}
+    100%{opacity:1}
+  }
+
   /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); */
 

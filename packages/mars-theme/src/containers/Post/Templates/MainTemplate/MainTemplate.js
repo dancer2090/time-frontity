@@ -30,6 +30,7 @@ import {
   Loading,
   NotLoadPost,
   PdfLink,
+  BigContentEmpty,
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import SocialList from '../../../../components/SocialList';
@@ -252,57 +253,57 @@ const MainTemplate = ({ state, libraries, actions }) => {
 
         <BigNewsWrapper>
           <BigNewsContainer>
-            {bannerMeta[state.theme.lang].title !== '' && (
-              <BigNews>
-                <BigFrame>
-                  {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
-                </BigFrame>
-                <BigContent>
+            <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
+              <BigFrame>
+                {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+              </BigFrame>
+              <BigContent>
+                <BigContentEmpty>
                   <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
                     {bannerMeta[state.theme.lang].title}
                   </Link>
-                </BigContent>
-              </BigNews>
-            )}
+                </BigContentEmpty>
+              </BigContent>
+            </BigNews>
 
-            {bannerMeta2[state.theme.lang].title !== '' && (
-              <BigNews>
-                <BigFrame>
-                  {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
-                </BigFrame>
-                <BigContent>
+            <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
+              <BigFrame>
+                {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+              </BigFrame>
+              <BigContent>
+                <BigContentEmpty>
                   <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
                     {bannerMeta2[state.theme.lang].title}
                   </Link>
-                </BigContent>
-              </BigNews>
-            )}
+                </BigContentEmpty>
+              </BigContent>
+            </BigNews>
 
-            {bannerMeta3[state.theme.lang].title !== '' && (
-              <BigNews>
-                <BigFrame>
-                  {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
-                </BigFrame>
-                <BigContent>
+            <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
+              <BigFrame>
+                {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+              </BigFrame>
+              <BigContent>
+                <BigContentEmpty>
                   <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
                     {bannerMeta3[state.theme.lang].title}
                   </Link>
-                </BigContent>
-              </BigNews>
-            )}
+                </BigContentEmpty>
+              </BigContent>
+            </BigNews>
 
-            {bannerMeta4[state.theme.lang].title !== '' && (
-              <BigNews>
-                <BigFrame>
-                  {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
-                </BigFrame>
-                <BigContent>
+            <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
+              <BigFrame>
+                {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+              </BigFrame>
+              <BigContent>
+                <BigContentEmpty>
                   <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
                     {bannerMeta4[state.theme.lang].title}
                   </Link>
-                </BigContent>
-              </BigNews>
-            )}
+                </BigContentEmpty>
+              </BigContent>
+            </BigNews>
           </BigNewsContainer>
 
           <BigBanner>

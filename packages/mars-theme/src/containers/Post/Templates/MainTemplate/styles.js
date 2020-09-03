@@ -106,26 +106,6 @@ export const BigNewsWrapper = styled.div`
   }
 `;
 
-export const BigNews = styled.div`
-  width: calc(50% - 33px);
-  margin-right: 33px;
-  background: white;
-  
-  @media screen and (max-width: ${SIZE_LAPTOP}px) {
-    width: 100%;
-    margin-right: 0;
-  } 
-`;
-export const BigNewsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  & ${BigNews}:nth-of-type(3){
-    margin-top: 20px;
-  }
-  & ${BigNews}:nth-of-type(4){
-    margin-top: 20px;
-  }
-`;
 export const BigBanner = styled.div`
   width: 348px;
   background: transparent;
@@ -200,6 +180,48 @@ export const BigContent = styled.div`
       font-size: 14px;
       line-height: 21px;
     }
+  }
+`;
+
+export const BigContentEmpty = styled.div`
+  display: block;
+  width: 100%;
+  min-height: 20px;
+`;
+
+export const BigNews = styled.div`
+  width: calc(50% - 33px);
+  margin-right: 33px;
+  background: white;
+  ${props => props.skeleton && css`
+    animation: MuiSkeleton-keyframes-pulse 1.5s ease-in-out 0.5s infinite;
+    & ${BigContent}:empty:before{
+      content: " ";
+    }
+    & ${BigContent} ${BigContentEmpty}{
+      background-color: rgba(0,0,0,0.11);
+      display: block;
+    }
+    & ${BigFrame}{
+      background-color: rgba(0,0,0,0.11);
+    }
+  `}
+
+  @media screen and (max-width: ${SIZE_LAPTOP}px) {
+    width: 100%;
+    margin-right: 0;
+  } 
+`;
+
+export const BigNewsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  & ${BigNews}:nth-of-type(3){
+    margin-top: 20px;
+  }
+  & ${BigNews}:nth-of-type(4){
+    margin-top: 20px;
   }
 `;
 
