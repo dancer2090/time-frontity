@@ -177,7 +177,9 @@ const Header = ({ state, libraries, actions }) => {
             </MobileSearch>
           </TopLayout>
           <BottomContent ref={navigation}>
-            <ScrollImage resize={resizeContainer} src={urlImage} />
+            <Link link="/">
+              <ScrollImage resize={resizeContainer} src={urlImage} />
+            </Link>
             <BottomRelative>
               <Navigation>
                 {
