@@ -14,12 +14,6 @@ const TextPost = ({ state, className, item, libraries }) => {
     date : itemDate = "",
   } = item;
   const {
-    author : itemAuthor = []
-  } = itemEmbed;
-  const {
-    name : itemAuthorName = ""
-  } = itemAuthor[0];
-  const {
     uk : itemUk = { title : "", content : "" },
     ru : itemRu = { title : "", content : "" },
   } = itemAcf;
@@ -27,15 +21,24 @@ const TextPost = ({ state, className, item, libraries }) => {
     'uk' : itemUk,
     'ru' : itemRu,
   };
+  const {
+    author_alt : authorAlt = {}
+  } = itemEmbed;
+  const {
+    acf : authorAcf = {},
+    link : authorLink = '',
+  } = authorAlt;
 
   return (
     <Post className={className}>
       <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])} className="post-name">
         {itemMeta[state.theme.lang].title}
       </Link>
-      <Link link="#" className="post-author">
-        { itemAuthorName }
-      </Link>
+      { authorAlt && authorAlt !== {} && authorAcf && authorAcf !== {} && (
+        <Link link={authorLink} className="post-author">
+          { authorAcf[state.theme.lang].title }
+        </Link>
+      )}
     </Post>
   )
 };
