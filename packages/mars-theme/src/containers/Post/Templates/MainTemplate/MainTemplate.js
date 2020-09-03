@@ -203,10 +203,10 @@ const MainTemplate = ({ state, libraries, actions }) => {
     if (contentRef) {
       const contentTop = contentRef.current.offsetTop;
       const contentBottom = contentTop + contentRef.current.offsetHeight;
-      if (window.pageYOffset - contentTop < -160) {
-        setFixedLink(false);
-      } else if (window.pageYOffset - contentTop >= -10 && contentBottom - window.pageYOffset >= 350) {
+      if (window.pageYOffset - contentTop >= -10) {
         setFixedLink(true);
+      } else {
+        setFixedLink(false);
       }
     }
   };
