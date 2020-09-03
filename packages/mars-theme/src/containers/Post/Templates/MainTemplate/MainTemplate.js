@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'frontity';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -45,10 +45,12 @@ import Banner from '../../../../components/Banner/Banner';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 
 const MainTemplate = ({ state, libraries, actions }) => {
+  const contentRef = useRef(null);
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreHidden, setLoadMoreHidden] = useState(false);
   const [loadMoreTimeLine, setLoadMoreTimeLine] = useState(false);
+  const [fixedLinks, setFixedLink] = useState(false);
 
   const { lang = 'ru' } = state.theme;
   const { urlCheck } = libraries.func;
@@ -191,7 +193,21 @@ const MainTemplate = ({ state, libraries, actions }) => {
   useEffect(() => {
     actions.theme.getMain();
     loadData();
+    scrollControl();
+    window.addEventListener('scroll', scrollControl);
   }, []);
+
+  const scrollControl = () => {
+    if (contentRef) {
+      const contentTop = contentRef.current.offsetTop;
+      const contentBottom = contentTop + contentRef.current.offsetHeight;
+      if (window.pageYOffset - contentTop < -160) {
+        setFixedLink(false);
+      } else if (window.pageYOffset - contentTop >= -10 && contentBottom - window.pageYOffset >= 350) {
+        setFixedLink(true);
+      }
+    }
+  };
 
   const fetchMoreData = () => {
     state.customSettings.lastLoadMore = true;
@@ -356,7 +372,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
               }
             </TextPostList>
             {bannerMA && bannerMA.link && bannerMA.img && (
-              <RightBanner> <Banner width='331px' height='350px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
+              <RightBanner ref={contentRef}> <Banner isFixed={fixedLinks} width='331px' height='350px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
             )}
           </AnalyticNews>
         </FlexBlock>

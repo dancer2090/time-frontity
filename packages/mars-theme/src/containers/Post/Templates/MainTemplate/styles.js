@@ -1,4 +1,4 @@
-import { styled } from 'frontity';
+import { styled, css } from 'frontity';
 import SvgSprite from '../../../../components/SvgSprite';
 import {
   SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL,
@@ -304,7 +304,6 @@ export const RightBanner = styled.div`
   width: 100%;
   height: auto;
   min-height: 350px;
-  background: silver;
 `;
 
 export const Loading = styled.span`

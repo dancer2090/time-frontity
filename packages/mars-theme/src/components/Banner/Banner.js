@@ -14,6 +14,8 @@ const Banner = ({
   bannerImg='',
   libraries,
   state,
+  isFixed = false,
+  right = '0',
 }) => {
   const [timeValue, setTimeValue] = useState('');
   const { urlCheck } = libraries.func;
@@ -23,7 +25,7 @@ const Banner = ({
   const urlResourse = imageUrlCheck(bannerImg, urlsWithLocal);
 
   return (
-    <BannerContainer width={width} height={height}>
+    <BannerContainer isFixed={isFixed} width={width} height={height}>
       <a target='_blank' rel='nofollow' href={link}>
         <BannerImg src={bannerImg} />
       </a>
