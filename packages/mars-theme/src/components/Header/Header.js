@@ -137,7 +137,8 @@ const Header = ({ state, libraries, actions }) => {
   const toggleLinks = (e, index) => {
     e.preventDefault();
     setLinksSubMenu(filterMenu[index].subMenu);
-    setShowNavigation(!showNavigation);
+    if(filterMenu[index].subMenu) setShowNavigation(true);
+    else setShowNavigation(!showNavigation);
   };
 
   const showSearchBlock = () => {
