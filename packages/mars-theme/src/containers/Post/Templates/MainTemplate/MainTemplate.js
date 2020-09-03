@@ -47,7 +47,7 @@ import Banner from '../../../../components/Banner/Banner';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 
 const MainTemplate = ({ state, libraries, actions }) => {
-  const contentRef = useRef(null);
+  const contentRefOnMainPage = useRef(null);
   const [page, setPage] = useState(1);
   const [lastPost, setLastPost] = useState([]);
   const [loadMoreHidden, setLoadMoreHidden] = useState(false);
@@ -200,9 +200,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
   }, []);
 
   const scrollControl = () => {
-    if (contentRef) {
-      const contentTop = contentRef.current.offsetTop;
-      const contentBottom = contentTop + contentRef.current.offsetHeight;
+    if (contentRefOnMainPage) {
+      const contentTop = contentRefOnMainPage.current.offsetTop;
+      const contentBottom = contentTop + contentRefOnMainPage.current.offsetHeight;
       if (window.pageYOffset - contentTop >= -10) {
         setFixedLink(true);
       } else {
@@ -389,7 +389,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
               }
             </TextPostList>
             {bannerMA && bannerMA.link && bannerMA.img && (
-              <RightBanner ref={contentRef}> <Banner isFixed={fixedLinks} width='331px' height='250px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
+              <RightBanner ref={contentRefOnMainPage}> <Banner isFixed={fixedLinks} width='331px' height='250px' link={bannerMA.link} bannerImg={bannerMA.img.url} /> </RightBanner>
             )}
           </AnalyticNews>
         </FlexBlock>
