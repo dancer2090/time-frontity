@@ -285,7 +285,7 @@ const marsTheme = {
         let rss = {};
         try {
           const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-          //const result = await axios.get(`https://time-admin.webbuilder.in.ua/`); // for test
+          //const result = await axios.get(`https://time-admin.webbuilder.in.ua/news_ru.xml`); // for test
           const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
           rss = resultParse.rss;
         } catch (ex) {
@@ -307,7 +307,7 @@ const marsTheme = {
         item.forEach((item) => {
           if (item && filterCategories.indexOf(item.category._text) !== -1) {
             const date = new Date(item.pubDate._text);
-            const resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+            const resultDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth()}` : date.getMonth()}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()} ${(date.getHours() < 10 ? `0${date.getHours()}` : date.getHours())}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
             resultArrayNews.push({
               ...item,
               link: item.link._text,

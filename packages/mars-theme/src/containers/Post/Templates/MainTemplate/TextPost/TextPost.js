@@ -34,11 +34,11 @@ const TextPost = ({ state, className, item, libraries }) => {
       <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])} className="post-name">
         {itemMeta[state.theme.lang].title}
       </Link>
-      { authorAlt && authorAlt !== {} && authorAcf && authorAcf !== {} && (
+      {/* authorAlt && authorAlt !== {} && authorAcf && authorAcf !== {} && (
         <Link link={authorLink} className="post-author">
           { authorAcf[state.theme.lang].title }
         </Link>
-      )}
+      )*/}
     </Post>
   )
 };

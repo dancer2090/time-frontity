@@ -1,5 +1,6 @@
 export const formatDatePost = (lang, valueDate) => {
-  const date = new Date(valueDate.replace(/\s/, 'T'));
+  const date = new Date(valueDate);
+  //console.log(date);
   const options = {
     year: 'numeric',
     month: 'long', 
@@ -16,7 +17,7 @@ export const formatDatePost = (lang, valueDate) => {
 };
 
 export const formatDate = (lang, valueDate) => {
-  const date = new Date(valueDate);
+  const date = new Date(valueDate.replace(/\s/, 'T'));
   const options = {
     year: 'numeric',
     month: 'long',
@@ -28,13 +29,13 @@ export const formatDate = (lang, valueDate) => {
   })}`;
 
   if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')}`;
+    return `${resultDate.replace(' г.', '').replace(/\s/, 'T')}`;
   }
-  return `${resultDate.replace(' р.', '')}`;
+  return `${resultDate.replace(' р.', '').replace(/\s/, 'T')}`;
 };
 
 export const formatDatePerson = (lang, valueDate) => {
-  const date = new Date(valueDate);
+  const date = new Date(valueDate.replace(/\s/, 'T'));
   const options = {
     year: 'numeric',
     month: 'long',
@@ -44,7 +45,7 @@ export const formatDatePerson = (lang, valueDate) => {
   const locales = lang === 'ru' ? 'ru' : 'uk';
   const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}`;
   if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')}`;
+    return `${resultDate.replace(' г.', '').replace(/\s/, 'T')}`;
   }
-  return `${resultDate.replace(' р.', '')}`;
+  return `${resultDate.replace(' р.', '').replace(/\s/, 'T')}`;
 };
