@@ -1,8 +1,8 @@
 export const formatDatePost = (lang, valueDate) => {
-  const date = new Date(valueDate);
+  const date = new Date(valueDate.replace(/\s/, 'T'));
   const options = {
     year: 'numeric',
-    month: 'long',
+    month: 'long', 
     day: '2-digit',
   };
   // uk-UA
