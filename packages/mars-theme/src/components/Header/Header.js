@@ -159,7 +159,7 @@ const Header = ({ state, libraries, actions }) => {
             <BurgerButton onClick={() => setShowMobileModal(true)}>
               <BurgerIcon name="burger" />
             </BurgerButton>
-            <Link link="/">
+            <Link link="/" afterClick={() => setShowNavigation(false)}>
               <Logo src={urlImage} />
             </Link>
             <MobileSearchIcon onClick={() => showSearchBlockMobile()} name="search" />
@@ -177,7 +177,7 @@ const Header = ({ state, libraries, actions }) => {
             </MobileSearch>
           </TopLayout>
           <BottomContent ref={navigation}>
-            <Link link="/">
+            <Link link="/" afterClick={() => setShowNavigation(false)}>
               <ScrollImage resize={resizeContainer} src={urlImage} />
             </Link>
             <BottomRelative>

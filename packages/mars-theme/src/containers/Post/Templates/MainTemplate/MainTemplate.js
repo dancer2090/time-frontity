@@ -195,12 +195,12 @@ const MainTemplate = ({ state, libraries, actions }) => {
   useEffect(() => {
     actions.theme.getMain();
     loadData();
-    scrollControl();
+    //scrollControl();
     window.addEventListener('scroll', scrollControl);
   }, []);
 
   const scrollControl = () => {
-    if (contentRefOnMainPage) {
+    if (contentRefOnMainPage && contentRefOnMainPage.current && contentRefOnMainPage.current.offsetTop) {
       const contentTop = contentRefOnMainPage.current.offsetTop;
       const contentBottom = contentTop + contentRefOnMainPage.current.offsetHeight;
       if (window.pageYOffset - contentTop >= -10) {
