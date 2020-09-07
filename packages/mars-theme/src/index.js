@@ -284,8 +284,8 @@ const marsTheme = {
         const { lang = 'ru' } = state.theme;
         let rss = {};
         try {
-          //const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-          const result = await axios.get(`https://time-admin.webbuilder.in.ua/`); // for test
+          const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+          //const result = await axios.get(`https://time-admin.webbuilder.in.ua/`); // for test
           const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
           rss = resultParse.rss;
         } catch (ex) {
