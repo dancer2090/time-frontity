@@ -1,5 +1,5 @@
 export const formatDatePost = (lang, valueDate) => {
-  const date = new Date(valueDate);
+  const date = new Date(valueDate.replace(/\s/, 'T'));
   //console.log(date);
   const options = {
     year: 'numeric',
@@ -29,9 +29,9 @@ export const formatDate = (lang, valueDate) => {
   })}`;
 
   if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '').replace(/\s/, 'T')}`;
+    return `${resultDate.replace(' г.', '')}`;
   }
-  return `${resultDate.replace(' р.', '').replace(/\s/, 'T')}`;
+  return `${resultDate.replace(' р.', '')}`;
 };
 
 export const formatDatePerson = (lang, valueDate) => {
@@ -45,7 +45,7 @@ export const formatDatePerson = (lang, valueDate) => {
   const locales = lang === 'ru' ? 'ru' : 'uk';
   const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}`;
   if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '').replace(/\s/, 'T')}`;
+    return `${resultDate.replace(' г.', '')}`;
   }
-  return `${resultDate.replace(' р.', '').replace(/\s/, 'T')}`;
+  return `${resultDate.replace(' р.', '')}`;
 };

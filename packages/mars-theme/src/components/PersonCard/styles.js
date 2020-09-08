@@ -136,6 +136,14 @@ export const DateBlock = styled.div`
   }
 `;
 
+
+export const ContentBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 2;
+`;
+
 export const Card = styled.div`
   display: flex;
   width: 100%;
@@ -156,6 +164,10 @@ export const Card = styled.div`
             flex-grow: 2;
             width: 100%;
             padding: 19px 25px;
+            ${ContentBlock} {
+              justify-content: flex-start;
+            }
+
           }
           ${Text} {
             margin-bottom: 22px;
@@ -224,11 +236,4 @@ export const Frame = styled.img`
   height: 100%;
   object-fit: cover;
   position: absolute;
-`;
-
-export const ContentBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  flex-grow: 2;
 `;

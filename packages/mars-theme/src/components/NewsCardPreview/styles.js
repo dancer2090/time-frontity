@@ -3,6 +3,9 @@ import {SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../const/responsiv
 
 export const Card = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 `;
 
 export const FrameBlock = styled.div`
@@ -43,7 +46,8 @@ export const FrameImage = styled.img`
 export const Content = styled.div`
   background: white;
   padding: 19px 22px;
-  
+  flex: 1;
+  display: flex;
   a {
     text-decoration: none;
     font-weight: 600;

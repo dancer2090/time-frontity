@@ -70,7 +70,7 @@ const NewsCard = ({
     ],
   };
 
-  const date = new Date(itemDate);
+  const date = new Date(itemDate.replace(/\s/, 'T'));
   const monthDay = date.getDate();
   const month = date.getMonth() + 1;
   const mothValue = months[state.theme.lang][month - 1];

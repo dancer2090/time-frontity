@@ -9,10 +9,10 @@ export const Card = styled.div`
   box-shadow: none;
   text-decoration: none;
   transition: all .3s ease-in-out;
-  
+
   &:hover {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-    
+
     a {
       color: rgba(40, 40, 40, 0.75);
     }
@@ -37,7 +37,6 @@ export const Content = styled.div`
   flex-grow: 2;
   padding: 18px 19px;
   background-color: white;
-
   & > a {
     display: block;
     flex-grow: 2;

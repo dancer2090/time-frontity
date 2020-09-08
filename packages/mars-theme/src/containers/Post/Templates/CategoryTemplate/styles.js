@@ -41,7 +41,7 @@ export const ContentWrapper = styled.div`
 
 export const ItemCard = styled.div`
   margin-right: 33px;
-  
+  display: flex;
   ${({ index }) => {
     if (index > 1) return 'width: calc((100% / 3) - 33px);';
     return 'width: calc(50% - 33px); margin-bottom: 33px;';

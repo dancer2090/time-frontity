@@ -57,6 +57,10 @@ export const Row = styled.div`
 export const Col = styled.div`
   width: calc((100% / 3) - 33px);
   margin-right: 33px;
+  display: flex;
+  & a{
+    display: flex;
+  }
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {
     width: calc(50% - 15px);
