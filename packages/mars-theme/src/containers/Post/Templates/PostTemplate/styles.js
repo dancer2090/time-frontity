@@ -249,7 +249,7 @@ export const Content = styled.div`
   }
   
   blockquote {
-    padding-left: 59px;
+    padding-left: 144px;
     position: relative;
     font-style: italic;
     font-weight: normal;
@@ -257,7 +257,6 @@ export const Content = styled.div`
     line-height: 27px;
     letter-spacing: 0.02em;
     color: #000000;
-    display: flex;
     
     &:before {
       content: "";
@@ -268,7 +267,8 @@ export const Content = styled.div`
       background-image: url(${quoteSvg});
       background-size: contain;
       background-repeat: no-repeat;
-      margin-right: 38px;
+      position: absolute;
+      left: 59px;
     }
   }
   
@@ -281,12 +281,13 @@ export const Content = styled.div`
      }
      
       blockquote {
-        padding-left: 0;
+        padding-left: 59px;
         font-size: 14px;
         line-height: 23px;
         
         &:before {
           margin-right: 26px;
+          left: 0px;
         }
       }
      
