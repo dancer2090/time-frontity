@@ -10,7 +10,7 @@ import Link from '../../link';
 const TimeLinePost = ({ postContent = {}, libraries, state }) => {
   // Component exposed by html2react.
   const Html2React = libraries.html2react.Component;
-  const { urlCheck } = libraries.func;
+  const { urlCheck, cutStr } = libraries.func;
   const { lang = 'ru' } = state.theme;
   const {
     acf = {},
@@ -43,7 +43,7 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
                 { titleCategory }
               </Category>
               <Text>
-                <Html2React html={title} />
+                <Html2React html={cutStr(title,75)} />
               </Text>
             </a>
           )
@@ -53,7 +53,7 @@ const TimeLinePost = ({ postContent = {}, libraries, state }) => {
                 { titleCategory }
               </Category>
               <Text>
-                <Html2React html={title} />
+                <Html2React html={cutStr(title,75)} />
               </Text>
             </Link>
           )

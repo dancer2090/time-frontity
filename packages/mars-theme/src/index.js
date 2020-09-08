@@ -8,7 +8,7 @@ import axios from 'axios';
 import Theme from './containers';
 import imageUrl from './processors/imageUrl';
 import linkUrls from './processors/linkUrls';
-import { linkReplace, linkImageReplace, linkSeoReplacer } from './utils/func';
+import { linkReplace, linkImageReplace, linkSeoReplacer, cutStr } from './utils/func';
 
 const newHandler = {
   name: 'categoryOrPostType',
@@ -388,6 +388,7 @@ const marsTheme = {
       urlCheck: linkReplace,
       imageUrlCheck: linkImageReplace,
       urlSeoCheck: linkSeoReplacer,
+      cutStr: cutStr,
     },
     source: {
       handlers: [

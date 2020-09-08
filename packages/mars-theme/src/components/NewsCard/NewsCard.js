@@ -32,7 +32,7 @@ const NewsCard = ({
   time = '',
 }) => {
   const [timeValue, setTimeValue] = useState('');
-  const { urlCheck } = libraries.func;
+  const { urlCheck, cutStr } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const urlResourse = imageUrlCheck(ukrNet, urlsWithLocal);
@@ -84,7 +84,6 @@ const NewsCard = ({
     const { images = [] } = itemAcf;
     counterImages = images.length;
   }
-
   return (
     <Card className={className}>
       <FrameBlock>
@@ -126,7 +125,7 @@ const NewsCard = ({
       </FrameBlock>
       <Content>
         <Link link={urlCheck(itemLink, [state.frontity.url, state.frontity.adminUrl])}>
-          {itemMeta[state.theme.lang].title}
+          {cutStr(itemMeta[state.theme.lang].title,75)}
         </Link>
         <Information>
           <DateValue>

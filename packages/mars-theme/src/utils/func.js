@@ -29,3 +29,9 @@ export const linkSeoReplacer = (url, replaces = [], value) => {
   }
   return newLink;
 };
+
+export const cutStr = (str='', count=0) => {
+  let newStr = str.substr(0,count);
+  if(str.length > count) newStr = newStr + '...';
+  return newStr;
+};

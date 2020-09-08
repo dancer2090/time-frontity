@@ -14,7 +14,7 @@ const NewsCardPreview = ({
 }) => {
   // Get the html2react component.
   const Html2React = libraries.html2react.Component;
-  const { urlCheck } = libraries.func;
+  const { urlCheck, cutStr } = libraries.func;
   const { imageUrlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const { lang = 'ru' } = state.theme;
@@ -43,7 +43,7 @@ const NewsCardPreview = ({
       </FrameBlock>
       <Content size={size}>
         <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
-          <Html2React html={title} />
+          <Html2React html={cutStr(title,75)} />
         </Link>
       </Content>
     </Card>

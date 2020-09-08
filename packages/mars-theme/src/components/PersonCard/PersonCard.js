@@ -25,7 +25,7 @@ const PersonCard = ({
 }) => {
   // Component exposed by html2react.
   const Html2React = libraries.html2react.Component;
-  const { imageUrlCheck } = libraries.func;
+  const { imageUrlCheck, cutStr } = libraries.func;
   const { urlCheck } = libraries.func;
   const { urlsWithLocal = {} } = state.customSettings;
   const { lang = 'ru' } = state.theme;
@@ -59,10 +59,10 @@ const PersonCard = ({
         <Content>
           <ContentBlock>
             <Title sizeText={sizeText}>
-              <Html2React html={card_title} />
+              <Html2React html={cutStr(card_title,75)} />
             </Title>
             <Text sizeText={sizeText}>
-              <Html2React html={card_description} />
+              <Html2React html={cutStr(card_description,75)} />
             </Text>
           </ContentBlock>
           <DateBlock sizeText={sizeText}>
