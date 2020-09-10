@@ -331,7 +331,6 @@ export const Links = styled.div`
     font-weight: 600;
     font-size: 12px;
     line-height: 15px;
-    text-transform: capitalize;
     color: #282828;
     text-decoration: none;
     transition: all .3s;
