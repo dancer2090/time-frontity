@@ -312,7 +312,8 @@ export const ContentItem = styled.div`
   }
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    font-size: 12px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
     line-height: 23px;
     
     blockquote {
@@ -321,7 +322,8 @@ export const ContentItem = styled.div`
         min-width: 26px;
         height: 18px;
         margin-right: 26px;
-        font-size: 12px;
+        font-size: 13px;
+        letter-spacing: 0.02em;
         line-height: 23px;
       }
     }
@@ -372,7 +374,8 @@ export const ContentItem = styled.div`
     
     ul, ol {
       li {
-        font-size: 12px;
+        font-size: 13px;
+        letter-spacing: 0.02em;
         line-height: 23px;
       }
     }
@@ -380,15 +383,16 @@ export const ContentItem = styled.div`
   
   @media screen and (max-width: ${SIZE_MOBILE}px) {
     blockquote {
-      font-size: 12px;
+      font-size: 13px;
+      letter-spacing: 0.02em;
       line-height: 23px;
     }
   }
 
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    font-size: 12px;
-    line-height: 23px;
+    font-size: 13px;
     letter-spacing: 0.02em;
+    line-height: 23px;
     margin-bottom: 15px;
     
     iframe {
