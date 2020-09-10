@@ -169,6 +169,7 @@ const marsTheme = {
       getTags: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-tags/${id}`);
         state.theme.postTags = data;
+        console.log(state.theme.postTags);
         return new Promise((resolve) => {
           resolve('ok');
         });
