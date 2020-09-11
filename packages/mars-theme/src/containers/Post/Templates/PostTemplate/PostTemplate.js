@@ -78,7 +78,16 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const { content = '' } = acf[lang];
   // category post
   const linksCategory = state.router.link.split('/');
-  const categoryPost = linksCategory[1];
+  let cats = '';
+
+  if(linksCategory.length > 4) {
+    for(let i = 1; i < linksCategory.length - 2; i ++){
+      cats = `${cats}/${linksCategory[i]}`;
+    }
+    cats = `${cats}/`;
+  }
+  const categoryPost = cats !== '' ? cats : `/${linksCategory[1]}/`;
+
   // author data
   const { author: authorId = false } = acf;
 
@@ -102,15 +111,15 @@ const PostTemplate = ({ state, libraries, actions }) => {
     categoryName = translator(lang, 'videoTitle');
     categoryData = state.source.get('/video/');
   } else if (post.type === 'persona') {
-    categoryData = state.source.get(`/${categoryPost}/`);
+    categoryData = state.source.get(categoryPost);
     const category = state.source.category[categoryData.id] || {};
     categoryName = translator(lang, 'personCategory');
     type = 'interview';
   } else {
-    categoryData = state.source.get(`/${categoryPost}/`);
+    categoryData = state.source.get(categoryPost);
     const category = state.source.category[categoryData.id] || {};
     const { acf: acfCategory = {} } = category;
-    categoryName = acfCategory[lang].title;
+    categoryName = acfCategory && acfCategory[lang] && acfCategory[lang].title ? acfCategory[lang].title : '';
   }
 
   // big photo
@@ -177,7 +186,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
       <Container>
         <TopNavigation type={type}>
           <Breadcrumbs links={[
-            { name: categoryName, link: `/${categoryPost}/` },
+            { name: categoryName, link: `${categoryPost}` },
             { name: <Html2React html={acf[lang].title} />, link: '#' },
           ]}
           />
