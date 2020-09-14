@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'frontity';
+import moment from 'moment';
 import {
   Card,
   FrameBlock,
@@ -70,11 +71,11 @@ const NewsCard = ({
     ],
   };
 
-  const date = new Date(itemDate.replace(/\s/, 'T'));
-  const monthDay = date.getDate();
-  const month = date.getMonth() + 1;
-  const mothValue = months[state.theme.lang][month - 1];
-  const strDate = `${monthDay} ${mothValue} ${date.getFullYear()} | ${date.getHours()}:${date.getMinutes()}`;
+  const locales = state.theme.lang === 'ru' ? 'ru' : 'uk';
+
+  moment.locale(locales);
+  const strDate = moment(itemDate).utcOffset(3).format("DD MMMM YYYY | HH:mm");
+
   getTimeVideo(time).then((data) => {
     setTimeValue(data);
   });

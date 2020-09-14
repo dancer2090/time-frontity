@@ -1,51 +1,28 @@
+import moment from 'moment';
+
 export const formatDatePost = (lang, valueDate) => {
-  const date = new Date(valueDate.replace(/\s/, 'T'));
-  //console.log(date);
-  const options = {
-    year: 'numeric',
-    month: 'long', 
-    day: '2-digit',
-  };
   // uk-UA
   const locales = lang === 'ru' ? 'ru' : 'uk';
-  const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}`;
-  const minute = date.getMinutes();
-  if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')} | ${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
-  }
-  return `${resultDate.replace(' р.', '')} | ${date.getHours()}:${minute < 10 ? `0${minute}` : minute}`;
+
+  moment.locale(locales);
+  const resultDate = moment(valueDate).utcOffset(3).format("DD MMMM YYYY | HH:mm");
+
+  return `${resultDate}`;
 };
 
 export const formatDate = (lang, valueDate) => {
-  const date = new Date(valueDate.replace(/\s/, 'T'));
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: '2-digit',
-  };
   const locales = lang === 'ru' ? 'ru' : 'uk';
-  const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}, ${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, {
-    weekday: 'long',
-  })}`;
+  moment.locale(locales);
+  const resultDate = moment(valueDate).utcOffset(3).format("DD MMMM YYYY, dddd");
 
-  if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')}`;
-  }
-  return `${resultDate.replace(' р.', '')}`;
+  return `${resultDate}`;
 };
 
 export const formatDatePerson = (lang, valueDate) => {
-  const date = new Date(valueDate.replace(/\s/, 'T'));
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: '2-digit',
-  };
   // uk-UA
   const locales = lang === 'ru' ? 'ru' : 'uk';
-  const resultDate = `${date.toLocaleDateString(`${locales}-${locales.toLowerCase()}`, options)}`;
-  if (lang === 'ru') {
-    return `${resultDate.replace(' г.', '')}`;
-  }
-  return `${resultDate.replace(' р.', '')}`;
+  moment.locale(locales);
+  const resultDate = moment(valueDate).utcOffset(3).format("DD MMMM YYYY");
+
+  return `${resultDate}`;
 };
