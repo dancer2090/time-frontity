@@ -37,7 +37,7 @@ const settings = [
       "name": "@frontity/wp-source",
       "state": {
         "source": {
-          "api": "https://time-admin.webbuilder.in.ua/wp-json",
+          "api": `${process.env.WP_API}`,
           "homepage": '/main',
           "postsPage": '/blog',
           params: {
