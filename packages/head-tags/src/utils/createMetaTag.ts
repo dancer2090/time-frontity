@@ -6,7 +6,6 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
     const {
         acf = {},
     } = data;
-
     return tags.filter(item => {
        if (item.tag === 'title') {
            const {
