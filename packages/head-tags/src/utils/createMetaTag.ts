@@ -6,21 +6,21 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
     const {
         acf = {},
     } = data;
-    return tags.filter(item => {
+    const newTags = [];
+    const n = tags.filter((item, i) => {
        if (item.tag === 'title') {
            const {
                title = '',
            } = acf[lang];
-           return {
+           newTags[i] = {
                tag: item.tag,
                content: title,
            }
        } else if (item.attributes) {
            const { property = '' } = item.attributes;
            const { rel = '' } = item.attributes;
-
            if (property === 'og:locale') {
-               return {
+               newTags[i] = {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
@@ -32,7 +32,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                const {
                    title = '',
                } = acf[lang];
-               return {
+               newTags[i] = {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
@@ -41,11 +41,11 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                }
            }
            if (property === 'og:url') {
-               return {
+               newTags[i] = {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
-                       content: checkUrl(lang === 'ru' ? item.attributes.content : `/uk/${item.attributes.content}`)
+                       content: checkUrl(lang === 'ru' ? item.attributes.content : `${item.attributes.content}?lang=uk`)
                    }
                }
            }
@@ -53,7 +53,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                const {
                    content = '',
                } = acf[lang];
-               return {
+               newTags[i] = {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
@@ -68,7 +68,7 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                const {
                    source_url: urlImage = '',
                } = state.source.attachment[media];
-               return {
+               newTags[i] = {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
@@ -77,10 +77,11 @@ export const createMetaTag = (data, lang: string, checkUrl, imageCheck, state) =
                }
            }
            if (rel === 'shortlink') {
-              //  console.log(';askd;laks;dlka;skd;laksl;d');
-               return false;
+              tags.splice(i,i);
            }
        }
-       return item
+       //return item
     });
+    Object.assign(tags, newTags);
+    return tags;
 };

@@ -12,11 +12,11 @@ const imageUrl = {
   ignore: true,
   processor: ({ node, state }) => {
     const reg = new RegExp(state.frontity.adminUrl, 'g');
-    /*
+    
     if (!state.frontity.isLocal) {
       node.props.src = node.props.src.replace(reg, state.frontity.url);
       node.props.srcSet = node.props.srcSet.replace(reg, state.frontity.url);
-    }*/
+    }
     return node;
   },
 };
