@@ -37,7 +37,7 @@ const settings = [
       "name": "@frontity/wp-source",
       "state": {
         "source": {
-          "api": process.env.WP_API,
+          "api": `${process.env.WP_API}`,
           "homepage": '/main',
           "postsPage": '/blog',
           params: {

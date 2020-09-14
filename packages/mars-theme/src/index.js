@@ -18,7 +18,6 @@ const newHandler = {
     route, params, state, libraries,
   }) => {
     // 1. try with category.
-    console.log('hand1');
     const error = [];
     try {
       const category = libraries.source.handlers.find(
@@ -285,7 +284,6 @@ const marsTheme = {
         let rss = {};
         try {
           const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-          //const result = await axios.get(`https://time-admin.webbuilder.in.ua/news_ru.xml`); // for test
           const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
           rss = resultParse.rss;
         } catch (ex) {
