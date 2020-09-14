@@ -72,6 +72,9 @@ export const Col = styled.div`
     width: 100%;
     margin-right: 0;
     margin-bottom: 15px;
+    & a{
+      width: 100%;
+    }
   }
 `;
 
