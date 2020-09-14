@@ -65,7 +65,6 @@ const HeadTags = ({ state, libraries, actions }) => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
       Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state));
     }
-    console.log(headTagsData);
   },[])
 
   return (
