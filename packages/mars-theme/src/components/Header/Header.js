@@ -243,7 +243,7 @@ const Header = ({ state, libraries, actions }) => {
                   ))
                 }
               </LanguageShow>
-            </Language>
+            </Language> 
            
           </BottomContent>
         </Container>

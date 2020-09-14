@@ -1,6 +1,7 @@
 import { styled } from 'frontity';
 import SvgSprite from '../../SvgSprite';
 import SubscribeNews from '../../SubscribeNews';
+import { SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL } from '../../../const/responsive';
 
 export const MobileMenuWrapper = styled.div`
   position: fixed;

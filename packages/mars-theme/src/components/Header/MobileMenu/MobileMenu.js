@@ -42,11 +42,12 @@ const MobileMenu = ({
 
   const toggleItem = (event, index) => {
     event.preventDefault();
-
+    const htmlItems = subContent.current.parentElement.parentElement.childNodes;
     const result = navigation.map((item, indexEl) => {
       if (index === indexEl) {
         const activeValue = !item.active;
-        const height = activeValue ? subContent.current.scrollHeight : 0;
+        const htmlSubMenu = htmlItems[index].childNodes;
+        const height = activeValue ? htmlSubMenu[htmlSubMenu.length - 1].scrollHeight : 0;
         return {
           ...item,
           active: activeValue,
