@@ -354,7 +354,7 @@ export const Content = styled.div`
   }
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 23px;
     
     blockquote {
@@ -363,7 +363,7 @@ export const Content = styled.div`
         min-width: 26px;
         height: 18px;
         margin-right: 26px;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 23px;
       }
     }
@@ -414,7 +414,7 @@ export const Content = styled.div`
     
     ul, ol {
       li {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 23px;
       }
     }
@@ -422,7 +422,7 @@ export const Content = styled.div`
   
   @media screen and (max-width: ${SIZE_MOBILE}px) {
     blockquote {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 23px;
     }
   }
@@ -471,7 +471,7 @@ export const AuthorName = styled.span`
   text-decoration: none;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 

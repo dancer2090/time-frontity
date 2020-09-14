@@ -94,8 +94,8 @@ const MobileMenu = ({
 
   return (
     <MobileMenuWrapper isOpen={isOpen}>
-      <Overflow onClick={() => closeModal()} />
       <MenuWrapper isOpen={isOpen}>
+        <Overflow onClick={() => closeModal()} />
         <MenuHeader>
           <MenuClose name="close" onClick={() => closeModal()} />
           <MobileLanguage onClick={() => changeLang()}>
