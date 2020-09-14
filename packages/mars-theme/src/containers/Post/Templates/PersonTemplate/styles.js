@@ -60,6 +60,7 @@ export const Col = styled.div`
   display: flex;
   & a{
     display: flex;
+    width: 100%;
   }
   
   @media screen and (max-width: ${SIZE_LAPTOP}px) {

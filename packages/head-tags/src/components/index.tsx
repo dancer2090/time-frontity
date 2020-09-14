@@ -29,6 +29,7 @@ const Root: React.FC<Connect<HeadTagsPackage>> = ({ state, libraries }) => {
     if (state.source[dataId.type]) {
       const data = state.source[dataId.type][dataId.id];
       headTagsData = createMetaTag(data, lang, checkUrl, imageCheck, state);
+      console.log(state.headTags.get(link));
     } else {
       if (dataId.isCategory) {
         const data = state.source.category[dataId.id];

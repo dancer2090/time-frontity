@@ -8,6 +8,7 @@ import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
 import Header from '../components/Header';
+import HeadTags from '../components/HeadTags';
 import Loader from '../components/Loader';
 import Title from '../components/title';
 import Modal from '../components/Modal';
@@ -41,6 +42,7 @@ const Theme = ({ state, actions, libraries }) => {
         <Global styles={globalStyles} />
         {/* Header components */}
         <Header />
+        <HeadTags />
 
         {/* Add the main section. It renders a different component depending
         on the type of URL we are in. */}

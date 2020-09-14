@@ -3,7 +3,7 @@ import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '.
 
 export const FrameBlock = styled.div`
   width: 50%;
-  height: 370px;
+  height: auto;
   position: relative;
   overflow: hidden;
   
