@@ -40,8 +40,8 @@ const HeadTags = ({ state, libraries, actions }) => {
 
   let headTagsData = tags;
 
-  headTagsData = defaultTags;
   if(checkOther){
+    headTagsData = defaultTags;
     if(ldata.route === '/persona/') {
       headTagsData[0].content = 'Персоны';
       headTagsData[4].attributes.content = 'Персоны';
