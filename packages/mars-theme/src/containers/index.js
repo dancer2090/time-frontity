@@ -27,6 +27,16 @@ const Theme = ({ state, actions, libraries }) => {
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
   const formRef = useRef(null);
 
+  const analytics = Analytics({
+    app: 'awesome-app',
+    plugins: [
+      googleTagManager({
+        containerId: 'GTM-PN5W3K4'
+      })
+    ]
+  });
+  analytics.page();
+
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
@@ -39,6 +49,7 @@ const Theme = ({ state, actions, libraries }) => {
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
+        <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
         <Global styles={globalStyles} />
         {/* Header components */}
         <Header />
