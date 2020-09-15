@@ -36,7 +36,7 @@ export const updateTags = (data, lang, checkUrl, imageCheck, state) => {
                    tag: item.tag,
                    attributes: {
                        ...item.attributes,
-                       content: `${title} Archives - Time`
+                       content: `${title} Архив - ${state.frontity.title}`
                    }
                }
            }

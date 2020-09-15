@@ -42,7 +42,7 @@ const settings = [
           "postsPage": '/blog',
           params: {
             per_page: 10,
-            type: ["post", "page"]
+            type: ["post", "page", "persona", "photo", "video"]
           },
           postTypes: [
             {

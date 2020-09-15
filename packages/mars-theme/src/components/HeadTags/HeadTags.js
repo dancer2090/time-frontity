@@ -43,17 +43,17 @@ const HeadTags = ({ state, libraries, actions }) => {
   if(checkOther){
     headTagsData = defaultTags;
     if(ldata.route === '/persona/') {
-      headTagsData[0].content = 'Персоны';
+      headTagsData[0].content = lang === 'ru' ? 'Персоны' : 'Персони';
       headTagsData[4].attributes.content = 'Персоны';
     } else if(ldata.route === '/photo/'){
-      headTagsData[0].content = 'Фото';
+      headTagsData[0].content = lang === 'ru' ? 'Фото' : 'Фото';
       headTagsData[4].attributes.content = 'Фото';
     } else if(ldata.route === '/video/'){
-      headTagsData[0].content = 'Видео';
+      headTagsData[0].content = lang === 'ru' ? 'Время ТВ' : 'Час ТВ';
       headTagsData[4].attributes.content = 'Видео';
     }
     headTagsData[5].attributes.content = state.router.link;
-    headTagsData[6].attributes.content = 'Персоны';
+    headTagsData[6].attributes.content = 'Time';
     const locales = lang === 'ru' ? 'ru' : 'uk';
     moment.locale(locales);
     const resultDate = moment().utcOffset(3).format('YYYY-MM-DDTHH:mmZ');
@@ -64,16 +64,15 @@ const HeadTags = ({ state, libraries, actions }) => {
   useEffect(() => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
       Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state));
-      console.log(headTagsData);
     }
   },[])
 
   return (
     <Head>
+      <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
       {headTagsData.map(({ tag: Tag, attributes, content }, index) => {
         return (
           <>
-            <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
             <Tag key={index} {...attributes}>
               {content}
             </Tag>

@@ -6,6 +6,7 @@ const Title = ({ state }) => {
   const data = state.source.get(state.router.link);
   // Set the default title.
   let { title } = state.frontity;
+  const { lang = 'ru' } = state.theme;
 
   if (data.isTaxonomy) {
     // Add titles to taxonomies, like "Category: Nature - Blog Name" or "Tag: Japan - Blog Name".
@@ -14,7 +15,14 @@ const Title = ({ state }) => {
     // 2. Uppercase first letter of the taxonomy term (from "category" to "Category").
     const taxonomyCapitalized = taxonomy.charAt(0).toUpperCase() + taxonomy.slice(1);
     // 3. Render the proper title.
-    title = `${taxonomyCapitalized}: ${decode(name)} - ${state.frontity.title}`;
+    let data2 = state.source.category[data.id];
+    let {
+        acf = {},
+    } = data2;
+    let {
+       title : acfTitle = '',
+    } = acf[lang];
+    title = `${acfTitle} - ${state.frontity.title}`;
   } else if (data.isAuthor) {
     // Add titles to authors, like "Author: Jon Snow - Blog Name".
     // 1. Get the author entity from the state to get its name.
@@ -29,6 +37,12 @@ const Title = ({ state }) => {
     const cleanTitle = decode(postTitle);
     // 3. Render the proper title.
     title = `${cleanTitle} - ${state.frontity.title}`;
+  } else if (data.isPersonaArchive) {
+    title = lang === 'ru' ? 'Персоны' : 'Персони';
+  } else if (data.isPhotoArchive) {
+    title = lang === 'ru' ? 'Фото' : 'Фото';
+  } else if (data.isPersonaArchive) {
+    title = lang === 'ru' ? 'Время ТВ' : 'Час ТВ';
   } else if (data.is404) {
     // Add titles to 404's.
     title = `404 Not Found - ${state.frontity.title}`;
