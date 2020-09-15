@@ -72,9 +72,12 @@ const HeadTags = ({ state, libraries, actions }) => {
     <Head>
       {headTagsData.map(({ tag: Tag, attributes, content }, index) => {
         return (
-          <Tag key={index} {...attributes}>
-            {content}
-          </Tag>
+          <>
+            <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
+            <Tag key={index} {...attributes}>
+              {content}
+            </Tag>
+          </>
         );
       })}
     </Head>
