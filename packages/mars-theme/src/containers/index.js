@@ -47,9 +47,9 @@ const Theme = ({ state, actions, libraries }) => {
         {/* Add some metatags to the <head> of the HTML. */}
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
+        <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
-        <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
         <Global styles={globalStyles} />
         {/* Header components */}
         <Header />
