@@ -26,8 +26,7 @@ const HeadTags = ({ state, libraries, actions }) => {
   const dataId = state.source.get(link);
   let data = {};
   let checkOther = false;
-
-  if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
+  if (state.source[dataId.type] && !dataId.isCategory && dataId.isTaxonomy && !dataId.isArchive && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
     data = state.source[dataId.type][dataId.id];
   } else {
     if (dataId.isCategory) {
@@ -43,13 +42,13 @@ const HeadTags = ({ state, libraries, actions }) => {
   if(checkOther){
     headTagsData = defaultTags;
     if(ldata.route === '/persona/') {
-      headTagsData[0].content = lang === 'ru' ? 'Персоны' : 'Персони';
-      headTagsData[4].attributes.content = 'Персоны';
-    } else if(ldata.route === '/photo/'){
-      headTagsData[0].content = lang === 'ru' ? 'Фото' : 'Фото';
-      headTagsData[4].attributes.content = 'Фото';
+      headTagsData[0].content = lang === 'ru' ? `Персоны - ${state.frontity.title}` : `Персони - ${state.frontity.title}`;
+      headTagsData[4].attributes.content = `Персоны - ${state.frontity.title}`;
+    } else if(ldata.route === '/images/'){
+      headTagsData[0].content = lang === 'ru' ? `Фото - ${state.frontity.title}` : `Фото - ${state.frontity.title}`;
+      headTagsData[4].attributes.content = `Фото - ${state.frontity.title}`;
     } else if(ldata.route === '/video/'){
-      headTagsData[0].content = lang === 'ru' ? 'Время ТВ' : 'Час ТВ';
+      headTagsData[0].content = lang === 'ru' ? `Время ТВ - ${state.frontity.title}` : `Час ТВ - ${state.frontity.title}`;
       headTagsData[4].attributes.content = 'Видео';
     }
     headTagsData[5].attributes.content = state.router.link;

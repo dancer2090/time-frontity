@@ -23,17 +23,17 @@ const PostContent = ({ state, scrollRef = null, libraries }) => {
   return (
     <Switch>
       <MainTemplate scrollRef={scrollRef} when={ldata.route === '/'} />
-      <ContactsTemplate scrollRef={scrollRef} when={state.router.link === '/contacts/'} />
-      <SpecialThemeTemplate scrollRef={scrollRef} when={state.router.link === '/special-theme/'} />
+      <ContactsTemplate scrollRef={scrollRef} when={ldata.route === '/contacts/'} />
+      <SpecialThemeTemplate scrollRef={scrollRef} when={ldata.route === '/special-theme/'} />
       <VideoTemplate scrollRef={scrollRef} when={data.isVideoArchive && data.type === 'video'} />
-      <ResultSearchTemplate scrollRef={scrollRef} when={state.router.link.includes('/search-result/')} />
+      <ResultSearchTemplate scrollRef={scrollRef} when={ldata.route.includes('/search-result/')} />
       <CategoryTemplate scrollRef={scrollRef} when={data.isCategory === true} />
       <PhotoListTemplate scrollRef={scrollRef} when={data.isImagesArchive} />
       <PostPhotoTemplate scrollRef={scrollRef} when={data.type === 'images'} />
       <MediaCenterTemplate scrollRef={scrollRef} when={data.type === 'page' && state.router.link.includes('media-center')} />
       <PageTemplate scrollRef={scrollRef} when={data.isPage} />
       <AuthorsTemplate scrollRef={scrollRef} when={data.type === 'authors'} />
-      <TagTemplate scrollRef={scrollRef} when={state.router.link.includes('/tag/')} />
+      <TagTemplate scrollRef={scrollRef} when={ldata.route.includes('/tag/')} />
       <PostTemplate scrollRef={scrollRef} when={data.isPostType} />
       <PersonTemplate scrollRef={scrollRef} when={data.isPersonaArchive} />
     </Switch>

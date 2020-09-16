@@ -38,11 +38,11 @@ const Title = ({ state }) => {
     // 3. Render the proper title.
     title = `${cleanTitle} - ${state.frontity.title}`;
   } else if (data.isPersonaArchive) {
-    title = lang === 'ru' ? 'Персоны' : 'Персони';
-  } else if (data.isPhotoArchive) {
-    title = lang === 'ru' ? 'Фото' : 'Фото';
-  } else if (data.isPersonaArchive) {
-    title = lang === 'ru' ? 'Время ТВ' : 'Час ТВ';
+    title = lang === 'ru' ? `Персоны - ${state.frontity.title}` : `Персони - ${state.frontity.title}`;
+  } else if (data.isImagesArchive) {
+    title = lang === 'ru' ? `Фото - ${state.frontity.title}` : `Фото - ${state.frontity.title}`;
+  } else if (data.isVideoArchive) {
+    title = lang === 'ru' ? `Время ТВ - ${state.frontity.title}` :  `Час ТВ - ${state.frontity.title}`;
   } else if (data.is404) {
     // Add titles to 404's.
     title = `404 Not Found - ${state.frontity.title}`;
