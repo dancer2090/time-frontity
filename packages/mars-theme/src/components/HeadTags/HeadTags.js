@@ -59,11 +59,13 @@ const HeadTags = ({ state, libraries, actions }) => {
     headTagsData[7].attributes.content = resultDate;
     headTagsData[7].attributes.property = 'article:modified_time';
   }
+  console.log('headTags 1');
 
   useEffect(() => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
       Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state));
     }
+    console.log('headTags 2');
   },[])
 
   return (

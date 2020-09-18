@@ -47,6 +47,10 @@ const Title = ({ state, actions }) => {
     // Add titles to 404's.
     title = `404 Not Found - ${state.frontity.title}`;
   }
+  console.log('title 1');
+  useEffect(()=>{
+    console.log('title 2');
+  },[])
 
   return (
     <Head>

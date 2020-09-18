@@ -39,9 +39,7 @@ const Theme = ({ state, actions, libraries }) => {
 
   useEffect(() => {
     actions.theme.ipDetect();
-    console.log(2);
   }, []);
-  console.log(1);
 
   return (
     <>
