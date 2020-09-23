@@ -37,48 +37,8 @@ const Title = ({ state, actions }) => {
     // 2. Remove any HTML tags found in the title.
     const cleanTitle = decode(postTitle);
 
-    let titleCat = '';
-    if(data.isPost){
-      // category post
-      const linksCategory = state.router.link.split('/');
-      let cats = '';
-
-      if(linksCategory.length > 4) {
-        for(let i = 1; i < linksCategory.length - 2; i ++){
-          cats = `${cats}/${linksCategory[i]}`;
-        }
-        cats = `${cats}/`;
-      }
-      const categoryPost = cats !== '' ? cats : `/${linksCategory[1]}/`;
-
-      let type = '';
-      let categoryName = '';
-      let categoryData = {};
-      if (post.type === 'video') {
-        type = 'video';
-        categoryName = translator(lang, 'videoTitle');
-        categoryData = state.source.get('/video/');
-      } else if (post.type === 'persona') {
-        categoryData = state.source.get(categoryPost);
-        const category = state.source.category[categoryData.id] || {};
-        categoryName = translator(lang, 'personCategory');
-        type = 'interview';
-      } else {
-        categoryData = state.source.get(categoryPost);
-        const category = state.source.category[categoryData.id] || {};
-        const { acf: acfCategory = {} } = category;
-        categoryName = acfCategory && acfCategory[lang] && acfCategory[lang].title ? acfCategory[lang].title : '';
-      }
-
-      titleCat = categoryName;
-    }
-
     // 3. Render the proper title.
-    if(titleCat === ''){
-      title = `${cleanTitle} - ${state.frontity.title}`;
-    } else {
-      title = `${cleanTitle} - ${titleCat}`;
-    }
+    title = `${cleanTitle} - ${state.frontity.title}`;
 
   } else if (data.isPersonaArchive) {
     title = lang === 'ru' ? `Персоны - ${state.frontity.title}` : `Персони - ${state.frontity.title}`;
