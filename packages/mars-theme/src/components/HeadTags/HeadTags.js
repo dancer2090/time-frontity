@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Global, connect, Head,
+  Global, connect, Head, decode
 } from 'frontity';
 import { updateTags } from './utils/updateTags';
 import defaultTags from './utils/defaultTags';
@@ -26,7 +26,7 @@ const HeadTags = ({ state, libraries, actions }) => {
   const dataId = state.source.get(link);
   let data = {};
   let checkOther = false;
-  if (state.source[dataId.type] && !dataId.isCategory && dataId.isTaxonomy && !dataId.isArchive && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
+  if (state.source[dataId.type] && !dataId.isCategory && !dataId.isTaxonomy && !dataId.isArchive && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
     data = state.source[dataId.type][dataId.id];
   } else {
     if (dataId.isCategory) {
@@ -35,7 +35,12 @@ const HeadTags = ({ state, libraries, actions }) => {
       checkOther = true;
     }
   }
-  const { head_tags: tags = [] } = data;
+
+  let tags = [];
+  if(data && data.head_tags){
+    const { head_tags: tagsOld = [] } = data;
+    if(tagsOld.length > 0) tags = tagsOld;
+  }
 
   let headTagsData = tags;
 
@@ -62,7 +67,7 @@ const HeadTags = ({ state, libraries, actions }) => {
 
   useEffect(() => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
-      Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state));
+      Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state, dataId, decode));
     }
   },[])
 
