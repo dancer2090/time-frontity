@@ -11,7 +11,7 @@ export const getIdVideo = (url) => {
 
 export const generatePreviewYoutubeLink = (url) => {
   const id = getIdVideo(url);
-  return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+  return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 };
 
 export const formatYoutubeTime = (duration) => {

@@ -51,7 +51,7 @@ const VideoHeader = ({
       {
         showFrame
           ? (
-            <IFrame src={`http://www.youtube.com/embed/${id}?autoplay=1`} />
+            <IFrame src={`https://www.youtube.com/embed/${id}?autoplay=1`} />
           )
           : (
             <PreviewBlock>
