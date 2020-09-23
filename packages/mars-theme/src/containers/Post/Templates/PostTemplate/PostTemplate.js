@@ -124,7 +124,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
 
   // big photo
   const { featured_media: frameId = '' } = post;
-  let urlBigImage = defaultImage;
+  let urlBigImage = '';
   let captionImage = {
     rendered: '',
   };

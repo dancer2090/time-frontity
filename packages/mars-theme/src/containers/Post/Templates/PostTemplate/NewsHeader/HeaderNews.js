@@ -39,9 +39,11 @@ const HeaderNews = ({
         eyeCount={views}
       />
       <BigPhotoBlock>
-        <BigPhoto>
-          <BigPhotoImage src={frameUrl} />
-        </BigPhoto>
+        {frameUrl && frameUrl !== '' && (
+          <BigPhoto>
+            <BigPhotoImage src={frameUrl} />
+          </BigPhoto>
+        )}
         <BigPhotoDescription>
           <Html2React html={caption.rendered} />
         </BigPhotoDescription>
