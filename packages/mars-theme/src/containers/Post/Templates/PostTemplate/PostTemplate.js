@@ -72,6 +72,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
     link: '',
     photo: '',
   });
+  const [authorDataGroup, setauthorDataGroup] = useState({});
 
   const { lang = 'ru' } = state.theme;
   const { acf = {} } = post;
@@ -89,7 +90,10 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const categoryPost = cats !== '' ? cats : `/${linksCategory[1]}/`;
 
   // author data
-  const { author: authorId = false } = acf;
+  const {
+    author: authorId = false,
+    authors: authorsGroup = []
+  } = acf;
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
@@ -99,6 +103,13 @@ const PostTemplate = ({ state, libraries, actions }) => {
         .then(() => {
           const { author } = state.source.get(state.router.link);
           setAuthorData(author);
+        });
+    }
+    if (authorsGroup && authorsGroup.length > 0) {
+      actions.theme.getDataAuthorGroup(authorsGroup)
+        .then(() => {
+          const authors = state.theme.authors;
+          setauthorDataGroup(authors);
         });
     }
   }, []);
@@ -205,18 +216,28 @@ const PostTemplate = ({ state, libraries, actions }) => {
               <TabsPost items={state.theme.postTags}/>
               <Shared link={fullPostUrl} />
             </TabsWrapper>
-            {
-              authorId && (
-                <AuthorInformation>
-                  <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
-                    <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
+            <AuthorInformation>
+              {
+                authorId && (
+                    <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
+                      <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
+                      <AuthorName>
+                        { authorData.acf[lang].title }
+                      </AuthorName>
+                    </Link>
+                )
+              }
+              {
+                authorDataGroup.length > 0 && authorDataGroup.map( (author,index) => (
+                  <Link link={urlCheck(author.link, [state.frontity.url, state.frontity.adminUrl])}>
+                    <AuthorImage src={imageUrlCheck(author.photo, urlsWithLocal)} />
                     <AuthorName>
-                      { authorData.acf[lang].title }
+                      { author.acf[lang].title }
                     </AuthorName>
                   </Link>
-                </AuthorInformation>
-              )
-            }
+                ) )
+              }
+            </AuthorInformation>
             <MobileEvents>
               <MobileComments onClick={() => setShowComments(true)}>
                 <MobileCommentsIco name="comments" />

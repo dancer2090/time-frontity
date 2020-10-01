@@ -134,6 +134,7 @@ const marsTheme = {
       menu: {},
       cases: {},
       postTags: {},
+      authors: {},
       teammembers: {},
       recaptchaToken: null,
       isMobileMenuOpen: false,
@@ -268,9 +269,20 @@ const marsTheme = {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-info/${id}`);
         Object.assign(state.source.data[state.router.link], {
           author: {
-            ...data,
+            ...data, 
           },
         });
+        return new Promise((resolve) => {
+          resolve('ok');
+        });
+      },
+      getDataAuthorGroup: ({ state }) => async (group) => {
+        const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-group-info/`, {
+          params: {
+            authors: group,
+          },
+        });
+        state.theme.authors = data;
         return new Promise((resolve) => {
           resolve('ok');
         });

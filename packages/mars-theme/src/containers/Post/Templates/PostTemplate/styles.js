@@ -450,15 +450,20 @@ export const TabsWrapper = styled.div`
 `;
 
 export const AuthorInformation = styled.div`
-  padding-top: 14px;
-  margin-bottom: 26px;
   text-decoration: none;
-  
+    padding-top: 9px;
+    margin-bottom: 16px;
   a {
+    padding-top: 5px;
+    margin-bottom: 10px;
+    margin-right: 20px;
     width: fit-content;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     text-decoration: none;
+  }
+  & a:last-of-type{
+    margin-right: 0;
   }
 `;
 
