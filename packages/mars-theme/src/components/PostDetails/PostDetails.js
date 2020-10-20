@@ -38,12 +38,12 @@ const PostDetails = ({
         <DateValue>
           { date }
         </DateValue>
-        { eyeCount > 0 && (
+        {/* eyeCount > 0 && (
         <FlexCenter>
           <IconEye name="eye" />
           <Counter>{ eyeCount }</Counter>
         </FlexCenter>
-        ) }
+        ) */}
         { state.theme.commentsLength > 0 && (
           <FlexCenter>
             <IconComments name="comments" />
