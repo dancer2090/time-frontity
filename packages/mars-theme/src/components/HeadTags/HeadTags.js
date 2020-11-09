@@ -65,22 +65,35 @@ const HeadTags = ({ state, libraries, actions }) => {
     headTagsData[7].attributes.property = 'article:modified_time';
   }
 
+  const {
+    acf = {},
+  } = data;
+  const {
+    ru = { description : '' },
+    uk = { description : '' }
+  } = acf;
+  const descriptionText = lang === 'ru' ? ru.description : uk.description;
+  const metaDescription = {
+    tag: 'meta',
+    attributes: {
+      name: 'description',
+      content: descriptionText
+    }
+  };
+
   useEffect(() => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
-      Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state, dataId, decode));
+      Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state, dataId, decode), {20: metaDescription});
     }
   },[])
-
   return (
     <Head>
       <meta name="google-site-verification" content="CG6dRA9KNCFg7fLu1kFBAxKC7L1VRLrOmaavoyAGHAc" />
       {headTagsData.map(({ tag: Tag, attributes, content }, index) => {
         return (
-          <>
-            <Tag key={index} {...attributes}>
-              {content}
-            </Tag>
-          </>
+          <Tag key={`${Tag}-${index}`} {...attributes}>
+            {content}
+          </Tag>
         );
       })}
     </Head>

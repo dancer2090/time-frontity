@@ -11,7 +11,7 @@ const settings = [
       isLocal: !!process.env.LOCAL,
       "adminUrl": process.env.ADMIN_URL,
       "url": process.env.SITE_URL,
-      "title": "Time",
+      "title": 'Онлайн  газета “Время”',
       "description": "WordPress installation for Frontity development",
       "replaceImageUrl": !!process.env.LOCAL ? [] : [process.env.ADMIN_URL, process.env.SITE_URL]
     },

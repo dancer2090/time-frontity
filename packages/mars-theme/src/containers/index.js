@@ -26,7 +26,6 @@ const Theme = ({ state, actions, libraries }) => {
   const data = state.source.get(state.router.link);
   const ldata = libraries.source.parse(state.frontity.url + state.router.link);
   const formRef = useRef(null);
-  console.log(state);
 
   const analytics = Analytics({
     app: 'awesome-app',
@@ -48,13 +47,13 @@ const Theme = ({ state, actions, libraries }) => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
-        <HeadTags />
-        <Title />
         <Head>
           <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
           <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
           {getParams && getParams.query && getParams.query.p && <meta name="robots" content="noindex" />}
         </Head>
+        <HeadTags /> 
+        <Title />
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
