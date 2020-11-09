@@ -12,6 +12,7 @@
     "dev": "npm run server-setup && LOCAL=true frontity dev",
     "dev-y": "frontity dev",
     "build": "npm run server-setup && frontity build",
+    "y-build": "frontity build",
     "serve": "frontity serve"
   },
   "prettier": {},

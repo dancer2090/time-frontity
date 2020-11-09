@@ -27,27 +27,19 @@ const newHandler = {
         route, params, state, libraries,
       });
     } catch (e) {
-      error.push('not-category');
-    }
+      let hand_name = 'post type';
 
-    try {
-      if (error.indexOf('not-category') !== -1) {
-        // It's not a category
-        let hand_name = 'post type';
-
-        if (params.type === 'video') {
-          hand_name = 'video';
-        }
-
-        const postType = libraries.source.handlers.find(
-          (handler) => handler.name === hand_name,
-        );
-
-        await postType.func({
-          link: route, params, state, libraries,
-        });
+      if (params.type === 'video') {
+        hand_name = 'video';
       }
-    } catch (e) {
+
+      const postType = libraries.source.handlers.find(
+        (handler) => handler.name === hand_name,
+      );
+
+      await postType.func({
+        link: route, params, state, libraries,
+      });
     }
   },
 };
@@ -69,21 +61,14 @@ const newHandler2 = {
         route, params, state, libraries,
       });
     } catch (e) {
-      error.push('not-category');
-    }
-
-    try {
-      if (error.indexOf('not-category') !== -1) {
-        // It's not a category
-        const hand_name = 'post type';
-        const postType = libraries.source.handlers.find(
-          (handler) => handler.name === hand_name,
-        );
-        await postType.func({
-          link: route, params, state, libraries,
-        });
-      }
-    } catch (e) {
+      // It's not a category
+      const hand_name = 'post type';
+      const postType = libraries.source.handlers.find(
+        (handler) => handler.name === hand_name,
+      );
+      await postType.func({
+        link: route, params, state, libraries,
+      });
     }
   },
 };
