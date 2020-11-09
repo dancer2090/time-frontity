@@ -37,6 +37,8 @@ const Theme = ({ state, actions, libraries }) => {
   });
   analytics.page();
 
+  const getParams = libraries.source.parse(state.router.link);
+
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
@@ -47,8 +49,11 @@ const Theme = ({ state, actions, libraries }) => {
         {/* Add some metatags to the <head> of the HTML. */}
         <HeadTags />
         <Title />
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
+        <Head>
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
+          {getParams && getParams.query && getParams.query.p && <meta name="robots" content="noindex" />}
+        </Head>
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />
