@@ -571,11 +571,13 @@ export const RightBanner = styled.div`
 `;
 
 export const GMobileTitle = styled(TitleDiv)` 
+  /*
   display: none !important;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
-    display: block;
+    display: block !important;
   }
+  */
 `;
 
 export const SocialBlock = styled.div`

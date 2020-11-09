@@ -64,6 +64,8 @@ const HeadTags = ({ state, libraries, actions }) => {
     headTagsData[7].attributes.content = resultDate;
     headTagsData[7].attributes.property = 'article:modified_time';
   }
+  const getParams = libraries.source.parse(state.router.link);
+  if(getParams.query && getParams.query.p) headTagsData[1].attributes.content = "noindex";
 
   const {
     acf = {},

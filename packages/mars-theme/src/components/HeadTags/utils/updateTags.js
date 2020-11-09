@@ -16,7 +16,7 @@ export const updateTags = (data, lang, checkUrl, imageCheck, state, dataId, deco
                tag: item.tag,
                content: title,
            }
-       } else if (item.attributes) {
+       } else if (item.attributes) { 
            const { property = '' } = item.attributes;
            const { rel = '' } = item.attributes;
            if (property === 'og:locale') {
