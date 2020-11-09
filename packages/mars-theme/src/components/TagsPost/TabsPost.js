@@ -7,14 +7,16 @@ import {
 } from './styles';
 import Link from '../link';
 
-const TabsPost = ({items = [], state}) => {
+const TabsPost = ({items = [], state, libraries}) => {
+  const { urlCheck, cutStr } = libraries.func;
+  const { urlsWithLocal = {} } = state.customSettings;
   const arrTags = [];
   const { lang = 'ru' } = state.theme;
   items.length > 0 && items.map((item) => {
     const {
       acf = {},
       link = '',
-    } = item;
+    } = item; 
     if(acf){
       const {
         title = '',
@@ -30,7 +32,7 @@ return (
     <GIconTag name="tag" />
     <List>
       {arrTags.map((item) => (
-        <Link link={item.link}>
+        <Link link={urlCheck(item.link, [state.frontity.url, state.frontity.adminUrl])}>
           {item.title}
         </Link>
       ))}
