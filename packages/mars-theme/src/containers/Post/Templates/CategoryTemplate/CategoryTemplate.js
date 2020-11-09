@@ -10,11 +10,12 @@ import {
   TimeLineWrapper,
   ItemCard,
   NotNews,
+  SubTitle
 } from './styles';
 import { Container } from '../../../../components/globalStyles';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import SocialList from '../../../../components/SocialList';
-import Title from '../../../../components/Title';
+import TitleH1 from '../../../../components/TitleH1';
 import NewsCardPreview from '../../../../components/NewsCardPreview';
 import TimeLine from '../../../../components/TimeLine/TimeLine';
 import Translator from '../../../../components/Translator/Translator';
@@ -99,9 +100,9 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
           />
           <SocialList />
         </TopContainer>
-        <Title>
+        <TitleH1>
           <Html2React html={title} />
-        </Title>
+        </TitleH1>
         <ContentWrapper>
           {
             topItems.length === 0
@@ -122,9 +123,6 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
         {
           timeline.length > 0 && (
             <TimeLineContainer>
-              <Title size="small">
-                <Translator id="lastNewsTitle" />
-              </Title>
               <TimeLineWrapper>
                 <InfiniteScroll
                   dataLength={timeline.length}

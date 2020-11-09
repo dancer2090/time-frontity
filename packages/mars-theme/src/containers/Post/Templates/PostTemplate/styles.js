@@ -4,7 +4,7 @@ import {
   SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE,
 } from '../../../../const/responsive';
 import SvgSprite from '../../../../components/SvgSprite';
-import Title from '../../../../components/Title';
+import TitleDiv from '../../../../components/TitleDiv';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -570,7 +570,7 @@ export const RightBanner = styled.div`
   }
 `;
 
-export const GMobileTitle = styled(Title)`
+export const GMobileTitle = styled(TitleDiv)` 
   display: none !important;
   
   @media screen and (max-width: ${SIZE_LAPTOP_SMALL}px) {
