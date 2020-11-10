@@ -86,6 +86,7 @@ const HeadTags = ({ state, libraries, actions }) => {
   useEffect(() => {
     if (state.source[dataId.type] && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
       Object.assign(headTagsData, updateTags(data, lang, checkUrl, imageCheck, state, dataId, decode), {20: metaDescription});
+      if(descriptionText && descriptionText.length > 0) Object.assign(headTagsData, {20: metaDescription});
     }
   },[])
   return (

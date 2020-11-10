@@ -1,12 +1,9 @@
-
 User-agent: *
-
-Allow: /wp-admin/admin-ajax.php
 Allow: /wp-content/uploads/
 Disallow: /teammembers
-Disallow: /wp-login.php
-Disallow: /wp-register.php
-Disallow: /xmlrpc.php
+Disallow: *.php
+Disallow: *feed
+Disallow: *?s=
 Disallow: /template.html
 Disallow: /wp-admin
 Disallow: /wp-includes
@@ -15,11 +12,7 @@ Disallow: /tag
 Disallow: /category
 Disallow: /archive
 Disallow: */trackback/
-Disallow: */feed/
 Disallow: */comments/
 Disallow: */attachment/
-Disallow: /?feed=
-Disallow: /?s=
-Disallow: /?c
-
-Sitemap: https://admin.timeua.info/sitemap_index.xml
+Host: https://timeua.info
+Sitemap: https://timeua.info/sitemap.xml
