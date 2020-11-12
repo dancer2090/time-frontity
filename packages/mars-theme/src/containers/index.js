@@ -10,7 +10,7 @@ import Post from './post';
 import Header from '../components/Header';
 import HeadTags from '../components/HeadTags';
 import Loader from '../components/Loader';
-import TitleHead from '../components/TitleHead';
+import Title from '../components/title';
 import Modal from '../components/Modal';
 import PageError from '../components/page-error';
 import { globalStyles, Main } from '../components/globalStyles';
@@ -41,8 +41,9 @@ const Theme = ({ state, actions, libraries }) => {
 
   useEffect(() => {
     actions.theme.ipDetect();
+    console.log(state);
   }, []);
-  console.log(state);
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
@@ -53,7 +54,7 @@ const Theme = ({ state, actions, libraries }) => {
           {getParams && getParams.query && getParams.query.p && <meta name="robots" content="noindex" />}
         </Head>
         <HeadTags /> 
-        <TitleHead />
+        <Title />
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />

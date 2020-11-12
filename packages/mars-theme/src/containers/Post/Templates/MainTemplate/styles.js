@@ -3,7 +3,6 @@ import SvgSprite from '../../../../components/SvgSprite';
 import {
   SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE
 } from '../../../../const/responsive';
-import Image from "../../../../components/image";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -143,7 +142,7 @@ export const BigFrame = styled.div`
    }
 `;
 
-export const BigImage = styled(Image)`
+export const BigImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
