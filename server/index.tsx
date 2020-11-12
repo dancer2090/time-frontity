@@ -44,7 +44,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     return mount(publicPath, serve("build/static"))(ctx, next);
   });
   // added static files for the wordpress urls
-  app.use(mount('/wp-content/uploads', serve("../time-admin.webbuilder.in.ua/wp-content/uploads")))
+  app.use(mount('/wp-content/uploads', serve("../admin.timeua.info/wp-content/uploads")))
   // Serve robots.txt from root or default if it doesn't exists.
   app.use(
     get("/robots.txt", async (ctx, next) => {
