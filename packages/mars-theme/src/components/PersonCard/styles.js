@@ -1,5 +1,6 @@
 import { styled, css } from 'frontity';
 import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../const/responsive';
+import Image from "../image";
 
 export const FrameBlock = styled.div`
   width: 50%;
@@ -231,7 +232,7 @@ export const Card = styled.div`
   }
 `;
 
-export const Frame = styled.img`
+export const Frame = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

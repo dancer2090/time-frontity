@@ -1,5 +1,6 @@
 import { styled, css } from 'frontity';
 import SvgSprite from '../SvgSprite';
+import Image from "../image";
 
 export const Card = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ export const FrameBlock = styled.div`
   position: relative;
 `;
 
-export const Frame = styled.img`
+export const Frame = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -85,12 +86,12 @@ export const DateValue = styled.div`
 
 export const Resources = styled.a``;
 
-export const ResourcesImage = styled.img`
+export const ResourcesImage = styled(Image)`
   width: 56px;
   height: auto;
 `;
 
-export const VideoButton = styled.img`
+export const VideoButton = styled(Image)`
   position: absolute;
   left: 50%;
   top: 50%;
