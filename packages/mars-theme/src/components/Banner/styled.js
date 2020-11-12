@@ -2,6 +2,7 @@ import { styled, css } from 'frontity';
 import {
   SIZE_LAPTOP,
 } from '../../const/responsive';
+import Image from "../image";
 
 export const BannerContainer = styled.div`
     display: block;
@@ -20,6 +21,6 @@ export const BannerContainer = styled.div`
         }
     `}
 `;
-export const BannerImg = styled.img`
+export const BannerImg = styled(Image)`
   display: block;
 `;

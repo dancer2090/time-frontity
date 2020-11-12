@@ -1,6 +1,7 @@
 import { styled } from 'frontity';
 import SvgSprite from '../../SvgSprite';
 import { SIZE_LAPTOP_SMALL } from '../../../const/responsive';
+import Image from "../../image";
 
 export const Card = styled.div`
   ${({ type }) => (
@@ -24,7 +25,7 @@ export const Frame = styled.div`
   }
 `;
 
-export const FrameImage = styled.img`
+export const FrameImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;
