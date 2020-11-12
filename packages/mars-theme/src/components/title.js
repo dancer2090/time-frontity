@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Head, connect, decode } from 'frontity';
 
-const TitleHead = ({ state, actions }) => {
+const Title = ({ state, actions }) => {
   // Get data about the current URL.
   const data = state.source.get(state.router.link);
   // Set the default title.
@@ -58,4 +58,4 @@ const TitleHead = ({ state, actions }) => {
   );
 };
 
-export default connect(TitleHead);
+export default connect(Title);
