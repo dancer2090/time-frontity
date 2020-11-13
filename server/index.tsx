@@ -86,6 +86,8 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
       ctx.state.getPersona = {data : JSON.parse(getPersona)};
     }
 
+    console.log(ctx.state);
+
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
