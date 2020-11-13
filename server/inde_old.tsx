@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
 import Koa from "koa";
 import { get } from "koa-route";
 import serve from "koa-static";
@@ -21,7 +22,7 @@ import getHeadTags from "./utils/head";
 import App from "../app";
 import { FrontityTags } from "../../types";
 import createStore from "./store";
-import { exists } from "fs";
+import { exists, readFileSync } from "fs";
 import { promisify } from "util";
 
 export default ({ packages }): ReturnType<Koa["callback"]> => {
@@ -43,7 +44,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     return mount(publicPath, serve("build/static"))(ctx, next);
   });
   // added static files for the wordpress urls
-  app.use(mount('/wp-content/uploads', serve("../admin.timeua.info/wp-content/uploads")))
+  app.use(mount('/wp-content/uploads', serve("../time-admin.webbuilder.in.ua/wp-content/uploads")))
   // Serve robots.txt from root or default if it doesn't exists.
   app.use(
     get("/robots.txt", async (ctx, next) => {
@@ -69,6 +70,23 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
+/*
+    const url = ctx.href;
+    let newUrl = url;
+
+    const options = readFileSync("api/public/res-json/options/index.json", "utf8");
+    if(options && options.length > 0) ctx.state.options = {data : JSON.parse(options)};
+
+    if(ctx.url === '/'){
+      const getMain = readFileSync("api/public/res-json/get-main/index.json", "utf8");
+      ctx.state.getMain = {data : JSON.parse(getMain)};
+    }
+
+    if(ctx.url.includes('persona')){
+      const getPersona = readFileSync("api/public/res-json/get-persona/index.json", "utf8");
+      ctx.state.getPersona = {data : JSON.parse(getPersona)};
+    }
+*/
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
