@@ -69,21 +69,39 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
+
     const url = ctx.href;
     let newUrl = url;
+    
 
-    const options = readFileSync("api/public/res-json/options/index.json", "utf8");
-    if(options && options.length > 0) ctx.state.options = {data : JSON.parse(options)};
-
+    readFile("api/public/res-json/options/index.json", "utf8", (err, data) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      if(data && data.length > 0) ctx.state.options = {data : JSON.parse(data)};
+    });
+    
     if(ctx.url === '/'){
-      const getMain = readFileSync("api/public/res-json/get-main/index.json", "utf8");
-      ctx.state.getMain = {data : JSON.parse(getMain)};
+      readFile("api/public/res-json/get-main/index.json", "utf8", (err, data) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        if(data && data.length > 0) ctx.state.getMain = {data : JSON.parse(data)};
+      });
+    }
+    
+    if(ctx.url.includes('persona')){
+      readFile("api/public/res-json/get-persona/index.json", "utf8", (err, data) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        if(data && data.length > 0) ctx.state.getPersona = {data : JSON.parse(data)};
+      });
     }
 
-    if(ctx.url.includes('persona')){
-      const getPersona = readFileSync("api/public/res-json/get-persona/index.json", "utf8");
-      ctx.state.getPersona = {data : JSON.parse(getPersona)};
-    }
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
