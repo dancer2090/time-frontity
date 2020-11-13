@@ -27,19 +27,27 @@ const newHandler = {
         route, params, state, libraries,
       });
     } catch (e) {
-      let hand_name = 'post type';
+      error.push('not-cat');
+    }
+    if(error && error.length > 0){
+      try {
+        let hand_name = 'post type';
 
-      if (params.type === 'video') {
-        hand_name = 'video';
+        if (params.type === 'video') {
+          hand_name = 'video';
+        }
+  
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name === hand_name,
+        );
+  
+        await postType.func({
+          link: route, params, state, libraries,
+        });
       }
-
-      const postType = libraries.source.handlers.find(
-        (handler) => handler.name === hand_name,
-      );
-
-      await postType.func({
-        link: route, params, state, libraries,
-      });
+      catch {
+           
+      }
     }
   },
 };
