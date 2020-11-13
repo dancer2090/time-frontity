@@ -69,7 +69,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
-
+    /*
     const url = ctx.href;
     let newUrl = url;
 
@@ -85,9 +85,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
       const getPersona = readFileSync("api/public/res-json/get-persona/index.json", "utf8");
       ctx.state.getPersona = {data : JSON.parse(getPersona)};
     }
-
-    console.log(ctx.state);
-
+    */
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
