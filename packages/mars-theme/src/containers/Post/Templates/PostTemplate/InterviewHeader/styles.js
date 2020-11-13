@@ -1,6 +1,7 @@
 import { styled } from 'frontity';
 import PostDetails from '../../../../../components/PostDetails';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
+import Image from "../../../../../components/image";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -156,7 +157,7 @@ export const FrameBlock = styled.div`
   }
 `;
 
-export const Image = styled.img`
+export const Image2 = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

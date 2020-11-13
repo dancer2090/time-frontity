@@ -5,6 +5,7 @@ import {
 } from '../../../../const/responsive';
 import SvgSprite from '../../../../components/SvgSprite';
 import TitleDiv from '../../../../components/TitleDiv';
+import Image from "../../../../components/image";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -467,7 +468,7 @@ export const AuthorInformation = styled.div`
   }
 `;
 
-export const AuthorImage = styled.img`
+export const AuthorImage = styled(Image)`
   width: auto;
   height: 42px;
   margin-right: 14px;

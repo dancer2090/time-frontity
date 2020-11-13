@@ -26,13 +26,79 @@ router.get('/posts', function(req, res, next) {
   res.json({'res':'ok'})
 });
 
+/* GET images. */
+router.get('/images', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/images?_embed')
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/images/index.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
+/* GET video. */
+router.get('/video', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/video?_embed')
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/video/index.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
+/* GET persona. */
+router.get('/persona', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/persona?_embed')
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/persona/index.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
 /* GET posts by slug. */
 router.get('/posts/:slug', function(req, res, next) {
-  fetch('https://admin.timeua.info/wp-json/wp/v2/posts?slug='+req.params.slug+'?_embed')
+  fetch('https://admin.timeua.info/wp-json/wp/v2/posts?slug='+req.params.slug)
     .then(res => res.json())
     .then(json => {
       let data = JSON.stringify(json);
       saveFileSync('api/public/res-json/posts/'+req.params.slug+'.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
+/* GET persona by slug. */
+router.get('/persona/:slug', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/persona?slug='+req.params.slug)
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/persona/'+req.params.slug+'.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
+/* GET images by slug. */
+router.get('/persona/:slug', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/images?slug='+req.params.slug)
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/images/'+req.params.slug+'.json', data);
+    });
+  res.json({'res':'ok'})
+});
+
+/* GET video by slug. */
+router.get('/persona/:slug', function(req, res, next) {
+  fetch('https://admin.timeua.info/wp-json/wp/v2/video?slug='+req.params.slug)
+    .then(res => res.json())
+    .then(json => {
+      let data = JSON.stringify(json);
+      saveFileSync('api/public/res-json/video/'+req.params.slug+'.json', data);
     });
   res.json({'res':'ok'})
 });

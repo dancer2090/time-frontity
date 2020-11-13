@@ -1,6 +1,6 @@
 import { styled } from 'frontity';
 import { SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL } from '../../../../const/responsive';
-
+import Image from "../../../../components/image";
 export const Wrapper = styled.div`
   padding: 20px 0;
 `;
@@ -69,7 +69,7 @@ export const AuthorPhotoContainer = styled.div`
   overflow: hidden;
   position: relative;
 `;
-export const AuthorPhoto = styled.img`
+export const AuthorPhoto = styled(Image)`
   position: absolute;
   display: block;
   height: 100%;

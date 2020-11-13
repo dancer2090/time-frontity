@@ -1,6 +1,7 @@
 import { styled, css } from 'frontity';
 import SvgSprite from '../SvgSprite';
 import { SIZE_MOBILE } from '../../const/responsive';
+import Image from "../image";
 
 export const Wrapper = styled.div``;
 
@@ -123,7 +124,7 @@ export const Resources = styled.div`
   }
 `;
 
-export const ResourcesImage = styled.img`
+export const ResourcesImage = styled(Image)`
   max-width: 100%;
   height: auto;
 `;

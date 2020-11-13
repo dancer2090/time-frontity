@@ -1,6 +1,6 @@
 import { styled } from 'frontity';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
-
+import Image from "../../../../../components/image";
 export const Wrapper = styled.div``;
 
 export const BigFrame = styled.div`
@@ -32,7 +32,7 @@ export const BigFrameBlock = styled.div`
   }
 `;
 
-export const BigFrameImage = styled.img`
+export const BigFrameImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

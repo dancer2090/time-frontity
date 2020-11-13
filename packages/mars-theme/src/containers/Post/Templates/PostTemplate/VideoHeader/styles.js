@@ -2,6 +2,7 @@ import { styled } from 'frontity';
 import play from '../../../../../img/svg/play-btn.svg';
 import PostDetails from '../../../../../components/PostDetails';
 import {SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '../../../../../const/responsive';
+import Image from "../../../../../components/image";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -22,7 +23,7 @@ export const PreviewBlock = styled.div`
   }
 `;
 
-export const PreviewImage = styled.img`
+export const PreviewImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

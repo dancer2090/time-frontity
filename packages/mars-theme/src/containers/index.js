@@ -42,14 +42,14 @@ const Theme = ({ state, actions, libraries }) => {
   useEffect(() => {
     actions.theme.ipDetect();
   }, []);
-  console.log(state);
+
   return (
     <>
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
         <Head>
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
-          <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
+          <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" crossorigin/>
+          <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet" crossorigin/>
           {getParams && getParams.query && getParams.query.p && <meta name="robots" content="noindex" />}
         </Head>
         <HeadTags /> 
