@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 const fetch = require('node-fetch');
 const fs = require('fs');
+const convert = require('xml-js');
 
 function saveFileSync(path, data){
   let list = path.split(/[\\\/]/);
@@ -14,6 +15,19 @@ function saveFileSync(path, data){
   });
   fs.writeFileSync(path, data);
 }
+
+/* GET posts censor. */
+router.get('/censor/:lang', function(req, res, next) {
+  const url = `https://censor.net.ua/includes/news_${req.params.lang}.xml`
+  const newUrl = `https://time-admin.webbuilder.in.ua/news_${req.params.lang}.xml`;
+  fetch(newUrl)
+    .then(res => res.text())
+    .then(body => {
+      const resultParse = convert.xml2js(body, { compact: true, spaces: 4 });
+      saveFileSync('api/public/res-json/censor/'+req.params.lang+'.json', JSON.stringify(resultParse));
+    });
+  res.json({'res':'ok'})
+});
 
 /* GET posts. */
 router.get('/posts', function(req, res, next) {

@@ -124,6 +124,7 @@ const marsTheme = {
       doLoader: false,
     },
     theme: {
+      rss: {},
       menu: {},
       cases: {},
       postTags: {},
@@ -287,12 +288,17 @@ const marsTheme = {
       loadNewsIntegration: ({ state }) => async () => {
         const { lang = 'ru' } = state.theme;
         let rss = {};
-        try {
-          const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-          const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
-          rss = resultParse.rss;
-        } catch (ex) {
-          //console.log(ex);
+        if(state.theme.rss && state.theme.rss[lang] && state.theme.rss[lang]['data']){
+          rss = state.theme.rss[lang]['data'];
+          console.log('-------------------------censor check')
+        } else {
+          try {
+            const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+            const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+            rss = resultParse.rss;
+          } catch (ex) {
+            //console.log(ex);
+          }
         }
 
         const { channel = {} } = rss;
@@ -351,14 +357,14 @@ const marsTheme = {
       },
       beforeSSR: ({ state, actions, libraries }) => async ({ ctx }) => {
         const url = ctx.href;
-
         const { state : ctxState = {} } = ctx;
         const {
           posts : ctxPosts = [],
           options : ctxOptions = {},
           categories : ctxCategories = [],
           getMain = {},
-          getPersona : ctxGetPersona = []
+          getPersona : ctxGetPersona = [],
+          censor : ctxCensor = {}
         } = ctxState;
 
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
@@ -366,6 +372,7 @@ const marsTheme = {
         if (ldata.query && ldata.query.lang) {
           state.theme.lang = ldata.query.lang !== 'uk' && ldata.query.lang !== 'ru' ? 'ru' : ldata.query.lang;
         }
+        if(ctxCensor && ctxCensor[state.theme.lang] && ctxCensor[state.theme.lang]['data']) state.theme.rss = ctxCensor;
         const globalOptions = ctxOptions && ctxOptions.data ? await ctxOptions : await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
         state.theme.options = optionPage;

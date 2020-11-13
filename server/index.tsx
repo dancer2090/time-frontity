@@ -21,7 +21,7 @@ import getHeadTags from "./utils/head";
 import App from "../app";
 import { FrontityTags } from "../../types";
 import createStore from "./store";
-import { exists, readFile, readFileSync } from "fs";
+import { exists, promises as fs } from "fs";
 import { promisify } from "util";
 
 export default ({ packages }): ReturnType<Koa["callback"]> => {
@@ -70,38 +70,35 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
   // Frontity server rendering.
   app.use(async (ctx, next) => {
 
-    const url = ctx.href;
-    let newUrl = url;
-    
+    const url = ctx.url.split('?');
+    let newUrl = url[0];
+    const lang = ctx.query && ctx.query.lang ? ctx.query.lang : 'ru';
 
-    readFile("api/public/res-json/options/index.json", "utf8", (err, data) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      if(data && data.length > 0) ctx.state.options = {data : JSON.parse(data)};
-    });
-    
-    if(ctx.url === '/'){
-      readFile("api/public/res-json/get-main/index.json", "utf8", (err, data) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        if(data && data.length > 0) ctx.state.getMain = {data : JSON.parse(data)};
-      });
+    const data = {
+      censor : {},
+      options : {},
+      getMain : {},
+      persona : {}
+    };
+    data.censor = fs.readFile("api/public/res-json/censor/"+lang+".json", "utf8");
+    data.options = fs.readFile("api/public/res-json/options/index.json", "utf8");
+    data.getMain = newUrl === '/' ? fs.readFile("api/public/res-json/get-main/index.json", "utf8") : '';
+    data.persona = newUrl.includes('persona') ? fs.readFile("api/public/res-json/get-persona/index.json", "utf8") : '';
+    const [
+      censor,
+      options,
+      getMain,
+      persona
+    ] = await Promise.all(
+      Object.values(data)
+    );
+    if(censor && censor !== ''){
+      ctx.state.censor = {};
+      ctx.state.censor[lang] = {data : JSON.parse(censor)};
     }
-    
-    if(ctx.url.includes('persona')){
-      readFile("api/public/res-json/get-persona/index.json", "utf8", (err, data) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        if(data && data.length > 0) ctx.state.getPersona = {data : JSON.parse(data)};
-      });
-    }
-
+    if(options && options !== '') ctx.state.options = {data : JSON.parse(options)};
+    if(getMain && getMain !== '') ctx.state.getMain = {data : JSON.parse(getMain)};
+    if(persona && persona !== '') ctx.state.getPersona = {data : JSON.parse(persona)};
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
