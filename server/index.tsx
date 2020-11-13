@@ -21,7 +21,7 @@ import getHeadTags from "./utils/head";
 import App from "../app";
 import { FrontityTags } from "../../types";
 import createStore from "./store";
-import { exists } from "fs";
+import { exists, readFileSync } from "fs";
 import { promisify } from "util";
 
 export default ({ packages }): ReturnType<Koa["callback"]> => {
@@ -69,6 +69,23 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
+
+    const url = ctx.href;
+    let newUrl = url;
+
+    const options = readFileSync("api/public/res-json/options/index.json", "utf8");
+    if(options && options.length > 0) ctx.state.options = {data : JSON.parse(options)};
+
+    if(ctx.url === '/'){
+      const getMain = readFileSync("api/public/res-json/get-main/index.json", "utf8");
+      ctx.state.getMain = {data : JSON.parse(getMain)};
+    }
+
+    if(ctx.url.includes('persona')){
+      const getPersona = readFileSync("api/public/res-json/get-persona/index.json", "utf8");
+      ctx.state.getPersona = {data : JSON.parse(getPersona)};
+    }
+
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
