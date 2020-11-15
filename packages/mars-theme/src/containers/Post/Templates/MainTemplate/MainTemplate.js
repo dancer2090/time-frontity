@@ -193,9 +193,6 @@ const MainTemplate = ({ state, libraries, actions }) => {
   };
 
   useEffect(() => {
-    actions.theme.getMain();
-    loadData();
-    //scrollControl();
     window.addEventListener('scroll', scrollControl);
   }, []);
 
@@ -257,7 +254,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
                 <Link link={urlCheck(bannerLink, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerImage.url !== '' && <BigImage src={bannerImage.url} />}
+                  {bannerImage.url !== '' && <BigImage src={bannerImage.mobile} />}
                 </Link>
               </BigFrame>
               <BigContent>
@@ -272,7 +269,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
                 <Link link={urlCheck(bannerLink2, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerImage2.url !== '' && <BigImage src={bannerImage2.url} />}
+                  {bannerImage2.url !== '' && <BigImage src={bannerImage2.mobile} />}
                 </Link>
               </BigFrame>
               <BigContent>
@@ -287,7 +284,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
                 <Link link={urlCheck(bannerLink3, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerImage3.url !== '' && <BigImage src={bannerImage3.url} />}
+                  {bannerImage3.url !== '' && <BigImage src={bannerImage3.mobile} />}
                 </Link>
               </BigFrame>
               <BigContent>
@@ -302,7 +299,7 @@ const MainTemplate = ({ state, libraries, actions }) => {
             <BigNews skeleton={bannerMeta[state.theme.lang].title !== '' ? false : true}>
               <BigFrame>
                 <Link link={urlCheck(bannerLink4, [state.frontity.url, state.frontity.adminUrl])}>
-                  {bannerImage4.url !== '' && <BigImage src={bannerImage4.url} />}
+                  {bannerImage4.url !== '' && <BigImage src={bannerImage4.mobile} />}
                 </Link>
               </BigFrame>
               <BigContent>

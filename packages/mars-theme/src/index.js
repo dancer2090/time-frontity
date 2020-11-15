@@ -52,6 +52,28 @@ const newHandler = {
   },
 };
 
+const MainHandler = {
+  name: 'MainHandler',
+  priority: 19,
+  pattern: '/',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    Object.assign(state.source.data[route], {
+      id: 5,
+      isFetching: false,
+      isHome: true,
+      isPage: true,
+      isPostType: true,
+      isReady: true,
+      link: "/",
+      page: 1,
+      route: "/",
+      type: "page",
+    });
+  },
+};
+
 const newHandler2 = {
   name: 'categoryOrPostType2',
   priority: 19,
@@ -147,11 +169,15 @@ const marsTheme = {
     theme: {
       getMain: ({ state, actions }) => async () => {
         state.customSettings.doLoader = true;
-        await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
-          const main = response.data;
-          Object.assign(state.source.data[state.router.link], main);
+        if(state.source.data[state.router.link] && state.source.data[state.router.link].last && state.source.data[state.router.link]['last'].length > 0){
           state.customSettings.doLoader = false;
-        });
+        } else {
+          await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
+            const main = response.data;
+            Object.assign(state.source.data[state.router.link], main);
+            state.customSettings.doLoader = false;
+          });
+        }
       },
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
@@ -290,7 +316,6 @@ const marsTheme = {
         let rss = {};
         if(state.theme.rss && state.theme.rss[lang] && state.theme.rss[lang]['data']){
           rss = state.theme.rss[lang]['data'];
-          console.log('-------------------------censor check')
         } else {
           try {
             const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
@@ -412,7 +437,7 @@ const marsTheme = {
     },
     source: {
       handlers: [
-        newHandler, newHandler2, /* UkMainHandler/*, MainHandler,
+        newHandler, newHandler2, MainHandler /* UkMainHandler/*, MainHandler,
         UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
         UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
         UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,

@@ -1,6 +1,7 @@
 import { styled, css } from 'frontity';
 import { SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL } from '../../const/responsive';
 import SvgSprite from '../SvgSprite';
+import Image from "../image";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -82,7 +83,7 @@ export const TopLayout = styled.div`
   }
 `;
 
-export const Logo = styled.img`
+export const Logo = styled(Image)`
   max-width: 249px;
   height: auto;
 
@@ -105,7 +106,7 @@ export const BottomContent = styled.div`
   }
 `;
 
-export const ScrollImage = styled.img`
+export const ScrollImage = styled(Image)`
   max-width: 82px;
   display: none;
   margin-right: 36px;
