@@ -193,6 +193,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
   };
 
   useEffect(() => {
+    actions.theme.getMain();
+    loadData();
+    //scrollControl();
     window.addEventListener('scroll', scrollControl);
   }, []);
 
