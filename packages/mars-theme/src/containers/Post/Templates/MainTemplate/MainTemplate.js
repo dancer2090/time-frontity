@@ -193,7 +193,9 @@ const MainTemplate = ({ state, libraries, actions }) => {
   };
 
   useEffect(() => {
-    actions.theme.getMain();
+    if(!state.source.data[state.router.link]['last']){
+      actions.theme.getMain();
+    }
     loadData();
     //scrollControl();
     window.addEventListener('scroll', scrollControl);
