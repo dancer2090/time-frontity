@@ -10,7 +10,7 @@ import {
   TextDescription,
   RightContent,
   FrameBlock,
-  Image,
+  Image2,
   ImageDescription,
 } from './styles';
 import img from '../../../../../img/girls-image.jpg';
@@ -78,7 +78,7 @@ const InterviewHeader = ({
       </LeftContent>
       <RightContent>
         <FrameBlock>
-          <Image src={imageUrlCheck(urlImage, urlsWithLocal)} />
+          <Image2 src={imageUrlCheck(urlImage, urlsWithLocal)} />
         </FrameBlock>
         <ImageDescription>
           <Html2React html={caption} />

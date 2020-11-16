@@ -46,7 +46,7 @@ const NewsCard = ({
   const {
     featured_image: itemImage = { url: '' },
   } = itemEmbed;
-  const newsImage = (itemImage.url ? itemImage.url : cardImg);
+  const newsImage = (itemImage.mobile ? itemImage.mobile : itemImage.url ? itemImage.url : cardImg);
   const {
     uk: itemUk = { title: '', content: '' },
     ru: itemRu = { title: '', content: '' },

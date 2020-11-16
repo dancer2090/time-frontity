@@ -20,7 +20,7 @@ import {
   FullBanner,
   MobileComments,
   MobileCommentsIco,
-  MobileCommentCount,
+  MobileCommentCount, 
   GMobileTitle,
   RightBanner,
 } from './styles';

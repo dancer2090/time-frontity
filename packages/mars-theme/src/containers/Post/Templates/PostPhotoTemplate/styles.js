@@ -4,6 +4,7 @@ import {SIZE_DESCTOP_SMALL, SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE} from '.
 import PostDetails from '../../../../components/PostDetails';
 import sliderArrow from '../../../../img/svg/slider-arrow.svg';
 import Shared from '../../../../components/Shared';
+import Image from "../../../../components/image";
 
 export const Wrapper = styled.div`
   padding: 21px 0;
@@ -236,7 +237,7 @@ export const SliderSlide = styled.div`
   }
 `;
 
-export const SlideImage = styled.img`
+export const SlideImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

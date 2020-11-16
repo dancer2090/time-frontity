@@ -27,20 +27,50 @@ const newHandler = {
         route, params, state, libraries,
       });
     } catch (e) {
-      let hand_name = 'post type';
-
-      if (params.type === 'video') {
-        hand_name = 'video';
-      }
-
-      const postType = libraries.source.handlers.find(
-        (handler) => handler.name === hand_name,
-      );
-
-      await postType.func({
-        link: route, params, state, libraries,
-      });
+      error.push('not-cat');
     }
+    if(error && error.length > 0){
+      try {
+        let hand_name = 'post type';
+
+        if (params.type === 'video') {
+          hand_name = 'video';
+        }
+  
+        const postType = libraries.source.handlers.find(
+          (handler) => handler.name === hand_name,
+        );
+  
+        await postType.func({
+          link: route, params, state, libraries,
+        });
+      }
+      catch {
+           
+      }
+    }
+  },
+};
+
+const MainHandler = {
+  name: 'MainHandler',
+  priority: 19,
+  pattern: '/',
+  func: async ({
+    route, params, state, libraries,
+  }) => {
+    Object.assign(state.source.data[route], {
+      id: 5,
+      isFetching: false,
+      isHome: true,
+      isPage: true,
+      isPostType: true,
+      isReady: true,
+      link: "/",
+      page: 1,
+      route: "/",
+      type: "page",
+    });
   },
 };
 
@@ -116,6 +146,7 @@ const marsTheme = {
       doLoader: false,
     },
     theme: {
+      rss: {},
       menu: {},
       cases: {},
       postTags: {},
@@ -138,11 +169,15 @@ const marsTheme = {
     theme: {
       getMain: ({ state, actions }) => async () => {
         state.customSettings.doLoader = true;
-        await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
-          const main = response.data;
-          Object.assign(state.source.data[state.router.link], main);
+        if(state.source.data[state.router.link] && state.source.data[state.router.link].last && state.source.data[state.router.link]['last'].length > 0){
           state.customSettings.doLoader = false;
-        });
+        } else {
+          await axios.get(`${state.source.api}/frontity-api/get-main`).then((response) => {
+            const main = response.data;
+            Object.assign(state.source.data[state.router.link], main);
+            state.customSettings.doLoader = false;
+          });
+        }
       },
       getCategory: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
@@ -260,7 +295,7 @@ const marsTheme = {
         return new Promise((resolve) => {
           resolve('ok');
         });
-      },
+      }, 
       getDataAuthorGroup: ({ state }) => async (group) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-group-info/`, {
           params: {
@@ -272,19 +307,23 @@ const marsTheme = {
           resolve('ok');
         });
       },
-      getDataPersonLoad: ({ state }) => async () => {
-        const { data } = await axios.get(`${state.source.api}/frontity-api/get-persona/`);
-        Object.assign(state.source.data[state.router.link], data);
+      getDataPersonLoad: ({ state }) => async (ctxGetPersona) => {
+        const personaData = ctxGetPersona ? ctxGetPersona : await axios.get(`${state.source.api}/frontity-api/get-persona/`);
+        Object.assign(state.source.data[state.router.link], personaData.data);
       },
       loadNewsIntegration: ({ state }) => async () => {
         const { lang = 'ru' } = state.theme;
         let rss = {};
-        try {
-          const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
-          const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
-          rss = resultParse.rss;
-        } catch (ex) {
-          console.log(ex);
+        if(state.theme.rss && state.theme.rss[lang] && state.theme.rss[lang]['data']){
+          rss = state.theme.rss[lang]['data'];
+        } else {
+          try {
+            const result = await axios.get(`https://censor.net.ua/includes/news_${lang}.xml`);
+            const resultParse = convert.xml2js(result.data, { compact: true, spaces: 4 });
+            rss = resultParse.rss;
+          } catch (ex) {
+            //console.log(ex);
+          }
         }
 
         const { channel = {} } = rss;
@@ -341,21 +380,32 @@ const marsTheme = {
           resolve('data');
         });
       },
-      beforeSSR: async ({ state, actions, libraries }) => {
+      beforeSSR: ({ state, actions, libraries }) => async ({ ctx }) => {
+        const url = ctx.href;
+        const { state : ctxState = {} } = ctx;
+        const {
+          posts : ctxPosts = [],
+          options : ctxOptions = {},
+          categories : ctxCategories = [],
+          getMain = {},
+          getPersona : ctxGetPersona = [],
+          censor : ctxCensor = {}
+        } = ctxState;
+
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
 
         if (ldata.query && ldata.query.lang) {
           state.theme.lang = ldata.query.lang !== 'uk' && ldata.query.lang !== 'ru' ? 'ru' : ldata.query.lang;
         }
-        const globalOptions = await axios.get(`${state.source.api}/acf/v3/options/options`);
+        if(ctxCensor && ctxCensor[state.theme.lang] && ctxCensor[state.theme.lang]['data']) state.theme.rss = ctxCensor;
+        const globalOptions = ctxOptions && ctxOptions.data ? await ctxOptions : await axios.get(`${state.source.api}/acf/v3/options/options`);
         const optionPage = globalOptions.data || {};
-
         state.theme.options = optionPage;
         actions.theme.alternativeUrlForImage();
         if (
           ldata.route === '/'
         ) {
-          const mainData = await axios.get(`${state.source.api}/frontity-api/get-main`);
+          const mainData = getMain ? getMain : await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
         }
@@ -368,7 +418,7 @@ const marsTheme = {
         await actions.theme.loadNewsIntegration();
 
         if (state.router.link.includes('persona')) {
-          await actions.theme.getDataPersonLoad();
+          await actions.theme.getDataPersonLoad(ctxGetPersona);
         }
         if (state.router.link.includes('authors') || state.router.link.includes('tag')) {
           state.source.data[state.router.link].timeline = [];
@@ -387,7 +437,7 @@ const marsTheme = {
     },
     source: {
       handlers: [
-        newHandler, newHandler2, /* UkMainHandler/*, MainHandler,
+        newHandler, newHandler2, MainHandler /* UkMainHandler/*, MainHandler,
         UkImagesHandler, ImagesHandler, UkVideoHandler, VideoHandler,
         UkVideoPostHandler, VideoPostHandler, UkImagesPostHandler, ImagesPostHandler,
         UkPersonaHandler, PersonaHandler, UkPersonaPostHandler, PersonaPostHandler,

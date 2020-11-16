@@ -1,6 +1,7 @@
 import { styled } from 'frontity';
 import { SIZE_LAPTOP, SIZE_LAPTOP_SMALL, SIZE_MOBILE } from '../../../../../const/responsive';
 import PostDetails from '../../../../../components/PostDetails';
+import Image from "../../../../../components/image";
 
 export const Wrapper = styled.div`
   @media screen and (max-width: ${SIZE_MOBILE}px) {
@@ -76,7 +77,7 @@ export const BigPhoto = styled.div`
   }
 `;
 
-export const BigPhotoImage = styled.img`
+export const BigPhotoImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

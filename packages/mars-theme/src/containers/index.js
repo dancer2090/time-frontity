@@ -10,7 +10,7 @@ import Post from './post';
 import Header from '../components/Header';
 import HeadTags from '../components/HeadTags';
 import Loader from '../components/Loader';
-import Title from '../components/title';
+import TitleHead from '../components/TitleHead';
 import Modal from '../components/Modal';
 import PageError from '../components/page-error';
 import { globalStyles, Main } from '../components/globalStyles';
@@ -41,7 +41,6 @@ const Theme = ({ state, actions, libraries }) => {
 
   useEffect(() => {
     actions.theme.ipDetect();
-    console.log(state);
   }, []);
 
   return (
@@ -49,12 +48,12 @@ const Theme = ({ state, actions, libraries }) => {
       <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
         <Head>
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
-          <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/>
+          {/* <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"/> */}
           {getParams && getParams.query && getParams.query.p && <meta name="robots" content="noindex" />}
         </Head>
         <HeadTags /> 
-        <Title />
+        <TitleHead />
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
         <Global styles={globalStyles} />

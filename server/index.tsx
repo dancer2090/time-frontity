@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
 import Koa from "koa";
 import { get } from "koa-route";
 import serve from "koa-static";
@@ -22,8 +21,9 @@ import getHeadTags from "./utils/head";
 import App from "../app";
 import { FrontityTags } from "../../types";
 import createStore from "./store";
-import { exists } from "fs";
+import { exists, promises as fs } from "fs";
 import { promisify } from "util";
+import compress from "koa-compress";
 
 export default ({ packages }): ReturnType<Koa["callback"]> => {
   const app = new Koa();
@@ -70,6 +70,21 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
+    ctx.compress = true;
+    const url = ctx.url.split('?');
+    let newUrl = url[0];
+    const lang = ctx.query && ctx.query.lang ? ctx.query.lang : 'ru';
+
+    const data = {
+      censor : {},
+      options : {},
+      getMain : {},
+      persona : {}
+    };
+    data.censor = fs.readFile("api/public/res-json/censor/"+lang+".json", "utf8");
+    data.options = fs.readFile("api/public/res-json/options/index.json", "utf8");
+    data.getMain = newUrl === '/' ? fs.readFile("api/public/res-json/get-main/index.json", "utf8") : '';
+    data.persona = newUrl.includes('persona') ? fs.readFile("api/public/res-json/get-persona/index.json", "utf8") : '';
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
@@ -93,6 +108,22 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     // const ip = ctx.req.connection.remoteAddress;
     const current_ip = ctx.ips.length > 0 ? ctx.ips[ctx.ips.length - 1] : ctx.ip;
     store.state.frontity.ip = current_ip;
+
+    const [
+      censor,
+      options,
+      getMain,
+      persona
+    ] = await Promise.all(
+      Object.values(data)
+    );
+    if(censor && censor !== ''){
+      ctx.state.censor = {};
+      ctx.state.censor[lang] = {data : JSON.parse(censor)};
+    }
+    if(options && options !== '') ctx.state.options = {data : JSON.parse(options)};
+    if(getMain && getMain !== '') ctx.state.getMain = {data : JSON.parse(getMain)};
+    if(persona && persona !== '') ctx.state.getPersona = {data : JSON.parse(persona)};
 
     // Run init actions.
     await Promise.all(
