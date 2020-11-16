@@ -67,22 +67,6 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
 
   // Return Frontity favicon for favicon.ico.
   app.use(get("/favicon.ico", serve("./")));
-  
-  app.use(compress({
-    filter (content_type) {
-      return /text/i.test(content_type)
-    },
-    threshold: 2048,
-    gzip: {
-      flush: require('zlib').constants.Z_SYNC_FLUSH
-    },
-    deflate: {
-      flush: require('zlib').constants.Z_SYNC_FLUSH,
-    },
-    br: {
-      flush: require('zlib').constants.Z_SYNC_FLUSH,
-    },
-  }))
 
   // Frontity server rendering.
   app.use(async (ctx, next) => {
