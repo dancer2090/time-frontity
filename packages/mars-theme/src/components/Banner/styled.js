@@ -21,6 +21,6 @@ export const BannerContainer = styled.div`
         }
     `}
 `;
-export const BannerImg = styled.img`
+export const BannerImg = styled(Image)`
   display: block;
 `;
