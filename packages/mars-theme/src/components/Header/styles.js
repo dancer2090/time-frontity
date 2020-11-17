@@ -83,7 +83,7 @@ export const TopLayout = styled.div`
   }
 `;
 
-export const Logo = styled(Image)`
+export const Logo = styled.img`
   max-width: 249px;
   height: auto;
 
