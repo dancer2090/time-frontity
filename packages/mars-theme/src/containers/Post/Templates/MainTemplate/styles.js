@@ -143,7 +143,7 @@ export const BigFrame = styled.div`
    }
 `;
 
-export const BigImage = styled(Image)`
+export const BigImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

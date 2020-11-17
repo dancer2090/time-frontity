@@ -57,6 +57,17 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     })
   );
 
+  app.use(
+    get("/sitemap.xml", async (ctx, next) => {
+      if (await promisify(exists)("../admin.timeua.info/sitemap.xml")) {
+        await serve("../admin.timeua.info/")(ctx, next);
+      } else {
+        ctx.type = "text/plain";
+        ctx.body = "User-agent: *\nAllow: /";
+      }
+    })
+  );
+
   // Ignore HMR if not in dev mode or old browser open.
   const return404 = (ctx: Context) => {
     ctx.status = 404;
