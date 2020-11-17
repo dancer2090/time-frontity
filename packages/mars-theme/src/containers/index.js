@@ -3,7 +3,6 @@ import {
   Global, connect, Head,
 } from 'frontity';
 import Switch from '@frontity/components/switch';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
 import Post from './post';
@@ -14,7 +13,7 @@ import TitleHead from '../components/TitleHead';
 import Modal from '../components/Modal';
 import PageError from '../components/page-error';
 import { globalStyles, Main } from '../components/globalStyles';
-import Recaptcha from '../components/Recaptcha';
+import { fontsPost } from '../components/fontsPost';
 
 /**
  * Theme is the root React component of our theme. The one we will export
@@ -45,7 +44,6 @@ const Theme = ({ state, actions, libraries }) => {
 
   return (
     <>
-      <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
         {/* Add some metatags to the <head> of the HTML. */}
         <Head>
           {/* <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
@@ -56,7 +54,17 @@ const Theme = ({ state, actions, libraries }) => {
         <TitleHead />
         {/* Add some global styles for the whole site, like body or a's.
         Not classes here because we use CSS-in-JS. Only global HTML tags. */}
-        <Global styles={globalStyles} />
+        {
+          state.source.data[state.router.link].isPost ||
+          state.source.data[state.router.link].isPersona ||
+          state.source.data[state.router.link].isVideo ||
+          state.source.data[state.router.link].isImages
+          ?
+            <Global styles={globalStyles} />
+          :
+            <Global styles={fontsPost} />
+        }
+        
         {/* Header components */}
         <Header />
 
@@ -88,8 +96,6 @@ const Theme = ({ state, actions, libraries }) => {
         </Main>
 
         {/* Footer components */}
-
-      </GoogleReCaptchaProvider>
     </>
   );
 };

@@ -55,7 +55,151 @@ import NST from '../fonts/NotoSans.ttf';
 import NSW from '../fonts/NotoSans.woff';
 import NSW2 from '../fonts/NotoSans-Regular.woff2';
 
-export const globalStyles = css`
+import MBE from '../fonts/Montserrat-Black.eot';
+import MBS from '../fonts/Montserrat-Black.svg';
+import MBT from '../fonts/Montserrat-Black.ttf';
+import MBW from '../fonts/Montserrat-Black.woff';
+import MBW2 from '../fonts/Montserrat-Black.woff2';
+
+import MBIE from '../fonts/Montserrat-BlackItalic.eot';
+import MBIS from '../fonts/Montserrat-BlackItalic.svg';
+import MBIT from '../fonts/Montserrat-BlackItalic.ttf';
+import MBIW from '../fonts/Montserrat-BlackItalic.woff';
+import MBIW2 from '../fonts/Montserrat-BlackItalic.woff2';
+
+import MEBE from '../fonts/Montserrat-ExtraBold.eot';
+import MEBS from '../fonts/Montserrat-ExtraBold.svg';
+import MEBT from '../fonts/Montserrat-ExtraBold.ttf';
+import MEBW from '../fonts/Montserrat-ExtraBold.woff';
+import MEBW2 from '../fonts/Montserrat-ExtraBold.woff2';
+
+import MEIBE from '../fonts/Montserrat-ExtraBoldItalic.eot';
+import MEIBS from '../fonts/Montserrat-ExtraBoldItalic.svg';
+import MEIBT from '../fonts/Montserrat-ExtraBoldItalic.ttf';
+import MEIBW from '../fonts/Montserrat-ExtraBoldItalic.woff';
+import MEIBW2 from '../fonts/Montserrat-ExtraBoldItalic.woff2';
+
+import MELE from '../fonts/Montserrat-ExtraLight.eot';
+import MELS from '../fonts/Montserrat-ExtraLight.svg';
+import MELT from '../fonts/Montserrat-ExtraLight.ttf';
+import MELW from '../fonts/Montserrat-ExtraLight.woff';
+import MELW2 from '../fonts/Montserrat-ExtraLight.woff2';
+
+import MELIE from '../fonts/Montserrat-ExtraLightItalic.eot';
+import MELIS from '../fonts/Montserrat-ExtraLightItalic.svg';
+import MELIT from '../fonts/Montserrat-ExtraLightItalic.ttf';
+import MELIW from '../fonts/Montserrat-ExtraLightItalic.woff';
+import MELIW2 from '../fonts/Montserrat-ExtraLightItalic.woff2';
+
+import MTE from '../fonts/Montserrat-Thin.eot';
+import MTS from '../fonts/Montserrat-Thin.svg';
+import MTT from '../fonts/Montserrat-Thin.ttf';
+import MTW from '../fonts/Montserrat-Thin.woff';
+import MTW2 from '../fonts/Montserrat-Thin.woff2';
+
+import MTIE from '../fonts/Montserrat-ThinItalic.eot';
+import MTIS from '../fonts/Montserrat-ThinItalic.svg';
+import MTIT from '../fonts/Montserrat-ThinItalic.ttf';
+import MTIW from '../fonts/Montserrat-ThinItalic.woff';
+import MTIW2 from '../fonts/Montserrat-ThinItalic.woff2';
+
+export const fontsPost = css`
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MBE}');
+  src: url('${MBE}?#iefix') format('embedded-opentype'),
+       url('${MBS}#Montserrat-Black') format('svg'),
+       url('${MBT}') format('truetype'),
+       url('${MBW}') format('woff'),
+       url('${MBW2}') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MBIE}');
+  src: url('${MBIE}?#iefix') format('embedded-opentype'),
+       url('${MBIS}#Montserrat-BlackItalic') format('svg'),
+       url('${MBIT}') format('truetype'),
+       url('${MBIW}') format('woff'),
+       url('${MBIW2}') format('woff2');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MEBE}');
+  src: url('${MEBE}?#iefix') format('embedded-opentype'),
+       url('${MEBS}#Montserrat-BoldItalic') format('svg'),
+       url('${MEBT}') format('truetype'),
+       url('${MEBW}') format('woff'),
+       url('${MEBW2}') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat-ExtraBoldItalic';
+  src: url('${MEIBE}');
+  src: url('${MEIBE}?#iefix') format('embedded-opentype'),
+       url('${MEIBS}#Montserrat-BoldItalic') format('svg'),
+       url('${MEIBT}') format('truetype'),
+       url('${MEIBW}') format('woff'),
+       url('${MEIBW2}') format('woff2');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MELE}');
+  src: url('${MELE}?#iefix') format('embedded-opentype'),
+       url('${MELS}#Montserrat-ExtraLight') format('svg'),
+       url('${MELT}') format('truetype'),
+       url('${MELW}') format('woff'),
+       url('${MELW2}') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MELIE}');
+  src: url('${MELIE}?#iefix') format('embedded-opentype'),
+       url('${MELIS}#Montserrat-ExtraLightItalic') format('svg'),
+       url('${MELIT}') format('truetype'),
+       url('${MELIW}') format('woff'),
+       url('${MELIW2}') format('woff2');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MTE}');
+  src: url('${MTE}?#iefix') format('embedded-opentype'),
+       url('${MTS}#Montserrat-Thin') format('svg'),
+       url('${MTT}') format('truetype'),
+       url('${MTW}') format('woff'),
+       url('${MTW2}') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('${MTIE}');
+  src: url('${MTIE}?#iefix') format('embedded-opentype'),
+       url('${MTIS}#Montserrat-ThinItalic') format('svg'),
+       url('${MTIT}') format('truetype'),
+       url('${MTIW}') format('woff'),
+       url('${MTIW2}') format('woff2');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'Montserrat';
