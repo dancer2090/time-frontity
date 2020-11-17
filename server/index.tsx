@@ -28,6 +28,21 @@ import compress from "koa-compress";
 export default ({ packages }): ReturnType<Koa["callback"]> => {
   const app = new Koa();
   app.proxy = true;
+  app.use(compress({
+    filter (content_type) {
+      return /text/i.test(content_type)
+    },
+    threshold: 2048,
+    gzip: {
+      flush: require('zlib').constants.Z_SYNC_FLUSH
+    },
+    deflate: {
+      flush: require('zlib').constants.Z_SYNC_FLUSH,
+    },
+    deflate: {
+      flush: require('zlib').constants.Z_SYNC_FLUSH,
+    }
+  }))
   // Serve static files.
   app.use(async (ctx, next) => {
     const moduleStats = await getStats({ target: "module" });
