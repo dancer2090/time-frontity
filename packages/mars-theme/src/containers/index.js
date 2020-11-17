@@ -60,9 +60,9 @@ const Theme = ({ state, actions, libraries }) => {
           state.source.data[state.router.link].isVideo ||
           state.source.data[state.router.link].isImages
           ?
-            <Global styles={globalStyles} />
-          :
             <Global styles={fontsPost} />
+          :
+            <Global styles={globalStyles} />
         }
         
         {/* Header components */}
