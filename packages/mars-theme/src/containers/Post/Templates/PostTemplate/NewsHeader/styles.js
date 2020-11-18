@@ -77,7 +77,7 @@ export const BigPhoto = styled.div`
   }
 `;
 
-export const BigPhotoImage = styled(Image)`
+export const BigPhotoImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

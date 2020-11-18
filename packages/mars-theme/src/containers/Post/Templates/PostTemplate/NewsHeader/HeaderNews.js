@@ -22,7 +22,9 @@ const HeaderNews = ({
   const frameUrl = imageUrlCheck(image, urlsWithLocal);
 
   // data
-  const { acf = {} } = data;
+  const {
+    acf = {}
+  } = data;
   const { title = '' } = acf[lang];
   const { views = '0' } = acf;
   const date = formatDatePost(lang, data.date);

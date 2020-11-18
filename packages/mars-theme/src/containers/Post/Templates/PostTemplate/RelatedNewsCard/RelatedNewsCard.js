@@ -21,11 +21,11 @@ const RelatedNewsCard = ({ data, state, libraries }) => {
   // components data
   const { acf = {} } = data;
   const { title = '' } = acf[lang];
-  const { featured_media: frameId = '' } = data;
+  const { infoImage = {} } = data;
 
   let urlImage = logoTime;
-  if (state.source.attachment[frameId]) {
-    urlImage = state.source.attachment[frameId].source_url;
+  if (infoImage && infoImage.imageMedium) {
+    urlImage = infoImage.imageMedium;
   }
   const postUrl = imageUrlCheck(urlImage, urlsWithLocal);
 

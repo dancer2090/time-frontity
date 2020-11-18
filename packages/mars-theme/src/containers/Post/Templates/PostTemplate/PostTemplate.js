@@ -77,7 +77,8 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const { lang = 'ru' } = state.theme;
   const { 
     acf = {},
-    authorsInfo = [] 
+    authorsInfo = [],
+    infoImage = {} 
   } = post;
   const { content = '' } = acf[lang];
   // category post
@@ -135,7 +136,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
     rendered: '',
   };
   if (state.source.attachment[frameId]) {
-    urlBigImage = state.source.attachment[frameId].source_url;
+    urlBigImage = infoImage.imageLarge;
     captionImage = state.source.attachment[frameId].caption;
   }
   // related posts
