@@ -149,7 +149,7 @@ const marsTheme = {
       rss: {},
       menu: {},
       cases: {},
-      postTags: {},
+      postTags: [],
       authors: {},
       teammembers: {},
       recaptchaToken: null,
@@ -285,28 +285,6 @@ const marsTheme = {
           resolve('ok');
         });
       },
-      getDataAuthor: ({ state }) => async (id) => {
-        const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-info/${id}`);
-        Object.assign(state.source.data[state.router.link], {
-          author: {
-            ...data, 
-          },
-        });
-        return new Promise((resolve) => {
-          resolve('ok');
-        });
-      }, 
-      getDataAuthorGroup: ({ state }) => async (group) => {
-        const { data } = await axios.get(`${state.source.api}/frontity-api/get-auhtor-group-info/`, {
-          params: {
-            authors: group,
-          },
-        });
-        state.theme.authors = data;
-        return new Promise((resolve) => {
-          resolve('ok');
-        });
-      },
       getDataPersonLoad: ({ state }) => async (ctxGetPersona) => {
         const personaData = ctxGetPersona ? ctxGetPersona : await axios.get(`${state.source.api}/frontity-api/get-persona/`);
         Object.assign(state.source.data[state.router.link], personaData.data);
@@ -389,7 +367,9 @@ const marsTheme = {
           categories : ctxCategories = [],
           getMain = {},
           getPersona : ctxGetPersona = [],
-          censor : ctxCensor = {}
+          censor : ctxCensor = {},
+          getCategory : ctxGetCategory = {},
+          getTags : ctxGetTags = []
         } = ctxState;
 
         const ldata = libraries.source.parse(state.frontity.url + state.router.link);
@@ -408,6 +388,12 @@ const marsTheme = {
           const mainData = getMain ? getMain : await axios.get(`${state.source.api}/frontity-api/get-main`);
           const main = mainData.data;
           Object.assign(state.source.data[state.router.link], main);
+        }
+        if(ctxGetCategory && ctxGetCategory.data){
+          Object.assign(state.source.data[state.router.link], ctxGetCategory.data);
+        }
+        if(ctxGetTags && ctxGetTags.data && ctxGetTags.data.tags){
+          state.theme.postTags = ctxGetTags.data.tags;
         }
 
         if (state.router.link.includes('search-result')) {

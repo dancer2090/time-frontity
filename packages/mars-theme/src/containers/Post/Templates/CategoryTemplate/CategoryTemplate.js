@@ -60,13 +60,18 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
     setLastPost(dataTimeLine);
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     state.customSettings.categoryPage = 2;
-    actions.theme.getCategory(dataCategory.id)
+    if(state.source.data[state.router.link]['timeline'] && state.source.data[state.router.link]['timeline'].length > 0){
+      loadTimeLineData();
+      if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
+    } else{
+      actions.theme.getCategory(dataCategory.id)
       .then(() => {
         loadTimeLineData();
         if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
       });
+    }
   }, [state.router.link]);
 
   const fetchMoreData = () => {

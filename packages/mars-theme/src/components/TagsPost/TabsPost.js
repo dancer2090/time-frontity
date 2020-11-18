@@ -25,14 +25,19 @@ const TabsPost = ({items = [], state, libraries}) => {
         title : title,
         link : link
       })
+    } else{
+      arrTags.push({
+        title: item.name,
+        link : link
+      })
     }
   });
 return (
   <Wrapper>
     <GIconTag name="tag" />
     <List>
-      {arrTags.map((item) => (
-        <Link link={urlCheck(item.link, [state.frontity.url, state.frontity.adminUrl])}>
+      {arrTags.map((item,i) => (
+        <Link key={`${item.title}_${i}`} link={urlCheck(item.link, [state.frontity.url, state.frontity.adminUrl])}>
           {item.title}
         </Link>
       ))}

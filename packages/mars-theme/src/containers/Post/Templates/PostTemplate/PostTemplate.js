@@ -6,7 +6,7 @@ import {
   ContentContainer,
   CenterContent,
   Content,
-  TabsWrapper,
+  TabsWrapper, 
   RightNavigation,
   AuthorInformation,
   AuthorImage,
@@ -75,7 +75,10 @@ const PostTemplate = ({ state, libraries, actions }) => {
   const [authorDataGroup, setauthorDataGroup] = useState({});
 
   const { lang = 'ru' } = state.theme;
-  const { acf = {} } = post;
+  const { 
+    acf = {},
+    authorsInfo = [] 
+  } = post;
   const { content = '' } = acf[lang];
   // category post
   const linksCategory = state.router.link.split('/');
@@ -97,20 +100,12 @@ const PostTemplate = ({ state, libraries, actions }) => {
 
   useEffect(() => {
     actions.theme.addViewPost(post.id);
-    actions.theme.getTags(post.id);
-    if (authorId) {
-      actions.theme.getDataAuthor(authorId)
-        .then(() => {
-          const { author } = state.source.get(state.router.link);
-          setAuthorData(author);
-        });
+    if(state.theme.postTags && state.theme.postTags.length === 0){
+      actions.theme.getTags(post.id);
     }
-    if (authorsGroup && authorsGroup.length > 0) {
-      actions.theme.getDataAuthorGroup(authorsGroup)
-        .then(() => {
-          const authors = state.theme.authors;
-          setauthorDataGroup(authors);
-        });
+    if (authorsInfo && authorsInfo.length > 0) {
+      setauthorDataGroup(authorsInfo);
+      state.theme.authors = authorsInfo;
     }
   }, []);
 
@@ -191,7 +186,7 @@ const PostTemplate = ({ state, libraries, actions }) => {
         );
     }
   };
-
+  console.log(state);
   return (
     <Wrapper>
       <Container>
@@ -217,16 +212,6 @@ const PostTemplate = ({ state, libraries, actions }) => {
               <Shared link={fullPostUrl} />
             </TabsWrapper>
             <AuthorInformation>
-              {
-                authorId && (
-                    <Link link={urlCheck(authorData.link, [state.frontity.url, state.frontity.adminUrl])}>
-                      <AuthorImage src={imageUrlCheck(authorData.photo, urlsWithLocal)} />
-                      <AuthorName>
-                        { authorData.acf[lang].title }
-                      </AuthorName>
-                    </Link>
-                )
-              }
               {
                 authorDataGroup.length > 0 && authorDataGroup.map( (author,index) => (
                   <Link link={urlCheck(author.link, [state.frontity.url, state.frontity.adminUrl])}>
