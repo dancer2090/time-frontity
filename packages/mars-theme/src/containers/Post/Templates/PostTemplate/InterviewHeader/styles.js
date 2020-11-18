@@ -157,7 +157,7 @@ export const FrameBlock = styled.div`
   }
 `;
 
-export const Image2 = styled(Image)`
+export const Image2 = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

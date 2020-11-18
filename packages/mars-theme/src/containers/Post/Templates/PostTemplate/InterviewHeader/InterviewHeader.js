@@ -43,7 +43,7 @@ const InterviewHeader = ({
     views = '0',
   } = acf;
   const {
-    source_url: urlImage = '',
+    media_details: urlImage = '',
     caption = {
       rendered: '',
     },
@@ -78,7 +78,7 @@ const InterviewHeader = ({
       </LeftContent>
       <RightContent>
         <FrameBlock>
-          <Image2 src={imageUrlCheck(urlImage, urlsWithLocal)} />
+          <Image2 src={imageUrlCheck(urlImage.sizes.bigFrame.source_url, urlsWithLocal)} />
         </FrameBlock>
         <ImageDescription>
           <Html2React html={caption} />
