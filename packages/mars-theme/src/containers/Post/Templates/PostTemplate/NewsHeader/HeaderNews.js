@@ -29,7 +29,6 @@ const HeaderNews = ({
   const { title = '' } = acf[lang];
   const { views = '0' } = acf;
   const date = formatDatePost(lang, data.date);
-  console.log(data);
   return (
     <Wrapper>
       <Title>
