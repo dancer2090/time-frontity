@@ -45,12 +45,12 @@ const PersonCard = ({
   } = acf[lang];
   let mediaUrl = cardImg;
   if (_embedded.featured_image && _embedded.featured_image.url) {
-    mediaUrl = _embedded.featured_image.url;
+    mediaUrl = _embedded.featured_image.bigFrame;
   }
   const card_title = (name !== '' ? name : title);
   const card_description = (name !== '' ? title : description);
 
-  return (
+  return ( 
     <Link link={urlCheck(link, [state.frontity.url, state.frontity.adminUrl])}>
       <Card direction={direction} verticalSmall={verticalSmall}>
         <FrameBlock>

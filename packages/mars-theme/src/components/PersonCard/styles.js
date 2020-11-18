@@ -232,7 +232,7 @@ export const Card = styled.div`
   }
 `;
 
-export const Frame = styled(Image)`
+export const Frame = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

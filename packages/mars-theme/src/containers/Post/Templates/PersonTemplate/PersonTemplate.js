@@ -80,7 +80,9 @@ const PersonTemplate = ({ state, actions }) => {
   };
 
   useEffect(() => {
-    actions.theme.getDataPersonLoad();
+    if(!state.source.data[state.router.link]['topItems']){
+      actions.theme.getDataPersonLoad();
+    }
     loadData();
     if (state.customSettings.personPage > totalPages) {
       setHasLoadMore(false);
