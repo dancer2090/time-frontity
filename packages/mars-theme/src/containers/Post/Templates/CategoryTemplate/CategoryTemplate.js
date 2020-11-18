@@ -72,7 +72,7 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
         if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
       });
     }
-  }, [state.router.link]);
+  }, []);
 
   const fetchMoreData = () => {
     state.customSettings.categoryLoadMore = true;

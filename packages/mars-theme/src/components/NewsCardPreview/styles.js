@@ -38,7 +38,7 @@ export const FrameBlock = styled.div`
   }
 `;
 
-export const FrameImage = styled(Image)`
+export const FrameImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

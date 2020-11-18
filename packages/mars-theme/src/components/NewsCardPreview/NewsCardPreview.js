@@ -23,7 +23,7 @@ const NewsCardPreview = ({
     link = '',
   } = data;
   const { featured_image: imageUrl = '' } = data._embedded;
-  const { url = '' } = imageUrl;
+  const { mobile = '' } = imageUrl;
   let resultImageUrl = '';
   if (acf.images) {
     const {
@@ -31,7 +31,7 @@ const NewsCardPreview = ({
     } = acf.images[0].image;
     resultImageUrl = imageUrlCheck(urlImage, urlsWithLocal);
   } else {
-    resultImageUrl = imageUrlCheck(url, urlsWithLocal);
+    resultImageUrl = imageUrlCheck(mobile, urlsWithLocal);
   }
   const { title = '' } = acf[lang];
   return (
