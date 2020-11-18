@@ -26,7 +26,7 @@ const HeadTags = ({ state, libraries, actions }) => {
   const dataId = state.source.get(link);
   let data = {};
   let checkOther = false;
-  if (state.source[dataId.type] && !dataId.isCategory && !dataId.isTaxonomy && !dataId.isArchive && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
+  if (state.source[dataId.type] && dataId.isReady && !dataId.isCategory && !dataId.isTaxonomy && !dataId.isArchive && ldata.route !== '/persona/' && ldata.route !== '/photo/' && ldata.route !== '/video/') {
     data = state.source[dataId.type][dataId.id];
   } else {
     if (dataId.isCategory) {
