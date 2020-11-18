@@ -100,18 +100,46 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     ctx.compress = true;
     const url = ctx.url.split('?');
     let newUrl = url[0];
+    let urlData = newUrl.split('/');
     const lang = ctx.query && ctx.query.lang ? ctx.query.lang : 'ru';
 
     const data = {
       censor : {},
       options : {},
       getMain : {},
-      persona : {}
+      persona : {},
+      getCategory: {},
+      getPage: {},
+      getTags: {},
     };
     data.censor = fs.readFile("api/public/res-json/censor/"+lang+".json", "utf8");
     data.options = fs.readFile("api/public/res-json/options/index.json", "utf8");
     data.getMain = newUrl === '/' ? fs.readFile("api/public/res-json/get-main/index.json", "utf8") : '';
     data.persona = newUrl.includes('persona') ? fs.readFile("api/public/res-json/get-persona/index.json", "utf8") : '';
+    if(
+      newUrl !== '/' &&
+      newUrl !== '/persona/' &&
+      newUrl !== '/images/' &&
+      newUrl !== '/video/'
+    ){
+      let slug = urlData[urlData.length - 2];
+      let error = '';
+      try{
+        data.getCategory = await fs.readFile("api/public/res-json/get-category/"+slug+".json", "utf8");
+        ctx.state.getCategory = {data : JSON.parse(data.getCategory)};
+      } catch(ex){
+        error = 'cat';
+      }
+      if(error === 'cat'){
+        try{
+          data.getTags = await fs.readFile("api/public/res-json/get-tags/"+slug+".json", "utf8");
+          ctx.state.getTags = {data : JSON.parse(data.getTags)};
+        } catch(ex){
+          error = 'post';
+        }
+      }
+    }
+
     // Get module chunk stats.
     const moduleStats = await getStats({ target: "module" });
     // Get es5 chunk stats.
@@ -140,7 +168,9 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
       censor,
       options,
       getMain,
-      persona
+      persona,
+      getCategory,
+      getTags
     ] = await Promise.all(
       Object.values(data)
     );
