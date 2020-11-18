@@ -32,7 +32,7 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
     filter (content_type) {
       return /text/i.test(content_type)
     },
-    threshold: 2048,
+    threshold: 100,
     gzip: {
       flush: require('zlib').constants.Z_SYNC_FLUSH
     },

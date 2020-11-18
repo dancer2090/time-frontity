@@ -25,7 +25,8 @@ const NewsCardPreview = ({
   const { featured_image: imageUrl = '' } = data._embedded;
   const {
     mobile = '',
-    large = ''
+    large = '',
+    bigFrame = ''
   } = imageUrl;
   let resultImageUrl = '';
   if (acf.images) {
@@ -35,7 +36,7 @@ const NewsCardPreview = ({
     resultImageUrl = imageUrlCheck(urlImage, urlsWithLocal);
   } else {
     if(size === 'medium') resultImageUrl = imageUrlCheck(mobile, urlsWithLocal);
-    else resultImageUrl = imageUrlCheck(large, urlsWithLocal);
+    else resultImageUrl = imageUrlCheck(bigFrame, urlsWithLocal);
   }
   const { title = '' } = acf[lang];
   return (
