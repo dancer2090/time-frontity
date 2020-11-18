@@ -178,8 +178,8 @@ const marsTheme = {
             state.customSettings.doLoader = false;
           });
         }
-      },
-      getCategory: ({ state }) => async (id) => {
+      }, 
+      getCategory: ({ state }) => async (id, ctx = {}) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-category/${id}`);
         Object.assign(state.source.data[state.router.link], data);
         return new Promise((resolve) => {
@@ -188,7 +188,7 @@ const marsTheme = {
       },
       getTags: ({ state }) => async (id) => {
         const { data } = await axios.get(`${state.source.api}/frontity-api/get-tags/${id}`);
-        state.theme.postTags = data;
+        state.theme.postTags = data.tags;
         return new Promise((resolve) => {
           resolve('ok');
         });

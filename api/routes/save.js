@@ -146,7 +146,7 @@ router.get('/get-tags/:post', function(req, res, next) {
     .then(res => res.json())
     .then(json => {
       let data = JSON.stringify(json);
-      saveFileSync(`api/public/res-json/get-tags/tag-${req.params.post}.json`, data);
+      saveFileSync(`api/public/res-json/get-tags/${json.post.slug}.json`, data);
     });
   res.json({'res':'ok'})
 });
@@ -179,7 +179,7 @@ router.get('/get-category/:category', function(req, res, next) {
     .then(res => res.json())
     .then(json => {
       let data = JSON.stringify(json);
-      saveFileSync(`api/public/res-json/get-category/cat-${req.params.category}.json`, data);
+      saveFileSync(`api/public/res-json/get-category/${json.cat.slug}.json`, data);
     });
   res.json({'res':'ok'})
 });
