@@ -20,12 +20,32 @@ const newHandler = {
     // 1. try with category.
     const error = [];
     try {
+      // Get the id of the parent category.
+      const parentCatResponse = await libraries.source.api.get({
+        endpoint: 'categories',
+        params: { slug: params.slug },
+      });
+
+      const [parentCat] = await libraries.source.populate({
+        state,
+        response: parentCatResponse,
+      });
+
+      Object.assign(state.source.data[route], {
+        id: parentCat.id,
+        taxonomy: 'category',
+        isArchive: true,
+        isTaxonomy: true,
+        isCategory: true,
+      });
+      /*
       const category = libraries.source.handlers.find(
         (handler) => handler.name === 'category',
       );
       await category.func({
         route, params, state, libraries,
       });
+      */
     } catch (e) {
       error.push('not-cat');
     }
@@ -84,12 +104,32 @@ const newHandler2 = {
     // 1. try with category.
     const error = [];
     try {
+      // Get the id of the parent category.
+      const parentCatResponse = await libraries.source.api.get({
+        endpoint: 'categories',
+        params: { slug: params.slug },
+      });
+
+      const [parentCat] = await libraries.source.populate({
+        state,
+        response: parentCatResponse,
+      });
+
+      Object.assign(state.source.data[route], {
+        id: parentCat.id,
+        taxonomy: 'category',
+        isArchive: true,
+        isTaxonomy: true,
+        isCategory: true,
+      });
+      /*
       const category = libraries.source.handlers.find(
         (handler) => handler.name === 'category',
       );
       await category.func({
         route, params, state, libraries,
       });
+      */
     } catch (e) {
       // It's not a category
       const hand_name = 'post type';
