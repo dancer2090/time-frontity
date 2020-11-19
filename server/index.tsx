@@ -99,6 +99,11 @@ export default ({ packages }): ReturnType<Koa["callback"]> => {
   app.use(async (ctx, next) => {
     ctx.compress = true;
     const url = ctx.url.split('?');
+    if(ctx.href.indexOf('//www.') !== -1){
+      const newUrlRedirect = ctx.href.replace('//www.','//');
+      ctx.status = 301;
+      ctx.redirect(newUrlRedirect);
+    }
     let newUrl = url[0];
     let urlData = newUrl.split('/');
     const lang = ctx.query && ctx.query.lang ? ctx.query.lang : 'ru';
