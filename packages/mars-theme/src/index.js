@@ -199,6 +199,7 @@ const marsTheme = {
         showOnPost: false,
       },
       searchResult: {},
+      isLoading: false
     },
   },
   /**

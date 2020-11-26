@@ -38,6 +38,32 @@ npm run dev
 or
 npx frontity dev --port YOUR_PORT
 ```
+
+#### Local running frontity and API for generate cache
+
+```bash
+npm run all2
+```
+
+#### Local running frontity server and API for generate cache
+
+```bash
+npm run all
+```
+then go to frontity (localhost:3000) and cache API (localhost:3800)
+
+#### Links for local cache generate
+
+* localhost:3800/save/censor/:lang
+* localhost:3800/save/posts/:postSlug
+* localhost:3800/save/posts/
+* localhost:3800/save/get-tags/:postId
+* localhost:3800/save/get-category/:termId
+* localhost:3800/save/get-main
+* localhost:3800/save/options
+* localhost:3800/save/get-persona
+
+
 #### Production build
 
 ```bash 

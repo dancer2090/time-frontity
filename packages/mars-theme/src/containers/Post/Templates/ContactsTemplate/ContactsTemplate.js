@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'frontity';
 import {
   Wrapper,
   TopNavigation,
@@ -25,7 +26,7 @@ import Input from '../../../../components/Input';
 import { fieldRequiredValidation, validateFieldEmail } from '../../../../utils/validation/validation';
 import Translator from '../../../../components/Translator/Translator';
 
-const ContactsTemplate = () => {
+const ContactsTemplate = ({state}) => {
   // components state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,6 +38,20 @@ const ContactsTemplate = () => {
   const [hasNameError, setHasNameError] = useState(false);
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasMessageError, setHasMessageError] = useState(false);
+
+  const {
+    options = {}
+  } = state.theme;
+  const {
+    acf : optionsAcf = {}
+  } = options;
+  const {
+    contactAdress = '',
+    contactAdsEmail = '',
+    contactAdsPhone = '',
+    contactEmail = '',
+    contactPhone = '',
+  } = optionsAcf;
 
   const isShowSendButton = (type) => {
     if (type === 'focus') {
@@ -80,7 +95,6 @@ const ContactsTemplate = () => {
       setShowSendButton(false);
     }
   };
-
   return (
     <Wrapper>
       <Container>
@@ -101,23 +115,23 @@ const ContactsTemplate = () => {
                 <Translator id="addressLabel" />
               </InformationName>
               <InformationValue>
-                Харьков, ул....
+                {contactAdress}
               </InformationValue>
             </InformationRow>
             <InformationRow>
               <InformationName>
                 <Translator id="telephoneLabel" />
               </InformationName>
-              <InformationLink href="tel:+3800000000">
-                +3800000000
+              <InformationLink href={`tel:${contactPhone}`}>
+                {contactPhone}
               </InformationLink>
             </InformationRow>
             <InformationRow>
               <InformationName>
                 <Translator id="emailLabel" />
               </InformationName>
-              <InformationLink href="mailto:test@test.com">
-                test@test.com
+              <InformationLink href={`mailto:${contactEmail}`}>
+                {contactEmail}
               </InformationLink>
             </InformationRow>
             <DepartmentAdvertising>
@@ -128,16 +142,16 @@ const ContactsTemplate = () => {
                 <InformationName>
                   <Translator id="telephoneLabel" />
                 </InformationName>
-                <InformationLink href="tel:+3800000000">
-                  +3800000000
+                <InformationLink href={`tel:${contactAdsPhone}`}>
+                  {contactAdsPhone}
                 </InformationLink>
               </InformationRow>
               <InformationRow>
                 <InformationName>
                   <Translator id="emailLabel" />
                 </InformationName>
-                <InformationLink href="mailto:test@test.com">
-                  test@test.com
+                <InformationLink href={`mailto:${contactAdsEmail}`}>
+                  {contactAdsEmail}
                 </InformationLink>
               </InformationRow>
             </DepartmentAdvertising>
@@ -196,4 +210,4 @@ const ContactsTemplate = () => {
   );
 };
 
-export default ContactsTemplate;
+export default connect(ContactsTemplate);

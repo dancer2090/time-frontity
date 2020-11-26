@@ -21,6 +21,7 @@ import TimeLine from '../../../../components/TimeLine/TimeLine';
 import Translator from '../../../../components/Translator/Translator';
 import { filterNewsTimeLine } from '../../../../utils/filterNewsTimeLine';
 import { Loading, NotLoadPost } from '../MainTemplate/styles';
+import Loader from '../../../../components/Loader';
 
 const CategoryTemplate = ({ state, actions, libraries }) => {
   // components state
@@ -66,10 +67,12 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
       loadTimeLineData();
       if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
     } else{
+      state.theme.isLoading = true;
       actions.theme.getCategory(dataCategory.id)
       .then(() => {
         loadTimeLineData();
         if (state.customSettings.categoryPage - 1 === totalPages) setLoadMoreTimeLine(true);
+        state.theme.isLoading = false;
       });
     }
   }, []);
@@ -98,58 +101,65 @@ const CategoryTemplate = ({ state, actions, libraries }) => {
   return (
     <Wrapper>
       <Container>
-        <TopContainer>
-          <Breadcrumbs links={[
-            { name: <Html2React html={title} />, link: '#' },
-          ]}
-          />
-          <SocialList />
-        </TopContainer>
-        <TitleH1>
-          <Html2React html={title} />
-        </TitleH1>
-        <ContentWrapper>
-          {
-            topItems.length === 0
-              ? (
-                <NotNews>
-                  <Translator id="notNews" />
-                </NotNews>
-              )
-              : (
-                topItems.map((item, index) => (
-                  <ItemCard key={index} index={index}>
-                    <NewsCardPreview data={item} size={index > 1 ? 'medium' : ''} />
-                  </ItemCard>
-                ))
-              )
-          }
-        </ContentWrapper>
-        {
-          timeline.length > 0 && (
-            <TimeLineContainer>
-              <TimeLineWrapper>
-                <InfiniteScroll
-                  dataLength={timeline.length}
-                  next={fetchMoreData}
-                  hasMore={!loadMoreTimeLine}
-                  scrollThreshold={0.5}
-                  loader={<Loading><Translator id="loading" /></Loading>}
-                  endMessage={(
-                    <NotLoadPost><Translator id="notPost" /></NotLoadPost>
-                  )}
-                >
-                  {
-                    lastPost.map((item, index) => (
-                      <TimeLine
-                        key={index}
-                        data={item}
-                      />
-                    ))
-                  }
-                </InfiniteScroll>
-              </TimeLineWrapper>
-            </TimeLineContainer>
+        {state.theme.isLoading
+          ? <Loader when={state.theme.isLoading} />
+          : (
+            <>
+              <TopContainer>
+                <Breadcrumbs links={[
+                  { name: <Html2React html={title} />, link: '#' },
+                ]}
+                />
+                <SocialList />
+              </TopContainer>
+              <TitleH1>
+                <Html2React html={title} />
+              </TitleH1>
+              <ContentWrapper>
+                {
+                  topItems.length === 0
+                    ? (
+                      <NotNews>
+                        <Translator id="notNews" />
+                      </NotNews>
+                    ) 
+                    : (
+                      topItems.map((item, index) => (
+                        <ItemCard key={index} index={index}>
+                          <NewsCardPreview data={item} size={index > 1 ? 'medium' : ''} />
+                        </ItemCard>
+                      ))
+                    )
+                }
+              </ContentWrapper>
+              {
+                timeline.length > 0 && (
+                  <TimeLineContainer>
+                    <TimeLineWrapper>
+                      <InfiniteScroll
+                        dataLength={timeline.length}
+                        next={fetchMoreData}
+                        hasMore={!loadMoreTimeLine}
+                        scrollThreshold={0.5}
+                        loader={<Loading><Translator id="loading" /></Loading>}
+                        endMessage={(
+                          <NotLoadPost><Translator id="notPost" /></NotLoadPost>
+                        )}
+                      >
+                        {
+                          lastPost.map((item, index) => (
+                            <TimeLine
+                              key={index}
+                              data={item}
+                            />
+                          ))
+                        }
+                      </InfiniteScroll>
+                    </TimeLineWrapper>
+                  </TimeLineContainer>
+                )
+              }
+            </>
           )
         }
       </Container>
