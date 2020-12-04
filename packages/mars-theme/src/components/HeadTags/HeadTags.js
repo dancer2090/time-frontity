@@ -60,7 +60,7 @@ const HeadTags = ({ state, libraries, actions }) => {
     headTagsData[6].attributes.content = 'Time';
     const locales = lang === 'ru' ? 'ru' : 'uk';
     moment.locale(locales);
-    const resultDate = moment().utcOffset(3).format('YYYY-MM-DDTHH:mmZ');
+    const resultDate = moment().format('YYYY-MM-DDTHH:mmZ');
     headTagsData[7].attributes.content = resultDate;
     headTagsData[7].attributes.property = 'article:modified_time';
   }

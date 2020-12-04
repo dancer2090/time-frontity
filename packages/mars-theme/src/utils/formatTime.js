@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const formatTime = (valueDate) => {
-  const resultDate = moment(valueDate).utcOffset(3).format("HH:mm");
+  const resultDate = moment(valueDate).format("HH:mm");
 
   return `${resultDate}`;
 };

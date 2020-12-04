@@ -59,7 +59,7 @@ const NewsCard = ({
   const locales = state.theme.lang === 'ru' ? 'ru' : 'uk';
 
   moment.locale(locales);
-  const strDate = moment(itemDate).utcOffset(3).format("DD MMMM YYYY | HH:mm");
+  const strDate = moment(itemDate).format("DD MMMM YYYY | HH:mm");
 
   getTimeVideo(time).then((data) => {
     setTimeValue(data);
