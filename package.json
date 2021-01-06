@@ -28,7 +28,7 @@
     "@frontity/tiny-router": "^1.2.1",
     "@frontity/wp-source": "^1.8.0",
     "analytics": "^0.5.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "frontity": "^1.6.0",
     "koa-compress": "^5.0.1",
