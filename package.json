@@ -39,7 +39,7 @@
     "react-modal": "^3.11.2",
     "react-resize-detector": "^4.2.3",
     "react-spinners": "^0.8.3",
-    "swiper": "^6.1.2",
+    "swiper": "^6.5.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
